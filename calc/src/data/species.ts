@@ -7487,6 +7487,22 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     baseSpecies: 'Zygarde',
     gender: 'N',
   },
+  // FnF changes start here
+  Hypno: { otherFormes: ['Hypno-Mega'], bs: { hp: 95, at: 115, df: 95, sa: 100 } },
+  'Hypno-Mega': {
+    types: ['Psychic'],
+    bs: { hp: 95, at: 140, df: 120, sa: 115, sd: 140, sp: 77 },
+    weightkg: 75.6,
+    abilities: { 0: 'Baku Shield' },
+    baseSpecies: 'Hypno',
+  },
+  Saurbot: {
+    types: ['Grass', 'Steel'],
+    bs: { hp: 77, at: 5, df: 107, sa: 5, sd: 104, sp: 20 },
+    weightkg: 20,
+    abilities: { 0: 'Search Engine' },
+    gender: 'N',
+  },
 };
 
 const SM: {[name: string]: SpeciesData} = extend(true, {}, XY, SM_PATCH);

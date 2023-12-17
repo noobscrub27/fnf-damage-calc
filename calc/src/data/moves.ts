@@ -2828,6 +2828,13 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     secondaries: true,
     zp: 160,
   },
+  // FnF changes start here
+  'Baku Punch': {
+    bp: 85,
+    type: 'Psychic',
+    category: 'Physical',
+    overrideDefensiveStat: 'spd',
+  },
 };
 
 const SM: {[name: string]: MoveData} = extend(true, {}, XY, SM_PATCH);

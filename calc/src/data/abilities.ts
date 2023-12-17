@@ -254,6 +254,9 @@ const SM = XY.concat([
   'Water Bubble',
   'Water Compaction',
   'Wimp Out',
+  // FnF changes start here
+  'Baku Shield',
+  'Search Engine',
 ]);
 
 const SS = SM.concat([
