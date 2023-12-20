@@ -144,7 +144,11 @@ export function getMoveEffectiveness(
     return 1;
   } else if ((isRingTarget || isGravity) && type === 'Flying' && move.hasType('Ground')) {
     return 1;
-  } else if (move.named('Freeze-Dry') && type === 'Water') {
+  } else if (move.named('Freeze-Dry', 'Ice Drill') && type === 'Water') {
+    return 2;
+  } else if (move.named('Power Outage') && type === 'Electric') {
+    return 2;
+  } else if (move.named('Rock Jaw') && type === 'Ground') {
     return 2;
   } else if (move.named('Flying Press')) {
     return (

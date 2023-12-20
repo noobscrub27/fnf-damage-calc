@@ -1,11 +1,11 @@
 {
-  "name": "@smogon/calc",
+  "name": "@noobscrub27/calc",
   "version": "0.8.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "unpkg": "dist/production.min.js",
   "description": "Pokémon battle calculator",
-  "repository": "github:smogon/damage-calc",
+  "repository": "github:noobscrub27/damage-calc",
   "contributors": [
     "Austin Couturier <austincouturier@icloud.com>"
   ],

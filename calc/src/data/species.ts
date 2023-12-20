@@ -7493,7 +7493,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     types: ['Psychic'],
     bs: { hp: 95, at: 140, df: 120, sa: 115, sd: 140, sp: 77 },
     weightkg: 75.6,
-    abilities: { 0: 'Baku Shield' },
+    abilities: {0: 'Baku Shield'},
     baseSpecies: 'Hypno',
   },
   Saurbot: {

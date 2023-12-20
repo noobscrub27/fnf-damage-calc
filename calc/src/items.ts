@@ -421,3 +421,16 @@ export function getMultiAttack(item: string) {
   }
   return undefined;
 }
+
+export function getOrbType(item: string) {
+  switch (item) {
+    case 'Red Orb':
+    case 'Cerise Orb':
+      return 'Fire';
+    case 'Blue Orb':
+    case 'Teal Orb':
+      return 'Water';
+    default:
+      return 'Normal';
+  }
+}

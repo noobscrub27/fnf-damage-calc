@@ -7,6 +7,25 @@ export type TypeChart = {
 
 const RBY: TypeChart = {
   '???': {
+    Shadow: 1,
+    Normal: 1,
+    Grass: 1,
+    Fire: 1,
+    Water: 1,
+    Electric: 1,
+    Ice: 1,
+    Flying: 1,
+    Bug: 1,
+    Poison: 1,
+    Ground: 1,
+    Rock: 1,
+    Fighting: 1,
+    Psychic: 1,
+    Ghost: 1,
+    Dragon: 1,
+  },
+  Shadow: {
+    Shadow: 1,
     Normal: 1,
     Grass: 1,
     Fire: 1,
@@ -25,6 +44,7 @@ const RBY: TypeChart = {
   },
   Normal: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 1,
     Fire: 1,
@@ -43,6 +63,7 @@ const RBY: TypeChart = {
   },
   Grass: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 0.5,
     Fire: 0.5,
@@ -61,6 +82,7 @@ const RBY: TypeChart = {
   },
   Fire: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 2,
     Fire: 0.5,
@@ -79,6 +101,7 @@ const RBY: TypeChart = {
   },
   Water: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 0.5,
     Fire: 2,
@@ -97,6 +120,7 @@ const RBY: TypeChart = {
   },
   Electric: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 0.5,
     Fire: 1,
@@ -115,6 +139,7 @@ const RBY: TypeChart = {
   },
   Ice: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 2,
     Fire: 1,
@@ -133,6 +158,7 @@ const RBY: TypeChart = {
   },
   Flying: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 2,
     Fire: 1,
@@ -151,6 +177,7 @@ const RBY: TypeChart = {
   },
   Bug: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 2,
     Fire: 0.5,
@@ -169,6 +196,7 @@ const RBY: TypeChart = {
   },
   Poison: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 2,
     Fire: 1,
@@ -187,6 +215,7 @@ const RBY: TypeChart = {
   },
   Ground: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 0.5,
     Fire: 2,
@@ -205,6 +234,7 @@ const RBY: TypeChart = {
   },
   Rock: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 1,
     Fire: 2,
@@ -223,6 +253,7 @@ const RBY: TypeChart = {
   },
   Fighting: {
     '???': 1,
+    Shadow: 1,
     Normal: 2,
     Grass: 1,
     Fire: 1,
@@ -241,6 +272,7 @@ const RBY: TypeChart = {
   },
   Psychic: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 1,
     Fire: 1,
@@ -259,6 +291,7 @@ const RBY: TypeChart = {
   },
   Ghost: {
     '???': 1,
+    Shadow: 1,
     Normal: 0,
     Grass: 1,
     Fire: 1,
@@ -277,6 +310,7 @@ const RBY: TypeChart = {
   },
   Dragon: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 1,
     Fire: 1,
@@ -296,7 +330,8 @@ const RBY: TypeChart = {
 };
 
 const GSC: TypeChart = extend(true, {}, RBY, {
-  '???': {Dark: 1, Steel: 1},
+  '???': { Dark: 1, Steel: 1 },
+  Shadow: {Dark: 1, Steel: 1},
   Normal: {Dark: 1, Steel: 0.5},
   Grass: {Dark: 1, Steel: 0.5},
   Fire: {Dark: 1, Steel: 2},
@@ -314,6 +349,7 @@ const GSC: TypeChart = extend(true, {}, RBY, {
   Dragon: {Dark: 1, Steel: 0.5},
   Dark: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 1,
     Fire: 1,
@@ -334,6 +370,7 @@ const GSC: TypeChart = extend(true, {}, RBY, {
   },
   Steel: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 1,
     Fire: 0.5,
@@ -361,7 +398,8 @@ const DPP = GSC;
 const BW = GSC;
 
 const XY: TypeChart = extend(true, {}, GSC, {
-  '???': {Fairy: 1},
+  '???': { Fairy: 1 },
+  Shadow: {Fairy: 1},
   Normal: {Fairy: 1},
   Grass: {Fairy: 1},
   Fire: {Fairy: 1},
@@ -381,6 +419,7 @@ const XY: TypeChart = extend(true, {}, GSC, {
   Steel: {Fairy: 2},
   Fairy: {
     '???': 1,
+    Shadow: 1,
     Normal: 1,
     Grass: 1,
     Fire: 0.5,

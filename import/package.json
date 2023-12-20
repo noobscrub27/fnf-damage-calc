@@ -1,6 +1,6 @@
 {
   "private": true,
-  "repository": "github:smogon/damage-calc",
+  "repository": "github:noobscrub27/damage-calc",
   "license": "MIT",
   "dependencies": {
     "@pkmn/data": "^0.7.54",
