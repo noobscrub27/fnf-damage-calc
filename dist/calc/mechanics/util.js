@@ -182,7 +182,7 @@ function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRin
     else if (move.named('Power Outage') && type === 'Electric') {
         return 2;
     }
-    else if (move.named('Rock Jaw') && type === 'Ground') {
+    else if (move.named('Rockjaw') && type === 'Ground') {
         return 2;
     }
     else if (move.named('Flying Press')) {
