@@ -377,7 +377,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     var applyBurn = attacker.hasStatus('brn') &&
         move.category === 'Physical' &&
         !attacker.hasAbility('Guts') &&
-        !move.named('Facade');
+        !move.named('Facade', 'Shadow Rage');
     desc.isBurned = applyBurn;
     var finalMods = calculateFinalModsSMSSSV(gen, attacker, defender, move, field, desc, isCritical, typeEffectiveness);
     var protect = false;
@@ -521,6 +521,7 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
             break;
         case 'Hex':
         case 'Infernal Parade':
+        case 'Shadow Sorcery':
             basePower = move.bp * (defender.status || defender.hasAbility('Comatose') ? 2 : 1);
             desc.moveBP = basePower;
             break;
@@ -537,7 +538,12 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
             break;
         case 'Stored Power':
         case 'Power Trip':
+        case 'Snuggle Bug':
             basePower = 20 + 20 * (0, util_2.countBoosts)(gen, attacker.boosts);
+            desc.moveBP = basePower;
+            break;
+        case 'Shadow Punish':
+            basePower = 55 + 30 * (0, util_2.countBoosts)(gen, defender.boosts);
             desc.moveBP = basePower;
             break;
         case 'Acrobatics':
@@ -592,6 +598,7 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
             break;
         case 'Flail':
         case 'Reversal':
+        case 'Shadow Vengeance':
             var p = Math.floor((48 * attacker.curHP()) / attacker.maxHP());
             basePower = p <= 1 ? 200 : p <= 4 ? 150 : p <= 9 ? 100 : p <= 16 ? 80 : p <= 32 ? 40 : 20;
             desc.moveBP = basePower;
