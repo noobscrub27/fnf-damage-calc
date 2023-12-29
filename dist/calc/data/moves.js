@@ -6011,6 +6011,12 @@ var Move = (function () {
             this.flags.slicing = 1;
         if (data.isWind)
             this.flags.wind = 1;
+        if (data.isBlade)
+            this.flags.blade = 1;
+        if (data.isKick)
+            this.flags.kick = 1;
+        if (data.isBone)
+            this.flags.bone = 1;
         (0, util_1.assignWithout)(this, data, Move.FLAGS);
         this.basePower = data.bp;
         if (data.zp)

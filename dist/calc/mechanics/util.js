@@ -169,11 +169,14 @@ function getFinalSpeed(gen, pokemon, field, side) {
     return Math.max(0, speed);
 }
 exports.getFinalSpeed = getFinalSpeed;
-function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRingTarget) {
+function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRingTarget, isBoneMaster) {
     if ((isRingTarget || isGhostRevealed) && type === 'Ghost' && move.hasType('Normal', 'Fighting')) {
         return 1;
     }
     else if ((isRingTarget || isGravity) && type === 'Flying' && move.hasType('Ground')) {
+        return 1;
+    }
+    else if (isBoneMaster && ((type === 'Ghost' && move.hasType('Normal')) || (type === 'Flying' && move.hasType('Ground')) || (type === 'Normal' && move.hasType('Ghost')))) {
         return 1;
     }
     else if (move.named('Freeze-Dry', 'Ice Drill') && type === 'Water') {
