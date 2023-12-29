@@ -727,6 +727,7 @@ var SETDEX_SS = {
   "Lanturn": {
     "UU Cleric Support": {"ability":"Volt Absorb","item":"Leftovers","nature":"Calm","evs":{"hp":252,"sd":132,"sp":124},"moves":["Volt Switch","Scald","Heal Bell","Toxic"]},
     "PU Bulky Pivot": {"ability":"Volt Absorb","item":"Leftovers","nature":"Calm","evs":{"hp":88,"df":172,"sd":248},"moves":["Scald","Volt Switch","Toxic","Protect"]},
+    "Monotype Specially Defensive Pivot (Water)": {"ability":"Volt Absorb","item":"Leftovers","nature":"Calm","evs":{"hp":248,"df":8,"sd":252},"moves":["Volt Switch","Toxic","Heal Bell","Protect"]},
     "National Dex Monotype Showdown Usage": {"ability":"Volt Absorb","item":"Leftovers","nature":"Calm","evs":{"hp":252,"df":4,"sd":252},"moves":["Heal Bell","Volt Switch","Scald","Toxic"]}
   },
   "Natu": {
@@ -1480,7 +1481,7 @@ var SETDEX_SS = {
     "National Dex UU Showdown Usage": {"ability":"Poison Point","item":"Heavy-Duty Boots","nature":"Timid","evs":{"sa":252,"sd":4,"sp":252},"moves":["Spikes","Sludge Bomb","Giga Drain","Synthesis"]}
   },
   "Vespiquen": {
-    "ZU Defensive Pivot": {"ability":"Pressure","item":"Heavy-Duty Boots","nature":"Sassy","ivs":{"sp":0},"evs":{"hp":252,"df":4,"sd":252},"moves":["U-turn","Roost","Toxic Spikes","Air Slash"]}
+    "ZU Defensive Pivot": {"ability":"Pressure","item":"Heavy-Duty Boots","nature":"Sassy","ivs":{"sp":0},"evs":{"hp":252,"df":4,"sd":252},"moves":["U-turn","Roost","Defog","Air Slash"]}
   },
   "Cherrim": {
     "ZU Sun Wallbreaker": {"ability":"Flower Gift","item":"Life Orb","nature":"Naive","evs":{"at":252,"sa":4,"sp":252},"moves":["Growth","Solar Blade","Play Rough","Weather Ball"]}
@@ -1732,7 +1733,7 @@ var SETDEX_SS = {
     "National Dex Showdown Usage": {"ability":"Adaptability","item":"Normalium Z","nature":"Timid","evs":{"sa":252,"sd":4,"sp":252},"moves":["Ice Beam","Thunderbolt","Conversion","Recover"]}
   },
   "Dusknoir": {
-    "ZU Substitute + 3 Attacks": {"ability":"Pressure","item":"Leftovers","nature":"Adamant","evs":{"hp":132,"at":252,"sp":124},"moves":["Substitute","Poltergeist","Shadow Sneak","Focus Punch"]}
+    "ZU Substitute + 3 Attacks": {"ability":"Pressure","item":"Leftovers","nature":"Adamant","evs":{"hp":132,"at":252,"sp":124},"moves":["Substitute","Poltergeist","Focus Punch","Shadow Sneak"]}
   },
   "Froslass": {
     "Ubers Suicide Lead": {"ability":"Cursed Body","item":"Focus Sash","nature":"Timid","ivs":{"at":0},"evs":{"df":4,"sa":252,"sp":252},"moves":["Icy Wind","Spikes","Taunt","Destiny Bond"]},
@@ -1903,7 +1904,7 @@ var SETDEX_SS = {
     "National Dex Substitute Attacker": {"ability":"Contrary","item":"Leftovers","nature":"Timid","evs":{"hp":56,"sa":200,"sp":252},"moves":["Leaf Storm","Hidden Power Fire","Substitute","Glare"]}
   },
   "Stoutland": {
-    "ZU Wallbreaker": {"ability":"Scrappy","item":"Silk Scarf","nature":"Adamant","evs":{"at":252,"df":4,"sd":252},"moves":["Retaliate","Last Resort"]}
+    "ZU Wallbreaker": {"ability":"Scrappy","item":"Silk Scarf","nature":"Adamant","evs":{"at":252,"df":4,"sp":252},"moves":["Retaliate","Last Resort"]}
   },
   "Liepard": {
     "ZU Sun Setter": {"ability":"Prankster","item":"Heat Rock","nature":"Jolly","evs":{"at":252,"df":4,"sp":252},"moves":["Sunny Day","U-turn","Knock Off","Encore"]},
@@ -2242,7 +2243,7 @@ var SETDEX_SS = {
     "Battle Stadium Singles Set-Up": {"level":50,"ability":"Iron Barbs","item":"Leftovers","nature":"Relaxed","ivs":{"sp":0},"evs":{"hp":252,"df":252,"sd":4},"moves":["Iron Defense","Body Press","Leech Seed","Gyro Ball"]},
     "Battle Stadium Singles Choice Band": {"level":50,"ability":"Iron Barbs","item":"Choice Band","nature":"Brave","evs":{"hp":252,"at":252,"df":4},"moves":["Gyro Ball","Power Whip","Knock Off","Bulldoze"]},
     "Battle Stadium Singles Specially Defensive": {"level":50,"ability":"Iron Barbs","item":"Leftovers","nature":"Sassy","ivs":{"sp":0},"evs":{"hp":252,"df":4,"sd":252},"moves":["Leech Seed","Gyro Ball","Protect","Power Whip"]},
-    "Monotype Defensive Utility (Grass)": {"ability":"Iron Barbs","item":"Leftovers","nature":"Relaxed","evs":{"hp":252,"df":252,"sd":4},"moves":["Stealth Rock","Spikes","Leech Seed","Gyro Ball"]},
+    "Monotype Defensive Utility (Grass)": {"ability":"Iron Barbs","item":"Leftovers","nature":"Impish","evs":{"hp":252,"df":252,"sd":4},"moves":["Spikes","Leech Seed","Iron Head","Body Press"]},
     "Monotype Utility (Steel)": {"ability":"Iron Barbs","item":"Leftovers","nature":"Impish","evs":{"hp":252,"df":252,"sd":4},"moves":["Power Whip","Leech Seed","Protect","Stealth Rock"]},
     "National Dex Entry Hazard Setter": {"ability":"Iron Barbs","item":"Leftovers","nature":"Careful","evs":{"hp":252,"df":24,"sd":232},"moves":["Spikes","Knock Off","Leech Seed","Power Whip"]},
     "National Dex Monotype Defensive (Steel)": {"ability":"Iron Barbs","item":"Leftovers","nature":"Impish","evs":{"hp":252,"df":56,"sd":200},"moves":["Leech Seed","Protect","Power Whip","Spikes"]},
@@ -2640,7 +2641,7 @@ var SETDEX_SS = {
     "RU Swords Dance": {"ability":"Iron Fist","item":"Life Orb","nature":"Adamant","evs":{"at":252,"sd":4,"sp":252},"moves":["Swords Dance","Drain Punch","Knock Off","Bullet Punch"]}
   },
   "Meowstic": {
-    "ZU Dual Screen": {"ability":"Prankster","item":"Eject Button","nature":"Timid","evs":{"hp":252,"sa":4,"sd":252},"moves":["Reflect","Light Screen","Yawn","Psychic"]},
+    "ZU Dual Screens": {"ability":"Prankster","item":"Eject Button","nature":"Timid","evs":{"hp":252,"sa":4,"sd":252},"moves":["Reflect","Light Screen","Yawn","Psychic"]},
     "VGC 2022 Showdown Usage": {"level":50,"ability":"Prankster","item":"Light Clay","nature":"Impish","evs":{"hp":252,"df":164,"sd":92},"moves":["Light Screen","Reflect","Fake Out","Yawn"]},
     "VGC 2021 Showdown Usage": {"level":50,"ability":"Prankster","item":"Mental Herb","nature":"Timid","evs":{"hp":252,"df":4,"sp":252},"moves":["Fake Out","Skill Swap","Yawn","Safeguard"]}
   },
@@ -3181,7 +3182,7 @@ var SETDEX_SS = {
     "ZU BoltBeam Pivot": {"ability":"RKS System","item":"Fighting Memory","nature":"Naive","evs":{"at":4,"sa":252,"sp":252},"moves":["Multi-Attack","U-turn","Thunderbolt","Ice Beam"]}
   },
   "Silvally-Fire": {
-    "ZU Swords Dance": {"ability":"RKS System","item":"Fire Memory","nature":"Jolly","evs":{"at":252,"df":4,"sp":252},"moves":["Swords Dance","Multi-Attack","Flame Charge","Dragon Claw"]}
+    "ZU Swords Dance": {"ability":"RKS System","item":"Fire Memory","nature":"Jolly","evs":{"at":252,"sd":4,"sp":252},"moves":["Swords Dance","Multi-Attack","Flame Charge","Dragon Claw"]}
   },
   "Silvally-Flying": {
     "ZU Swords Dance": {"ability":"RKS System","item":"Flying Memory","nature":"Naive","evs":{"at":252,"sd":4,"sp":252},"moves":["Swords Dance","Multi-Attack","Flame Charge","Surf"]}
