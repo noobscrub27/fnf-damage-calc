@@ -1,10 +1,11 @@
-import {Generation, AbilityName} from '../data/interface';
+import {Generation, AbilityName, StatID} from '../data/interface';
 import {getItemBoostType, getNaturalGift, getFlingPower, getBerryResistType} from '../items';
 import {RawDesc} from '../desc';
 import {Field} from '../field';
 import {Move} from '../move';
 import {Pokemon} from '../pokemon';
-import {Result} from '../result';
+import { Result } from '../result';
+import { getOrbType } from '../items';
 import {
   getModifiedStat,
   getEVDescriptionText,
@@ -18,6 +19,7 @@ import {
   countBoosts,
   handleFixedDamageMoves,
 } from './util';
+import { toID } from '../util';
 
 export function calculateDPP(
   gen: Generation,
@@ -88,6 +90,8 @@ export function calculateDPP(
     desc.moveBP = basePower;
   } else if (move.named('Judgment') && attacker.item && attacker.item.includes('Plate')) {
     move.type = getItemBoostType(attacker.item)!;
+  } else if (move.named('Primal Burst') && attacker.item && attacker.item.includes('Orb')) {
+    move.type = getOrbType(attacker.item)!;
   } else if (move.named('Natural Gift') && attacker.item && attacker.item.includes('Berry')) {
     const gift = getNaturalGift(gen, attacker.item)!;
     move.type = gift.t;
@@ -135,11 +139,11 @@ export function calculateDPP(
       [firstDefenderType, secondDefenderType] = [secondDefenderType, firstDefenderType];
     }
   }
-
+  const isBoneMaster = attacker.hasAbility('Bone Master') && !!move.flags.bone;
   let type1Effectiveness =
-    getMoveEffectiveness(gen, move, firstDefenderType, isGhostRevealed, field.isGravity);
+    getMoveEffectiveness(gen, move, firstDefenderType, isGhostRevealed, field.isGravity, false, isBoneMaster);
   let type2Effectiveness = secondDefenderType
-    ? getMoveEffectiveness(gen, move, secondDefenderType, isGhostRevealed, field.isGravity)
+    ? getMoveEffectiveness(gen, move, secondDefenderType, isGhostRevealed, field.isGravity, false, isBoneMaster)
     : 1;
 
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
@@ -158,15 +162,27 @@ export function calculateDPP(
   if (typeEffectiveness === 0) {
     return result;
   }
-
+  if (defender.hasAbility('Cloud Guard') && defender.hasType('Flying') &&
+    gen.types.get(toID(move.type))!.effectiveness['Flying']! > 1) {
+    typeEffectiveness /= 2;
+    desc.defenderAbility = defender.ability;
+  }
   const ignoresWonderGuard = move.hasType('???') || move.named('Fire Fang');
   if ((!ignoresWonderGuard && defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
       (move.hasType('Fire') && defender.hasAbility('Flash Fire')) ||
       (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Water Absorb')) ||
+      (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
+      (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
       (move.hasType('Electric') && defender.hasAbility('Motor Drive', 'Volt Absorb')) ||
       (move.hasType('Ground') && !field.isGravity &&
+      !(defender.hasAbility('Bone Master') && move.flags.bone) &&
         !defender.hasItem('Iron Ball') && defender.hasAbility('Levitate')) ||
-      (move.flags.sound && defender.hasAbility('Soundproof'))
+    (move.flags.sound && defender.hasAbility('Soundproof')) ||
+    (move.flags.blade && defender.hasAbility('Bladeproof')) ||
+    (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
+    (move.hasType('Poison') && defender.hasAbility('Acid Absorb')) ||
+    (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get(toID(defender.item))!.isBerry &&
+    getNaturalGift(gen, defender.item)!.t === move.type)
   ) {
     desc.defenderAbility = defender.ability;
     return result;
@@ -178,6 +194,21 @@ export function calculateDPP(
   if (fixedDamage) {
     result.damage = fixedDamage;
     return result;
+  }
+
+  if (move.named('Cat Burglary')) {
+    let stat: StatID;
+    for (stat in defender.boosts) {
+      if (defender.boosts[stat] > 0) {
+        attacker.boosts[stat] +=
+          attacker.hasAbility('Contrary') ? -defender.boosts[stat]! : defender.boosts[stat]!;
+        if (attacker.boosts[stat] > 6) attacker.boosts[stat] = 6;
+        if (attacker.boosts[stat] < -6) attacker.boosts[stat] = -6;
+        attacker.stats[stat] = getModifiedStat(attacker.rawStats[stat]!, attacker.boosts[stat]!);
+        defender.boosts[stat] = 0;
+        defender.stats[stat] = defender.rawStats[stat];
+      }
+    }
   }
 
   if (move.hits > 1) {
@@ -196,6 +227,7 @@ export function calculateDPP(
     }
     break;
   case 'Eruption':
+  case 'Icefall':
   case 'Water Spout':
     basePower = Math.max(1, Math.floor((basePower * attacker.curHP()) / attacker.maxHP()));
     desc.moveBP = basePower;
@@ -208,6 +240,7 @@ export function calculateDPP(
     break;
   case 'Flail':
   case 'Reversal':
+  case 'Shadow Vengeance':
     const p = Math.floor((64 * attacker.curHP()) / attacker.maxHP());
     basePower = p <= 1 ? 200 : p <= 5 ? 150 : p <= 12 ? 100 : p <= 21 ? 80 : p <= 42 ? 40 : 20;
     desc.moveBP = basePower;
@@ -221,6 +254,19 @@ export function calculateDPP(
   case 'Low Kick':
     const w = defender.weightkg;
     basePower = w >= 200 ? 120 : w >= 100 ? 100 : w >= 50 ? 80 : w >= 25 ? 60 : w >= 10 ? 40 : 20;
+    desc.moveBP = basePower;
+      break;
+  case 'Infernal Parade':
+  case 'Shadow Sorcery':
+    basePower = move.bp * (defender.status ? 2 : 1);
+    desc.moveBP = basePower;
+      break;
+  case 'Snuggle Bug':
+    basePower = 20 + 20 * countBoosts(gen, attacker.boosts);
+    desc.moveBP = basePower;
+      break;
+  case 'Shadow Punish':
+    basePower = 55 + 30 * countBoosts(gen, defender.boosts);
     desc.moveBP = basePower;
     break;
   case 'Gyro Ball':
@@ -349,6 +395,7 @@ export function calculateDPP(
   } else if (
     (isPhysical &&
       (attacker.hasAbility('Hustle') || (attacker.hasAbility('Guts') && attacker.status)) ||
+      ((attacker.curHP() <= attacker.maxHP() / 4) && (attacker.hasAbility('Adrenalize'))) ||
     (!isPhysical && attacker.abilityOn && attacker.hasAbility('Plus', 'Minus')))
   ) {
     attack = Math.floor(attack * 1.5);
@@ -373,8 +420,10 @@ export function calculateDPP(
 
   // #endregion
   // #region (Special) Defense
-
-  const defenseStat = isPhysical ? 'def' : 'spd';
+  if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
+    move.overrideDefensiveStat = 'spd';
+  }
+  const defenseStat = move.overrideDefensiveStat || move.category === 'Physical' ? 'def' : 'spd';
   desc.defenseEVs = getEVDescriptionText(gen, defender, defenseStat, defender.nature);
   let defense: number;
   const defenseBoost = defender.boosts[defenseStat];
@@ -475,7 +524,9 @@ export function calculateDPP(
     baseDamage = Math.floor(baseDamage * 1.5);
     desc.attackerAbility = 'Flash Fire';
   }
-
+  if (attacker.hasAbility('Corona') && move.hasType('Fire')) {
+    baseDamage = Math.floor(baseDamage * 1.5);
+  }
   baseDamage += 2;
 
   if (isCritical) {
@@ -520,6 +571,11 @@ export function calculateDPP(
     filterMod = 0.75;
     desc.defenderAbility = defender.ability;
   }
+  let bagwormicadeMod = 1;
+  if (defender.hasAbility('Bagwormicade') && typeEffectiveness > 1) {
+    bagwormicadeMod = 0.5;
+    desc.defenderAbility = defender.ability;
+  }
   let ebeltMod = 1;
   if (attacker.hasItem('Expert Belt') && typeEffectiveness > 1) {
     ebeltMod = 1.2;
@@ -544,6 +600,7 @@ export function calculateDPP(
     damage[i] = Math.floor(damage[i] * type1Effectiveness);
     damage[i] = Math.floor(damage[i] * type2Effectiveness);
     damage[i] = Math.floor(damage[i] * filterMod);
+    damage[i] = Math.floor(damage[i] * bagwormicadeMod);
     damage[i] = Math.floor(damage[i] * ebeltMod);
     damage[i] = Math.floor(damage[i] * tintedMod);
     damage[i] = Math.floor(damage[i] * berryMod);

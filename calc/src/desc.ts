@@ -527,6 +527,12 @@ function getEndOfTurn(
       texts.push('hail damage');
     }
   }
+  else if (field.hasWeather('Miasma')) {
+    if (defender.hasAbility('Chemical Bath')) {
+      damage += Math.floor(defender.maxHP() / 16);
+      texts.push('Chemical Bath recovery');
+    }
+  }
 
   const loseItem = move.named('Knock Off') && !defender.hasAbility('Sticky Hold');
   if (defender.hasItem('Leftovers') && !loseItem) {

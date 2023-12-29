@@ -6053,6 +6053,9 @@ class Move implements I.Move {
     if (data.isPulse) this.flags.pulse = 1;
     if (data.isSlicing) this.flags.slicing = 1;
     if (data.isWind) this.flags.wind = 1;
+    if (data.isBlade) this.flags.blade = 1;
+    if (data.isKick) this.flags.kick = 1;
+    if (data.isBone) this.flags.bone = 1;
 
     assignWithout(this, data, Move.FLAGS);
 

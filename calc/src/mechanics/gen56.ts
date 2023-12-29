@@ -1,4 +1,4 @@
-import {Generation, AbilityName} from '../data/interface';
+import {Generation, AbilityName, StatID} from '../data/interface';
 import {toID} from '../util';
 import {
   getItemBoostType,
@@ -6,6 +6,7 @@ import {
   getFlingPower,
   getBerryResistType,
   getTechnoBlast,
+  getOrbType,
 } from '../items';
 import {RawDesc} from '../desc';
 import {Field} from '../field';
@@ -98,14 +99,16 @@ export function calculateBWXY(
   if (move.named('Weather Ball')) {
     move.type =
       field.hasWeather('Sun', 'Harsh Sunshine') ? 'Fire'
-      : field.hasWeather('Rain', 'Heavy Rain') ? 'Water'
-      : field.hasWeather('Sand') ? 'Rock'
-      : field.hasWeather('Hail') ? 'Ice'
-      : 'Normal';
+        : field.hasWeather('Rain', 'Heavy Rain') ? 'Water'
+          : field.hasWeather('Sand') ? 'Rock'
+            : field.hasWeather('Hail') ? 'Ice'
+              : 'Normal';
     desc.weather = field.weather;
     desc.moveType = move.type;
   } else if (move.named('Judgment') && attacker.item && attacker.item.includes('Plate')) {
     move.type = getItemBoostType(attacker.item)!;
+  } else if (move.named('Primal Burst') && attacker.item && attacker.item.includes('Orb')) {
+    move.type = getOrbType(attacker.item)!;
   } else if (move.named('Techno Blast') && attacker.item && attacker.item.includes('Drive')) {
     move.type = getTechnoBlast(attacker.item)!;
   } else if (move.named('Natural Gift') && attacker.item && attacker.item.includes('Berry')) {
@@ -121,9 +124,19 @@ export function calculateBWXY(
     } else {
       move.type =
         field.hasTerrain('Electric') ? 'Electric'
-        : field.hasTerrain('Grassy') ? 'Grass'
-        : field.hasTerrain('Misty') ? 'Fairy'
-        : 'Normal';
+          : field.hasTerrain('Grassy') ? 'Grass'
+            : field.hasTerrain('Misty') ? 'Fairy'
+              : 'Normal';
+    }
+  } else if (move.named('Seasonal Spirit')) {
+    if (attacker.named('Sawsbuck-Spring')) {
+      move.type = 'Fairy';
+    } else if (attacker.named('Sawsbuck-Summer')) {
+      move.type = 'Fire';
+    } else if (attacker.named('Sawsbuck-Autumn')) {
+      move.type = 'Ground';
+    } else if (attacker.named('Sawsbuck-Winter')) {
+      move.type = 'Ice';
     }
   }
 
@@ -157,10 +170,11 @@ export function calculateBWXY(
   }
 
   const isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
+  const isBoneMaster = attacker.hasAbility('Bone Master') && !!move.flags.bone;
   const type1Effectiveness =
-    getMoveEffectiveness(gen, move, defender.types[0], isGhostRevealed, field.isGravity);
+    getMoveEffectiveness(gen, move, defender.types[0], isGhostRevealed, field.isGravity, false, isBoneMaster);
   const type2Effectiveness = defender.types[1]
-    ? getMoveEffectiveness(gen, move, defender.types[1], isGhostRevealed, field.isGravity)
+    ? getMoveEffectiveness(gen, move, defender.types[1], isGhostRevealed, field.isGravity, false, isBoneMaster)
     : 1;
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
 
@@ -170,7 +184,12 @@ export function calculateBWXY(
     (defender.name.includes('Arceus') && defender.item.includes('Plate')) ||
     (defender.name.includes('Genesect') && defender.item.includes('Drive')) ||
     (defender.named('Groudon', 'Groudon-Primal') && defender.hasItem('Red Orb')) ||
-    (defender.named('Kyogre', 'Kyogre-Primal') && defender.hasItem('Blue Orb'));
+    (defender.named('Kyogre', 'Kyogre-Primal') && defender.hasItem('Blue Orb')) ||
+    (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get(toID(defender.item))!.isBerry) ||
+    (defender.named('Meganium') && defender.hasItem('Fragrent Herb')) ||
+    (defender.named('Pyukumuku') && defender.hasItem('Strange Mucus')) ||
+    (defender.name.includes('Cherrim') && defender.hasItem('Cerise Orb')) ||
+    (defender.name.includes('Phione') && defender.hasItem('Teal Orb'));
 
   // The last case only applies when the Pokemon is holding the Mega Stone that matches its species
   // (or when it's already a Mega-Evolution)
@@ -214,23 +233,35 @@ export function calculateBWXY(
     return result;
   }
 
-  if (field.hasWeather('Strong Winds') && defender.hasType('Flying') &&
+  // Strong Winds and Cloud Guard both remove flying-type weaknesses. They don't stack.
+  if ((field.hasWeather('Strong Winds') || defender.hasAbility('Cloud Guard')) && defender.hasType('Flying') &&
       gen.types.get(toID(move.type))!.effectiveness['Flying']! > 1) {
     typeEffectiveness /= 2;
-    desc.weather = field.weather;
+    if (field.hasWeather('Strong Winds')) {
+      desc.weather = field.weather;
+    } else {
+      desc.defenderAbility = defender.ability;
+    }
   }
-
   if ((defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
       (move.hasType('Grass') && defender.hasAbility('Sap Sipper')) ||
       (move.hasType('Fire') && defender.hasAbility('Flash Fire')) ||
       (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb')) ||
+      (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
+      (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
       (move.hasType('Electric') &&
         defender.hasAbility('Lightning Rod', 'Motor Drive', 'Volt Absorb')) ||
       (move.hasType('Ground') &&
-        !field.isGravity && !move.named('Thousand Arrows') &&
+      !field.isGravity && !move.named('Thousand Arrows') &&
+      !(defender.hasAbility('Bone Master') && move.flags.bone) &&
         !defender.hasItem('Iron Ball') && defender.hasAbility('Levitate')) ||
       (move.flags.bullet && defender.hasAbility('Bulletproof')) ||
-      (move.flags.sound && defender.hasAbility('Soundproof'))
+    (move.flags.sound && defender.hasAbility('Soundproof')) ||
+    (move.flags.blade && defender.hasAbility('Bladeproof')) ||
+    (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
+    (move.hasType('Poison') && defender.hasAbility('Acid Absorb')) ||
+    (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get(toID(defender.item))!.isBerry &&
+    getNaturalGift(gen, defender.item)!.t === move.type)
   ) {
     desc.defenderAbility = defender.ability;
     return result;
@@ -263,6 +294,21 @@ export function calculateBWXY(
   if (move.named('Final Gambit')) {
     result.damage = attacker.curHP();
     return result;
+  }
+
+  if (move.named('Cat Burglary')) {
+    let stat: StatID;
+    for (stat in defender.boosts) {
+      if (defender.boosts[stat] > 0) {
+        attacker.boosts[stat] +=
+          attacker.hasAbility('Contrary') ? -defender.boosts[stat]! : defender.boosts[stat]!;
+        if (attacker.boosts[stat] > 6) attacker.boosts[stat] = 6;
+        if (attacker.boosts[stat] < -6) attacker.boosts[stat] = -6;
+        attacker.stats[stat] = getModifiedStat(attacker.rawStats[stat]!, attacker.boosts[stat]!);
+        defender.boosts[stat] = 0;
+        defender.stats[stat] = defender.rawStats[stat];
+      }
+    }
   }
 
   if (move.hits > 1) {
@@ -309,6 +355,8 @@ export function calculateBWXY(
     desc.moveBP = basePower;
     break;
   case 'Hex':
+  case 'Infernal Parade':
+  case 'Shadow Sorcery':
     basePower = move.bp * (defender.status ? 2 : 1);
     desc.moveBP = basePower;
     break;
@@ -322,7 +370,12 @@ export function calculateBWXY(
     break;
   case 'Stored Power':
   case 'Power Trip':
+  case 'Snuggle Bug':
     basePower = 20 + 20 * countBoosts(gen, attacker.boosts);
+    desc.moveBP = basePower;
+    break;
+  case 'Shadow Punish':
+    basePower = 55 + 30 * countBoosts(gen, defender.boosts);
     desc.moveBP = basePower;
     break;
   case 'Acrobatics':
@@ -351,12 +404,14 @@ export function calculateBWXY(
     desc.attackerItem = attacker.item;
     break;
   case 'Eruption':
+  case 'Icefall':
   case 'Water Spout':
     basePower = Math.max(1, Math.floor((150 * attacker.curHP()) / attacker.maxHP()));
     desc.moveBP = basePower;
     break;
   case 'Flail':
   case 'Reversal':
+  case 'Shadow Vengeance':
     const p = Math.floor((48 * attacker.curHP()) / attacker.maxHP());
     basePower = p <= 1 ? 200 : p <= 4 ? 150 : p <= 9 ? 100 : p <= 16 ? 80 : p <= 32 ? 40 : 20;
     desc.moveBP = basePower;
@@ -391,7 +446,7 @@ export function calculateBWXY(
     break;
   // Triple Kick's damage doubles after each consecutive hit (10, 20, 30), this is a hack
   case 'Triple Kick':
-    basePower = move.hits === 2 ? 15 : move.hits === 3 ? 30 : 10;
+    basePower = move.hits === 2 ? 30 : move.hits === 3 ? 40 : 20;
     desc.moveBP = basePower;
     break;
   case 'Crush Grip':
@@ -599,18 +654,21 @@ export function calculateBWXY(
   }
 
   if ((attacker.hasAbility('Guts') && attacker.status && move.category === 'Physical') ||
-      (attacker.curHP() <= attacker.maxHP() / 3 &&
-        ((attacker.hasAbility('Overgrow') && move.hasType('Grass')) ||
-         (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
-         (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
-         (attacker.hasAbility('Swarm') && move.hasType('Bug')))) ||
-      (move.category === 'Special' && attacker.abilityOn && attacker.hasAbility('Plus', 'Minus'))
+    ((attacker.curHP() <= attacker.maxHP() / 4) && (attacker.hasAbility('Adrenalize'))) ||
+    (attacker.curHP() <= attacker.maxHP() / 3 &&
+      ((attacker.hasAbility('Overgrow') && move.hasType('Grass')) ||
+        (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
+        (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
+        (attacker.hasAbility('Swarm') && move.hasType('Bug')))) ||
+    (move.category === 'Special' && attacker.abilityOn && attacker.hasAbility('Plus', 'Minus'))
   ) {
     atMods.push(6144);
     desc.attackerAbility = attacker.ability;
   } else if (attacker.hasAbility('Flash Fire') && attacker.abilityOn && move.hasType('Fire')) {
     atMods.push(6144);
     desc.attackerAbility = 'Flash Fire';
+  } else if (attacker.hasAbility('Corona') && move.hasType('Fire')) {
+    atMods.push(6144);
   } else if (
     (attacker.hasAbility('Solar Power') &&
      field.hasWeather('Sun', 'Harsh Sunshine') &&
@@ -668,6 +726,9 @@ export function calculateBWXY(
   // #region (Special) Defense
 
   let defense: number;
+  if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
+    move.overrideDefensiveStat = 'spd';
+  }
   const defenseStat = move.overrideDefensiveStat || move.category === 'Physical' ? 'def' : 'spd';
   const hitsPhysical = defenseStat === 'def';
   desc.defenseEVs = getEVDescriptionText(gen, defender, defenseStat, defender.nature);
@@ -1001,7 +1062,10 @@ function calculateFinalModsBWXY(
     finalMods.push(3072);
     desc.defenderAbility = defender.ability;
   }
-
+  if (defender.hasAbility('Bagwormicade') && typeEffectiveness > 1) {
+    finalMods.push(2048);
+    desc.defenderAbility = defender.ability;
+  }
   if (attacker.hasItem('Metronome') && move.timesUsedWithMetronome! >= 1) {
     const timesUsedWithMetronome = Math.floor(move.timesUsedWithMetronome!);
     if (timesUsedWithMetronome <= 4) {

@@ -16,7 +16,7 @@ export type StatusName = 'slp' | 'psn' | 'brn' | 'frz' | 'par' | 'tox';
 export type GameType = 'Singles' | 'Doubles';
 export type Terrain = 'Electric' | 'Grassy' | 'Psychic' | 'Misty';
 export type Weather =
-  | 'Sand' | 'Sun' | 'Rain' | 'Hail' | 'Snow' | 'Harsh Sunshine' | 'Heavy Rain' | 'Strong Winds';
+  | 'Sand' | 'Sun' | 'Rain' | 'Hail' | 'Snow' | 'Miasma' | 'Harsh Sunshine' | 'Heavy Rain' | 'Strong Winds';
 
 export type NatureName =
   'Adamant' | 'Bashful' | 'Bold' | 'Brave' | 'Calm' |
@@ -93,7 +93,10 @@ export interface MoveFlags {
   bullet?: 1 | 0;
   pulse?: 1 | 0;
   slicing?: 1 | 0;
-  wind?: 1| 0;
+  wind?: 1 | 0;
+  blade?: 1 | 0;
+  kick?: 1 | 0;
+  bone?: 1 | 0;
 }
 
 export interface SelfOrSecondaryEffect {
