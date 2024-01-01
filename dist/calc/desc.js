@@ -409,6 +409,14 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
         damage -= Math.floor(defender.maxHP() / 8);
         texts.push('Sticky Barb damage');
     }
+    if (defender.hasAbility('Dream Feast') && (attacker.hasStatus('slp') || attacker.hasAbility('Comatose'))) {
+        damage += Math.floor(defender.maxHP() / 8);
+        texts.push('Dream Feast recovery');
+    }
+    if (defender.hasAbility('Dumpster Diving')) {
+        damage += Math.floor(defender.maxHP() / 16);
+        texts.push('Dumpster Diving recovery');
+    }
     if (field.defenderSide.isSeeded) {
         if (!defender.hasAbility('Magic Guard')) {
             damage -= Math.floor(defender.maxHP() / (gen.num >= 2 ? 8 : 16));

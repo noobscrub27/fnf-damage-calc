@@ -96,6 +96,10 @@ export function calculateSMSSSV(
 
   const result = new Result(gen, attacker, defender, move, field, 0, desc);
 
+  if (attacker.hasAbility('Cunning Blade') && move.category === 'Physical' && move.flags.blade) {
+    move.category = 'Special';
+  }
+
   if (move.category === 'Status' && !move.named('Nature Power')) {
     return result;
   }
@@ -472,7 +476,6 @@ export function calculateSMSSSV(
   if (basePower === 0) {
     return result;
   }
-
   // #endregion
   // #region (Special) Attack
   const attack = calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
@@ -480,9 +483,6 @@ export function calculateSMSSSV(
   if (move.named('Photon Geyser', 'Light That Burns The Sky') ||
       (move.named('Tera Blast') && attackSource.teraType)) {
     move.category = attackSource.stats.atk > attackSource.stats.spa ? 'Physical' : 'Special';
-  }
-  if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
-    move.category = 'Special';
   }
   const attackStat =
     move.named('Shell Side Arm') &&
@@ -495,11 +495,10 @@ export function calculateSMSSSV(
           : 'atk';
   // #endregion
   // #region (Special) Defense
-
-  const defense = calculateDefenseSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
   if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
     move.overrideDefensiveStat = 'spd';
   }
+  const defense = calculateDefenseSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
   const hitsPhysical = move.overrideDefensiveStat !== 'spd' &&
     (move.overrideDefensiveStat === 'def' || move.category === 'Physical' ||
     (move.named('Shell Side Arm') && getShellSideArmCategory(attacker, defender) === 'Physical'));
@@ -1228,9 +1227,6 @@ export function calculateAttackSMSSSV(
       (move.named('Tera Blast') && attackSource.teraType)) {
     move.category = attackSource.stats.atk > attackSource.stats.spa ? 'Physical' : 'Special';
   }
-  if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
-    move.category = 'Special';
-  }
   const attackStat =
     move.named('Shell Side Arm') &&
     getShellSideArmCategory(attacker, defender) === 'Physical'
@@ -1423,12 +1419,6 @@ export function calculateDefenseSMSSSV(
   isCritical = false
 ) {
   let defense: number;
-  if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
-    move.overrideDefensiveStat = 'spd';
-  }
-  if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
-    move.category = 'Special';
-  }
   const hitsPhysical = move.overrideDefensiveStat !== 'spd' &&
     (move.overrideDefensiveStat === 'def' || move.category === 'Physical' ||
       (move.named('Shell Side Arm') && getShellSideArmCategory(attacker, defender) === 'Physical'));

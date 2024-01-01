@@ -55,6 +55,10 @@ export function calculateDPP(
     return result;
   }
 
+  if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+    move.category = 'Special';
+  }
+
   if (field.defenderSide.isProtected && !move.breaksProtect) {
     desc.isProtected = true;
     return result;

@@ -35,6 +35,9 @@ function calculateBWXY(gen, attacker, defender, move, field) {
     if (move.category === 'Status' && !move.named('Nature Power')) {
         return result;
     }
+    if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+        move.category = 'Special';
+    }
     if (field.defenderSide.isProtected && !move.breaksProtect) {
         desc.isProtected = true;
         return result;
@@ -630,10 +633,10 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         desc.attackerItem = attacker.item;
     }
     attack = (0, util_2.OF16)(Math.max(1, (0, util_2.pokeRound)((attack * (0, util_2.chainMods)(atMods, 410, 131072)) / 4096)));
-    var defense;
     if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
         move.overrideDefensiveStat = 'spd';
     }
+    var defense;
     var defenseStat = move.overrideDefensiveStat || move.category === 'Physical' ? 'def' : 'spd';
     var hitsPhysical = defenseStat === 'def';
     desc.defenseEVs = (0, util_2.getEVDescriptionText)(gen, defender, defenseStat, defender.nature);

@@ -82,7 +82,9 @@ export function calculateBWXY(
   if (move.category === 'Status' && !move.named('Nature Power')) {
     return result;
   }
-
+  if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+    move.category = 'Special';
+  }
   if (field.defenderSide.isProtected && !move.breaksProtect) {
     desc.isProtected = true;
     return result;
@@ -724,11 +726,10 @@ export function calculateBWXY(
 
   // #endregion
   // #region (Special) Defense
-
-  let defense: number;
   if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
     move.overrideDefensiveStat = 'spd';
   }
+  let defense: number;
   const defenseStat = move.overrideDefensiveStat || move.category === 'Physical' ? 'def' : 'spd';
   const hitsPhysical = defenseStat === 'def';
   desc.defenseEVs = getEVDescriptionText(gen, defender, defenseStat, defender.nature);

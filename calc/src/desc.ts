@@ -551,6 +551,14 @@ function getEndOfTurn(
     texts.push('Sticky Barb damage');
   }
 
+  if (defender.hasAbility('Dream Feast') && (attacker.hasStatus('slp') || attacker.hasAbility('Comatose'))) {
+    damage += Math.floor(defender.maxHP() / 8);
+    texts.push('Dream Feast recovery')
+  }
+  if (defender.hasAbility('Dumpster Diving')) {
+    damage += Math.floor(defender.maxHP() / 16);
+    texts.push('Dumpster Diving recovery')
+  }
   if (field.defenderSide.isSeeded) {
     if (!defender.hasAbility('Magic Guard')) {
       // 1/16 in gen 1, 1/8 in gen 2 onwards

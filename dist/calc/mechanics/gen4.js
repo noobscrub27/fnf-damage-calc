@@ -54,6 +54,9 @@ function calculateDPP(gen, attacker, defender, move, field) {
     if (move.category === 'Status' && !move.named('Nature Power')) {
         return result;
     }
+    if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+        move.category = 'Special';
+    }
     if (field.defenderSide.isProtected && !move.breaksProtect) {
         desc.isProtected = true;
         return result;
