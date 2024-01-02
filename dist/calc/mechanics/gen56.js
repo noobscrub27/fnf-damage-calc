@@ -100,6 +100,10 @@ function calculateBWXY(gen, attacker, defender, move, field) {
             move.type = 'Ice';
         }
     }
+    if (attacker.hasAbility('Cunning Blade') && move.category === 'Physical' && move.flags.blade) {
+        move.category = 'Special';
+        move.flags.contact = 0;
+    }
     var isAerilate = false;
     var isPixilate = false;
     var isRefrigerate = false;
@@ -419,7 +423,8 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         desc.weather = field.weather;
     }
     else if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
-        (attacker.hasAbility('Iron Fist') && move.flags.punch)) {
+        (attacker.hasAbility('Iron Fist') && move.flags.punch) ||
+        (attacker.hasAbility('Cunning Blade') && move.flags.blade)) {
         bpMods.push(4915);
         desc.attackerAbility = attacker.ability;
     }

@@ -54,9 +54,6 @@ function calculateDPP(gen, attacker, defender, move, field) {
     if (move.category === 'Status' && !move.named('Nature Power')) {
         return result;
     }
-    if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
-        move.category = 'Special';
-    }
     if (field.defenderSide.isProtected && !move.breaksProtect) {
         desc.isProtected = true;
         return result;
@@ -108,6 +105,10 @@ function calculateDPP(gen, attacker, defender, move, field) {
     if (attacker.hasAbility('Normalize') && !move.named('Struggle')) {
         move.type = 'Normal';
         desc.attackerAbility = attacker.ability;
+    }
+    if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+        move.category = 'Special';
+        move.flags.contact = 0;
     }
     var isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
     var typeEffectivenessPrecedenceRules = [
@@ -318,7 +319,8 @@ function calculateDPP(gen, attacker, defender, move, field) {
         desc.attackerItem = attacker.item;
     }
     if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
-        (attacker.hasAbility('Iron Fist') && move.flags.punch)) {
+        (attacker.hasAbility('Iron Fist') && move.flags.punch) ||
+        (attacker.hasAbility('Cunning Blade') && move.flags.blade)) {
         basePower = Math.floor(basePower * 1.2);
         desc.attackerAbility = attacker.ability;
     }

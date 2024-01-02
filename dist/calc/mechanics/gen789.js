@@ -40,9 +40,6 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         isWonderRoom: field.isWonderRoom
     };
     var result = new result_1.Result(gen, attacker, defender, move, field, 0, desc);
-    if (attacker.hasAbility('Cunning Blade') && move.category === 'Physical' && move.flags.blade) {
-        move.category = 'Special';
-    }
     if (move.category === 'Status' && !move.named('Nature Power')) {
         return result;
     }
@@ -202,6 +199,10 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         type = attacker.teraType;
     }
     move.type = type;
+    if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+        move.category = 'Special';
+        move.flags.contact = 0;
+    }
     if ((attacker.hasAbility('Triage') && move.drain) ||
         (attacker.hasAbility('Gale Wings') &&
             move.hasType('Flying') &&
@@ -701,6 +702,10 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
 exports.calculateBasePowerSMSSSV = calculateBasePowerSMSSSV;
 function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, basePower, hasAteAbilityTypeChange, turnOrder) {
     var bpMods = [];
+    if (attacker.hasAbility('Cunning Blade') && move.category === 'Physical' && move.flags.blade) {
+        move.category = 'Special';
+        move.flags.contact = 0;
+    }
     var resistedKnockOffDamage = (!defender.item || (0, util_2.isQPActive)(defender, field)) ||
         (defender.named('Dialga-Origin') && defender.hasItem('Adamant Crystal')) ||
         (defender.named('Palkia-Origin') && defender.hasItem('Lustrous Globe')) ||
@@ -852,7 +857,8 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         bpMods.push(4915);
     }
     if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
-        (attacker.hasAbility('Iron Fist') && move.flags.punch)) {
+        (attacker.hasAbility('Iron Fist') && move.flags.punch) ||
+        (attacker.hasAbility('Cunning Blade') && move.flags.blade)) {
         bpMods.push(4915);
         desc.attackerAbility = attacker.ability;
     }
