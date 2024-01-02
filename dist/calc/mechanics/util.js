@@ -282,15 +282,15 @@ function checkDownload(source, target, wonderRoomActive) {
     }
 }
 exports.checkDownload = checkDownload;
-function checkSearchEngine(source, target) {
-    if (source.hasAbility('Search Engine') && source.abilityOn) {
-        var atk = target.stats.atk;
-        var spa = target.stats.spa;
+function checkSearchEngine(attacker, defender) {
+    if (defender.hasAbility('Search Engine') && defender.abilityOn) {
+        var atk = attacker.stats.atk;
+        var spa = attacker.stats.spa;
         if (spa <= atk) {
-            source.boosts.spd = Math.min(6, source.boosts.spd + 1);
+            defender.boosts.spd = Math.min(6, defender.boosts.spd + 1);
         }
         else {
-            source.boosts.def = Math.min(6, source.boosts.def + 1);
+            defender.boosts.def = Math.min(6, defender.boosts.def + 1);
         }
     }
 }

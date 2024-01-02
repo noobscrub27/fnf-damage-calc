@@ -245,14 +245,14 @@ export function checkDownload(source: Pokemon, target: Pokemon, wonderRoomActive
   }
 }
 
-export function checkSearchEngine(source: Pokemon, target: Pokemon) {
-  if (source.hasAbility('Search Engine') && source.abilityOn) {
-    let atk = target.stats.atk;
-    let spa = target.stats.spa;
+export function checkSearchEngine(attacker: Pokemon, defender: Pokemon) {
+  if (defender.hasAbility('Search Engine') && defender.abilityOn) {
+    let atk = attacker.stats.atk;
+    let spa = attacker.stats.spa;
     if (spa <= atk) {
-      source.boosts.spd = Math.min(6, source.boosts.spd + 1);
+      defender.boosts.spd = Math.min(6, defender.boosts.spd + 1);
     } else {
-      source.boosts.def = Math.min(6, source.boosts.def + 1);
+      defender.boosts.def = Math.min(6, defender.boosts.def + 1);
     }
   }
 }
