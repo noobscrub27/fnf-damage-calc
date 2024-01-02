@@ -142,6 +142,11 @@ export function calculateBWXY(
     }
   }
 
+  if (attacker.hasAbility('Cunning Blade') && move.category === 'Physical' && move.flags.blade) {
+    move.category = 'Special';
+    move.flags.contact = 0;
+  }
+
   let isAerilate = false;
   let isPixilate = false;
   let isRefrigerate = false;
@@ -489,7 +494,8 @@ export function calculateBWXY(
     desc.weather = field.weather;
   } else if (
     (attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
-    (attacker.hasAbility('Iron Fist') && move.flags.punch)
+    (attacker.hasAbility('Iron Fist') && move.flags.punch) ||
+    (attacker.hasAbility('Cunning Blade') && move.flags.blade)
   ) {
     bpMods.push(4915);
     desc.attackerAbility = attacker.ability;

@@ -96,10 +96,6 @@ export function calculateSMSSSV(
 
   const result = new Result(gen, attacker, defender, move, field, 0, desc);
 
-  if (attacker.hasAbility('Cunning Blade') && move.category === 'Physical' && move.flags.blade) {
-    move.category = 'Special';
-  }
-
   if (move.category === 'Status' && !move.named('Nature Power')) {
     return result;
   }
@@ -270,6 +266,11 @@ export function calculateSMSSSV(
   }
 
   move.type = type;
+
+  if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+    move.category = 'Special';
+    move.flags.contact = 0;
+  }
 
   // FIXME: this is incorrect, should be move.flags.heal, not move.drain
   if ((attacker.hasAbility('Triage') && move.drain) ||
@@ -953,6 +954,12 @@ export function calculateBPModsSMSSSV(
 
   // Move effects
 
+  // For some reason this code needs to be repeated in this function or Battery and Wise Glasses dont work
+  if (attacker.hasAbility('Cunning Blade') && move.category === 'Physical' && move.flags.blade) {
+    move.category = 'Special';
+    move.flags.contact = 0;
+  }
+
   let resistedKnockOffDamage =
     (!defender.item || isQPActive(defender, field)) ||
     (defender.named('Dialga-Origin') && defender.hasItem('Adamant Crystal')) ||
@@ -1147,7 +1154,8 @@ export function calculateBPModsSMSSSV(
   }
 
   if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
-      (attacker.hasAbility('Iron Fist') && move.flags.punch)
+    (attacker.hasAbility('Iron Fist') && move.flags.punch) ||
+    (attacker.hasAbility('Cunning Blade') && move.flags.blade)
   ) {
     bpMods.push(4915);
     desc.attackerAbility = attacker.ability;

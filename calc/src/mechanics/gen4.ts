@@ -55,10 +55,6 @@ export function calculateDPP(
     return result;
   }
 
-  if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
-    move.category = 'Special';
-  }
-
   if (field.defenderSide.isProtected && !move.breaksProtect) {
     desc.isProtected = true;
     return result;
@@ -110,6 +106,10 @@ export function calculateDPP(
     desc.attackerAbility = attacker.ability;
   }
 
+  if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+    move.category = 'Special';
+    move.flags.contact = 0;
+  }
   const isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
 
   const typeEffectivenessPrecedenceRules = [
@@ -338,7 +338,8 @@ export function calculateDPP(
   }
 
   if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
-      (attacker.hasAbility('Iron Fist') && move.flags.punch)) {
+    (attacker.hasAbility('Iron Fist') && move.flags.punch) ||
+    (attacker.hasAbility('Cunning Blade') && move.flags.blade)) {
     basePower = Math.floor(basePower * 1.2);
     desc.attackerAbility = attacker.ability;
   } else if ((attacker.curHP() <= attacker.maxHP() / 3 &&
