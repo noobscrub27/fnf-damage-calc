@@ -250,9 +250,9 @@ export function checkSearchEngine(source: Pokemon, target: Pokemon) {
     let atk = target.stats.atk;
     let spa = target.stats.spa;
     if (spa <= atk) {
-      source.boosts.spa = Math.min(6, source.boosts.spd + 1);
+      source.boosts.spd = Math.min(6, source.boosts.spd + 1);
     } else {
-      source.boosts.atk = Math.min(6, source.boosts.def + 1);
+      source.boosts.def = Math.min(6, source.boosts.def + 1);
     }
   }
 }

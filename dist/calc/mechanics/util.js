@@ -287,10 +287,10 @@ function checkSearchEngine(source, target) {
         var atk = target.stats.atk;
         var spa = target.stats.spa;
         if (spa <= atk) {
-            source.boosts.spa = Math.min(6, source.boosts.spd + 1);
+            source.boosts.spd = Math.min(6, source.boosts.spd + 1);
         }
         else {
-            source.boosts.atk = Math.min(6, source.boosts.def + 1);
+            source.boosts.def = Math.min(6, source.boosts.def + 1);
         }
     }
 }
