@@ -71,6 +71,10 @@ export function calculateSMSSSV(
   checkDauntlessShield(defender, gen);
   checkEmbody(attacker, gen);
   checkEmbody(defender, gen);
+  checkSearchEngine(defender, attacker);
+  checkSearchEngine(attacker, defender);
+  checkInflate(attacker);
+  checkInflate(defender);
 
   computeFinalStats(gen, attacker, defender, field, 'def', 'spd', 'spe');
 
@@ -78,10 +82,6 @@ export function calculateSMSSSV(
   checkIntimidate(gen, defender, attacker);
   checkDownload(attacker, defender, field.isWonderRoom);
   checkDownload(defender, attacker, field.isWonderRoom);
-  checkSearchEngine(defender, attacker);
-  checkSearchEngine(attacker, defender);
-  checkInflate(attacker);
-  checkInflate(defender);
   checkIntrepidSword(attacker, gen);
   checkIntrepidSword(defender, gen);
 

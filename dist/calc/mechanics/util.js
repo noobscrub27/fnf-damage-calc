@@ -283,7 +283,7 @@ function checkDownload(source, target, wonderRoomActive) {
 }
 exports.checkDownload = checkDownload;
 function checkSearchEngine(source, attacker) {
-    if (source.hasAbility('Search Engine')) {
+    if (source.hasAbility('Search Engine') && source.abilityOn) {
         var atk = attacker.stats.atk;
         var spa = attacker.stats.spa;
         if (atk >= spa) {

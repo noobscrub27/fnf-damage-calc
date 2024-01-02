@@ -246,7 +246,7 @@ export function checkDownload(source: Pokemon, target: Pokemon, wonderRoomActive
 }
 
 export function checkSearchEngine(source: Pokemon, attacker: Pokemon) {
-  if (source.hasAbility('Search Engine')) {
+  if (source.hasAbility('Search Engine') && source.abilityOn) {
     let atk = attacker.stats.atk;
     let spa = attacker.stats.spa;
     if (atk >= spa) {
