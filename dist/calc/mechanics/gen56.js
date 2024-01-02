@@ -22,6 +22,10 @@ function calculateBWXY(gen, attacker, defender, move, field) {
     (0, util_2.checkIntimidate)(gen, defender, attacker);
     (0, util_2.checkDownload)(attacker, defender, field.isWonderRoom);
     (0, util_2.checkDownload)(defender, attacker, field.isWonderRoom);
+    (0, util_2.checkSearchEngine)(defender, attacker);
+    (0, util_2.checkSearchEngine)(attacker, defender);
+    (0, util_2.checkInflate)(attacker);
+    (0, util_2.checkInflate)(defender);
     (0, util_2.computeFinalStats)(gen, attacker, defender, field, 'atk', 'spa');
     (0, util_2.checkInfiltrator)(attacker, field.defenderSide);
     (0, util_2.checkInfiltrator)(defender, field.attackerSide);
@@ -196,7 +200,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
     }
     if ((defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
         (move.hasType('Grass') && defender.hasAbility('Sap Sipper')) ||
-        (move.hasType('Fire') && defender.hasAbility('Flash Fire')) ||
+        (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb')) ||
         (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb')) ||
         (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
         (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
@@ -205,7 +209,8 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         (move.hasType('Ground') &&
             !field.isGravity && !move.named('Thousand Arrows') &&
             !(defender.hasAbility('Bone Master') && move.flags.bone) &&
-            !defender.hasItem('Iron Ball') && defender.hasAbility('Levitate')) ||
+            !defender.hasItem('Iron Ball') &&
+            (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn))) ||
         (move.flags.bullet && defender.hasAbility('Bulletproof')) ||
         (move.flags.sound && defender.hasAbility('Soundproof')) ||
         (move.flags.blade && defender.hasAbility('Bladeproof')) ||
@@ -436,6 +441,10 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         bpMods.push(5120);
         desc.defenderAbility = defender.ability;
     }
+    if (attacker.hasAbility('High Caliber') && move.flags.bullet) {
+        bpMods.push(5325);
+        desc.defenderAbility = defender.ability;
+    }
     if (attacker.hasAbility('Sheer Force') && move.secondaries) {
         bpMods.push(5325);
         desc.attackerAbility = attacker.ability;
@@ -500,7 +509,8 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         desc.attackerAbility = attacker.ability;
     }
     else if ((attacker.hasAbility('Mega Launcher') && move.flags.pulse) ||
-        (attacker.hasAbility('Strong Jaw') && move.flags.bite)) {
+        (attacker.hasAbility('Strong Jaw') && move.flags.bite) ||
+        (attacker.hasAbility('Escape Artist') && move.named('Flip Turn', 'U-turn', 'Volt Switch', 'Shadow Pivot', 'Propulsion Shot'))) {
         bpMods.push(6144);
         desc.attackerAbility = attacker.ability;
     }
@@ -602,6 +612,10 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         atMods.push(6144);
         desc.attackerAbility = attacker.ability;
         desc.weather = field.weather;
+    }
+    else if (attacker.hasAbility('Galaxian') && field.isGravity && move.category === 'Special') {
+        atMods.push(6144);
+        desc.attackerAbility = attacker.ability;
     }
     else if (field.attackerSide.isFlowerGift &&
         field.hasWeather('Sun', 'Harsh Sunshine') &&
@@ -872,6 +886,10 @@ function calculateFinalModsBWXY(gen, attacker, defender, move, field, desc, isCr
         desc.defenderAbility = defender.ability;
     }
     if (defender.hasAbility('Bagwormicade') && typeEffectiveness > 1) {
+        finalMods.push(2048);
+        desc.defenderAbility = defender.ability;
+    }
+    if (defender.hasAbility('Enfeebling Venom') && attacker.hasStatus('psn', 'tox')) {
         finalMods.push(2048);
         desc.defenderAbility = defender.ability;
     }

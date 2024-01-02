@@ -109,7 +109,6 @@ const ADV = [
   'Evergreen Touch',
   'Flame Absorb',
   'Fluffy Fuzz',
-  'Galaxian',
   'High Caliber',
   'Ice Breaker',
   'Ice Packing',
@@ -217,6 +216,7 @@ const DPP = ADV.concat([
   'Unburden',
   // FnF changes start here
   'Cunning Blade',
+  'Galaxian',
 ]);
 
 const BW = DPP.concat([

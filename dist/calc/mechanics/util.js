@@ -268,7 +268,7 @@ function checkIntimidate(gen, source, target) {
 exports.checkIntimidate = checkIntimidate;
 function checkDownload(source, target, wonderRoomActive) {
     var _a;
-    if (source.hasAbility('Download')) {
+    if (source.hasAbility('Download') && source.abilityOn) {
         var def = target.stats.def;
         var spd = target.stats.spd;
         if (wonderRoomActive)
@@ -282,6 +282,25 @@ function checkDownload(source, target, wonderRoomActive) {
     }
 }
 exports.checkDownload = checkDownload;
+function checkSearchEngine(source, target) {
+    if (source.hasAbility('Search Engine') && source.abilityOn) {
+        var atk = target.stats.atk;
+        var spa = target.stats.spa;
+        if (spa <= atk) {
+            source.boosts.spa = Math.min(6, source.boosts.spd + 1);
+        }
+        else {
+            source.boosts.atk = Math.min(6, source.boosts.def + 1);
+        }
+    }
+}
+exports.checkSearchEngine = checkSearchEngine;
+function checkInflate(source) {
+    if (source.hasAbility('Inflate') && source.abilityOn) {
+        source.boosts.def = Math.min(6, source.boosts.def + 1);
+    }
+}
+exports.checkInflate = checkInflate;
 function checkIntrepidSword(source, gen) {
     if (source.hasAbility('Intrepid Sword') && gen.num > 7) {
         source.boosts.atk = Math.min(6, source.boosts.atk + 1);

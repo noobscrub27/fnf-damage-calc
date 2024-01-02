@@ -146,7 +146,6 @@ var ADV = [
     'Evergreen Touch',
     'Flame Absorb',
     'Fluffy Fuzz',
-    'Galaxian',
     'High Caliber',
     'Ice Breaker',
     'Ice Packing',
@@ -252,6 +251,7 @@ var DPP = ADV.concat([
     'Unaware',
     'Unburden',
     'Cunning Blade',
+    'Galaxian',
 ]);
 var BW = DPP.concat([
     'Analytic',

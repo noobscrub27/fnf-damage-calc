@@ -232,7 +232,7 @@ export function checkIntimidate(gen: Generation, source: Pokemon, target: Pokemo
 }
 
 export function checkDownload(source: Pokemon, target: Pokemon, wonderRoomActive?: boolean) {
-  if (source.hasAbility('Download')) {
+  if (source.hasAbility('Download') && source.abilityOn) {
     let def = target.stats.def;
     let spd = target.stats.spd;
     // We swap the defense stats again here since Download ignores Wonder Room
@@ -242,6 +242,24 @@ export function checkDownload(source: Pokemon, target: Pokemon, wonderRoomActive
     } else {
       source.boosts.atk = Math.min(6, source.boosts.atk + 1);
     }
+  }
+}
+
+export function checkSearchEngine(source: Pokemon, target: Pokemon) {
+  if (source.hasAbility('Search Engine') && source.abilityOn) {
+    let atk = target.stats.atk;
+    let spa = target.stats.spa;
+    if (spa <= atk) {
+      source.boosts.spa = Math.min(6, source.boosts.spd + 1);
+    } else {
+      source.boosts.atk = Math.min(6, source.boosts.def + 1);
+    }
+  }
+}
+
+export function checkInflate(source: Pokemon) {
+  if (source.hasAbility('Inflate') && source.abilityOn) {
+    source.boosts.def = Math.min(6, source.boosts.def + 1)
   }
 }
 

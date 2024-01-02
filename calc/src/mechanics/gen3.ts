@@ -14,6 +14,8 @@ import {
   checkAirLock,
   checkForecast,
   checkIntimidate,
+  checkSearchEngine,
+  checkInflate,
   countBoosts,
   handleFixedDamageMoves,
 } from './util';
@@ -32,6 +34,10 @@ export function calculateADV(
   checkForecast(defender, field.weather);
   checkIntimidate(gen, attacker, defender);
   checkIntimidate(gen, defender, attacker);
+  checkSearchEngine(defender, attacker);
+  checkSearchEngine(attacker, defender);
+  checkInflate(attacker);
+  checkInflate(defender);
   attacker.stats.spe = getFinalSpeed(gen, attacker, field, field.attackerSide);
   defender.stats.spe = getFinalSpeed(gen, defender, field, field.defenderSide);
 
@@ -122,11 +128,11 @@ export function calculateADV(
     typeEffectiveness /= 2;
     desc.defenderAbility = defender.ability;
   }
-  if ((defender.hasAbility('Flash Fire') && move.hasType('Fire')) ||
+  if ((defender.hasAbility('Flash Fire', 'Flame Absorb') && move.hasType('Fire')) ||
     (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
     (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
       (!(defender.hasAbility('Bone Master') && move.flags.bone) &&
-      defender.hasAbility('Levitate') && move.hasType('Ground')) ||
+      (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn)) && move.hasType('Ground')) ||
       (defender.hasAbility('Volt Absorb') && move.hasType('Electric')) ||
       (defender.hasAbility('Water Absorb') && move.hasType('Water')) ||
       (defender.hasAbility('Wonder Guard') && !move.hasType('???') && typeEffectiveness <= 1) ||
@@ -284,11 +290,12 @@ export function calculateADV(
   ) {
     at = Math.floor(at * 1.5);
     desc.attackerAbility = attacker.ability;
-  } else if (attacker.curHP() <= attacker.maxHP() / 3 &&
+  } else if ((attacker.curHP() <= attacker.maxHP() / 3 &&
     ((attacker.hasAbility('Overgrow') && move.hasType('Grass')) ||
      (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
      (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
-     (attacker.hasAbility('Swarm') && move.hasType('Bug')))
+     (attacker.hasAbility('Swarm') && move.hasType('Bug')))) ||
+    (attacker.hasAbility('Escape Artist') && move.named('Flip Turn', 'U-turn', 'Volt Switch', 'Shadow Pivot', 'Propulsion Shot'))
   ) {
     bp = Math.floor(bp * 1.5);
     desc.attackerAbility = attacker.ability;
@@ -383,6 +390,9 @@ export function calculateADV(
   baseDamage = Math.floor(baseDamage * typeEffectiveness);
 
   if (defender.hasAbility('Bagwormicade') && typeEffectiveness > 1) {
+    baseDamage = Math.floor(baseDamage * 0.5);
+  }
+  if (defender.hasAbility('Enfeebling Venom') && attacker.hasStatus('psn', 'tox')) {
     baseDamage = Math.floor(baseDamage * 0.5);
   }
   result.damage = [];

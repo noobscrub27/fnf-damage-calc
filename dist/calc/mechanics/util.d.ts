@@ -14,6 +14,8 @@ export declare function checkItem(pokemon: Pokemon, magicRoomActive?: boolean): 
 export declare function checkWonderRoom(pokemon: Pokemon, wonderRoomActive?: boolean): void;
 export declare function checkIntimidate(gen: Generation, source: Pokemon, target: Pokemon): void;
 export declare function checkDownload(source: Pokemon, target: Pokemon, wonderRoomActive?: boolean): void;
+export declare function checkSearchEngine(source: Pokemon, target: Pokemon): void;
+export declare function checkInflate(source: Pokemon): void;
 export declare function checkIntrepidSword(source: Pokemon, gen: Generation): void;
 export declare function checkDauntlessShield(source: Pokemon, gen: Generation): void;
 export declare function checkEmbody(source: Pokemon, gen: Generation): void;

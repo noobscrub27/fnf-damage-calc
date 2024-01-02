@@ -43,6 +43,10 @@ function calculateDPP(gen, attacker, defender, move, field) {
     (0, util_1.checkIntimidate)(gen, defender, attacker);
     (0, util_1.checkDownload)(attacker, defender);
     (0, util_1.checkDownload)(defender, attacker);
+    (0, util_1.checkSearchEngine)(defender, attacker);
+    (0, util_1.checkSearchEngine)(attacker, defender);
+    (0, util_1.checkInflate)(attacker);
+    (0, util_1.checkInflate)(defender);
     attacker.stats.spe = (0, util_1.getFinalSpeed)(gen, attacker, field, field.attackerSide);
     defender.stats.spe = (0, util_1.getFinalSpeed)(gen, defender, field, field.defenderSide);
     var desc = {
@@ -165,14 +169,15 @@ function calculateDPP(gen, attacker, defender, move, field) {
     }
     var ignoresWonderGuard = move.hasType('???') || move.named('Fire Fang');
     if ((!ignoresWonderGuard && defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
-        (move.hasType('Fire') && defender.hasAbility('Flash Fire')) ||
+        (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb')) ||
         (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Water Absorb')) ||
         (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
         (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
         (move.hasType('Electric') && defender.hasAbility('Motor Drive', 'Volt Absorb')) ||
         (move.hasType('Ground') && !field.isGravity &&
             !(defender.hasAbility('Bone Master') && move.flags.bone) &&
-            !defender.hasItem('Iron Ball') && defender.hasAbility('Levitate')) ||
+            !defender.hasItem('Iron Ball') &&
+            (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn))) ||
         (move.flags.sound && defender.hasAbility('Soundproof')) ||
         (move.flags.blade && defender.hasAbility('Bladeproof')) ||
         (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
@@ -329,7 +334,8 @@ function calculateDPP(gen, attacker, defender, move, field) {
             (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
             (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
             (attacker.hasAbility('Swarm') && move.hasType('Bug')))) ||
-        (attacker.hasAbility('Technician') && basePower <= 60)) {
+        (attacker.hasAbility('Technician') && basePower <= 60) ||
+        (attacker.hasAbility('Escape Artist') && move.named('Flip Turn', 'U-turn', 'Volt Switch', 'Shadow Pivot', 'Propulsion Shot'))) {
         basePower = Math.floor(basePower * 1.5);
         desc.attackerAbility = attacker.ability;
     }
@@ -340,6 +346,10 @@ function calculateDPP(gen, attacker, defender, move, field) {
     }
     else if (defender.hasAbility('Dry Skin') && move.hasType('Fire')) {
         basePower = Math.floor(basePower * 1.25);
+        desc.defenderAbility = defender.ability;
+    }
+    if (attacker.hasAbility('High Caliber') && move.flags.bullet) {
+        basePower = Math.floor(basePower * 1.3);
         desc.defenderAbility = defender.ability;
     }
     var attackStat = isPhysical ? 'atk' : 'spa';
@@ -368,10 +378,14 @@ function calculateDPP(gen, attacker, defender, move, field) {
         desc.attackerAbility = attacker.ability;
     }
     else if (field.hasWeather('Sun') &&
-        (attacker.hasAbility(isPhysical ? 'Flower Gift' : 'Solar Power'))) {
+        (attacker.hasAbility('Solar Power') || (attacker.hasAbility('Flower Gift') || move.category == 'Physical'))) {
         attack = Math.floor(attack * 1.5);
         desc.attackerAbility = attacker.ability;
         desc.weather = field.weather;
+    }
+    else if (attacker.hasAbility('Galaxian') && field.isGravity && move.category === 'Special') {
+        attack = Math.floor(attack * 1.5);
+        desc.attackerAbility = attacker.ability;
     }
     else if (field.attackerSide.isFlowerGift && field.hasWeather('Sun') && isPhysical) {
         attack = Math.floor(attack * 1.5);
@@ -539,6 +553,11 @@ function calculateDPP(gen, attacker, defender, move, field) {
         bagwormicadeMod = 0.5;
         desc.defenderAbility = defender.ability;
     }
+    var enfeeblingVenomMod = 1;
+    if (defender.hasAbility('Enfeebling Venom') && attacker.hasStatus('psn', 'tox')) {
+        enfeeblingVenomMod = 0.5;
+        desc.defenderAbility = defender.ability;
+    }
     var ebeltMod = 1;
     if (attacker.hasItem('Expert Belt') && typeEffectiveness > 1) {
         ebeltMod = 1.2;
@@ -563,6 +582,7 @@ function calculateDPP(gen, attacker, defender, move, field) {
         damage[i] = Math.floor(damage[i] * type2Effectiveness);
         damage[i] = Math.floor(damage[i] * filterMod);
         damage[i] = Math.floor(damage[i] * bagwormicadeMod);
+        damage[i] = Math.floor(damage[i] * enfeeblingVenomMod);
         damage[i] = Math.floor(damage[i] * ebeltMod);
         damage[i] = Math.floor(damage[i] * tintedMod);
         damage[i] = Math.floor(damage[i] * berryMod);

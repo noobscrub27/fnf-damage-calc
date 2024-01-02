@@ -20,6 +20,8 @@ import {
   checkAirLock,
   checkDauntlessShield,
   checkDownload,
+  checkSearchEngine,
+  checkInflate,
   checkEmbody,
   checkForecast,
   checkInfiltrator,
@@ -76,6 +78,10 @@ export function calculateSMSSSV(
   checkIntimidate(gen, defender, attacker);
   checkDownload(attacker, defender, field.isWonderRoom);
   checkDownload(defender, attacker, field.isWonderRoom);
+  checkSearchEngine(defender, attacker);
+  checkSearchEngine(attacker, defender);
+  checkInflate(attacker);
+  checkInflate(defender);
   checkIntrepidSword(attacker, gen);
   checkIntrepidSword(defender, gen);
 
@@ -366,7 +372,7 @@ export function calculateSMSSSV(
 
   if ((defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
     (move.hasType('Grass') && defender.hasAbility('Sap Sipper')) ||
-    (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Well-Baked Body')) ||
+    (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb', 'Well-Baked Body')) ||
     (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb')) ||
     (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
     (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
@@ -376,7 +382,7 @@ export function calculateSMSSSV(
       !field.isGravity && !move.named('Thousand Arrows') &&
       !defender.hasItem('Iron Ball') &&
       !(defender.hasAbility('Bone Master') && move.flags.bone) &&
-      defender.hasAbility('Levitate')) ||
+      (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn))) ||
     (move.flags.bullet && defender.hasAbility('Bulletproof')) ||
     (move.flags.blade && defender.hasAbility('Bladeproof')) ||
       (move.flags.sound && !move.named('Clangorous Soul') && defender.hasAbility('Soundproof')) ||
@@ -1084,7 +1090,8 @@ export function calculateBPModsSMSSSV(
     (attacker.hasAbility('Mega Launcher') && move.flags.pulse) ||
     (attacker.hasAbility('Strong Jaw') && move.flags.bite) ||
     (attacker.hasAbility('Steely Spirit') && move.hasType('Steel')) ||
-    (attacker.hasAbility('Sharpness') && move.flags.slicing)
+    (attacker.hasAbility('Sharpness') && move.flags.slicing) ||
+    (attacker.hasAbility('Escape Artist') && move.named('Flip Turn', 'U-turn', 'Volt Switch', 'Shadow Pivot', 'Propulsion Shot'))
   ) {
     bpMods.push(6144);
     desc.attackerAbility = attacker.ability;
@@ -1179,6 +1186,11 @@ export function calculateBPModsSMSSSV(
     bpMods.push(powMod[Math.min(5, attacker.alliesFainted)]);
     desc.attackerAbility = attacker.ability;
     desc.alliesFainted = attacker.alliesFainted;
+  }
+
+  if (attacker.hasAbility('High Caliber') && move.flags.bullet) {
+    bpMods.push(5325);
+    desc.defenderAbility = defender.ability;
   }
 
   // Items
@@ -1282,22 +1294,26 @@ export function calculateAtModsSMSSSV(
 
   // Slow Start also halves damage with special Z-moves
   if ((attacker.hasAbility('Slow Start') && attacker.abilityOn &&
-       (move.category === 'Physical' || (move.category === 'Special' && move.isZ))) ||
-      (attacker.hasAbility('Defeatist') && attacker.curHP() <= attacker.maxHP() / 2)
+    (move.category === 'Physical' || (move.category === 'Special' && move.isZ))) ||
+    (attacker.hasAbility('Defeatist') && attacker.curHP() <= attacker.maxHP() / 2)
   ) {
     atMods.push(2048);
     desc.attackerAbility = attacker.ability;
   } else if (
     (attacker.hasAbility('Solar Power') &&
-     field.hasWeather('Sun', 'Harsh Sunshine') &&
-     move.category === 'Special') ||
+      field.hasWeather('Sun', 'Harsh Sunshine') &&
+      move.category === 'Special') ||
     (attacker.named('Cherrim') &&
-     attacker.hasAbility('Flower Gift') &&
-     field.hasWeather('Sun', 'Harsh Sunshine') &&
-     move.category === 'Physical')) {
+      attacker.hasAbility('Flower Gift') &&
+      field.hasWeather('Sun', 'Harsh Sunshine') &&
+      move.category === 'Physical') ||
+    (attacker.hasAbility('Ice Breaker') && field.hasWeather('Hail', 'Snow') && move.category === 'Physical')) {
     atMods.push(6144);
     desc.attackerAbility = attacker.ability;
     desc.weather = field.weather;
+  } else if (attacker.hasAbility('Galaxian') && field.isGravity && move.category === 'Special') {
+    atMods.push(6144);
+    desc.attackerAbility = attacker.ability;
   } else if (
     // Gorilla Tactics has no effect during Dynamax (Anubis)
     (attacker.hasAbility('Gorilla Tactics') && move.category === 'Physical' &&
@@ -1675,6 +1691,10 @@ export function calculateFinalModsSMSSSV(
     desc.defenderAbility = defender.ability;
   }
   if (defender.hasAbility('Bagwormicade') && typeEffectiveness > 1) {
+    finalMods.push(2048);
+    desc.defenderAbility = defender.ability;
+  }
+  if (defender.hasAbility('Enfeebling Venom') && attacker.hasStatus('psn', 'tox')) {
     finalMods.push(2048);
     desc.defenderAbility = defender.ability;
   }
