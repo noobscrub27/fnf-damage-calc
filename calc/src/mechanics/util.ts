@@ -249,10 +249,10 @@ export function checkSearchEngine(source: Pokemon, attacker: Pokemon) {
   if (source.hasAbility('Search Engine') && source.abilityOn) {
     let atk = attacker.stats.atk;
     let spa = attacker.stats.spa;
-    if (spa <= atk) {
-      source.boosts.spd = Math.min(6, source.boosts.spd + 1);
-    } else {
+    if (atk >= spa) {
       source.boosts.def = Math.min(6, source.boosts.def + 1);
+    } else {
+      source.boosts.spd = Math.min(6, source.boosts.spd + 1);
     }
   }
 }
