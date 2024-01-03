@@ -308,6 +308,10 @@ $("#p1 .ability").bind("keyup change", function () {
 	autosetQP($(this).closest(".poke-info"));
 });
 
+$("#p2 .ability").bind("keyup change", function () {
+	autosetRoom($(this).val(), 0);
+});
+
 $("input[name='weather']").change(function () {
 	var allPokemon = $('.poke-info');
 	allPokemon.each(function () {
