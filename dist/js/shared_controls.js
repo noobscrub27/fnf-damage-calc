@@ -304,6 +304,8 @@ function autosetQP(pokemon) {
 $("#p1 .ability").bind("keyup change", function () {
 	autosetWeather($(this).val(), 0);
 	autosetTerrain($(this).val(), 0);
+	$("#wonderroom").prop("checked", false);
+	$("#mysteryroom").prop("checked", false);
 	autosetRoom($(this).val(), 0);
 	autosetQP($(this).closest(".poke-info"));
 });
