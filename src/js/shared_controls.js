@@ -1,3 +1,4 @@
+$('option:selected').each(function () { $(this).prop('selected', true); });
 if (!Array.prototype.indexOf) {
 	Array.prototype.indexOf = function (searchElement, fromIndex) { // eslint-disable-line no-extend-native
 		var k;
