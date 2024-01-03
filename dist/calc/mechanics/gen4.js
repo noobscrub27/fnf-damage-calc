@@ -114,6 +114,10 @@ function calculateDPP(gen, attacker, defender, move, field) {
         move.category = 'Special';
         move.flags.contact = 0;
     }
+    if (attacker.hasAbility('Melody Allegretto') && move.flags.sound) {
+        move.priority = 1;
+        desc.attackerAbility = attacker.ability;
+    }
     var isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
     var typeEffectivenessPrecedenceRules = [
         'Normal',
@@ -182,6 +186,7 @@ function calculateDPP(gen, attacker, defender, move, field) {
         (move.flags.blade && defender.hasAbility('Bladeproof')) ||
         (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
         (move.hasType('Poison') && defender.hasAbility('Acid Absorb')) ||
+        (move.hasType('Dark') && defender.hasAbility('Karma')) ||
         (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get((0, util_2.toID)(defender.item)).isBerry &&
             (0, items_1.getNaturalGift)(gen, defender.item).t === move.type)) {
         desc.defenderAbility = defender.ability;

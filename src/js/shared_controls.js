@@ -304,6 +304,7 @@ function autosetQP(pokemon) {
 $("#p1 .ability").bind("keyup change", function () {
 	autosetWeather($(this).val(), 0);
 	autosetTerrain($(this).val(), 0);
+	autosetRoom($(this).val(), 0);
 	autosetQP($(this).closest(".poke-info"));
 });
 
@@ -345,6 +346,10 @@ function autosetWeather(ability, i) {
 			$("#hail").prop("checked", true);
 		}
 		break;
+	case "Noxious Emission":
+		lastAutoWeather[i] = "Miasma";
+		$("#miasma").prop("checked", true);
+		break;
 	case "Desolate Land":
 		lastAutoWeather[i] = "Harsh Sunshine";
 		$("#harsh-sunshine").prop("checked", true);
@@ -362,6 +367,19 @@ function autosetWeather(ability, i) {
 		var newWeather = lastAutoWeather[1 - i] !== "" ? lastAutoWeather[1 - i] : "";
 		$("input:radio[name='weather'][value='" + newWeather + "']").prop("checked", true);
 		break;
+	}
+}
+
+function autosetRoom(ability, i) {
+	switch (ability) {
+		case "Enigmatify":
+			$("#wonderroom").prop("checked", true);
+			break;
+		case "Arcana":
+			$("#mysteryroom").prop("checked", true);
+			break;
+		default:
+			break;
 	}
 }
 
@@ -428,6 +446,10 @@ function autosetStatus(p, item) {
 	} else if (item === "Toxic Orb") {
 		lastAutoStatus[p] = "Badly Poisoned";
 		$(p + " .status").val("Badly Poisoned");
+		$(p + " .status").change();
+	} else if (item === "Frost Orb") {
+		lastAutoStatus[p] = "Frozen";
+		$(p + " .status").val("Frozen");
 		$(p + " .status").change();
 	} else {
 		lastAutoStatus[p] = "Healthy";
@@ -1025,6 +1047,7 @@ function createField() {
 	var isVesselOfRuin = $("#vessel").prop("checked");
 	var isMagicRoom = $("#magicroom").prop("checked");
 	var isWonderRoom = $("#wonderroom").prop("checked");
+	var isMysteryRoom = $("#mysteryroom").prop("checked");
 	var isGravity = $("#gravity").prop("checked");
 	var isSR = [$("#srL").prop("checked"), $("#srR").prop("checked")];
 	var weather;
@@ -1069,7 +1092,7 @@ function createField() {
 	};
 	return new calc.Field({
 		gameType: gameType, weather: weather, terrain: terrain,
-		isMagicRoom: isMagicRoom, isWonderRoom: isWonderRoom, isGravity: isGravity,
+		isMagicRoom: isMagicRoom, isWonderRoom: isWonderRoom, isMysteryRoom: isMysteryRoom, isGravity: isGravity,
 		isBeadsOfRuin: isBeadsOfRuin, isTabletsOfRuin: isTabletsOfRuin,
 		isSwordOfRuin: isSwordOfRuin, isVesselOfRuin: isVesselOfRuin,
 		attackerSide: createSide(0), defenderSide: createSide(1)

@@ -282,7 +282,8 @@ export function calculateSMSSSV(
   if ((attacker.hasAbility('Triage') && move.drain) ||
       (attacker.hasAbility('Gale Wings') &&
        move.hasType('Flying') &&
-       attacker.curHP() === attacker.maxHP())) {
+      attacker.curHP() === attacker.maxHP()) ||
+    (attacker.hasAbility('Melody Allegretto') && move.flags.sound)) {
     move.priority = 1;
     desc.attackerAbility = attacker.ability;
   }
@@ -391,6 +392,7 @@ export function calculateSMSSSV(
       (move.flags.wind && defender.hasAbility('Wind Rider')) ||
       (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
       (move.hasType('Poison') && defender.hasAbility('Acid Absorb')) ||
+      (move.hasType('Dark') && defender.hasAbility('Karma')) ||
       (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get(toID(defender.item))!.isBerry &&
       getNaturalGift(gen, defender.item)!.t === move.type)
   ) {

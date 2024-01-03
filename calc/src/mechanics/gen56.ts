@@ -176,7 +176,8 @@ export function calculateBWXY(
     }
   }
 
-  if (attacker.hasAbility('Gale Wings') && move.hasType('Flying')) {
+  if (attacker.hasAbility('Gale Wings') && move.hasType('Flying') ||
+     (attacker.hasAbility('Melody Allegretto') && move.flags.sound)) {
     move.priority = 1;
     desc.attackerAbility = attacker.ability;
   }
@@ -273,6 +274,7 @@ export function calculateBWXY(
     (move.flags.blade && defender.hasAbility('Bladeproof')) ||
     (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
     (move.hasType('Poison') && defender.hasAbility('Acid Absorb')) ||
+    (move.hasType('Dark') && defender.hasAbility('Karma')) ||
     (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get(toID(defender.item))!.isBerry &&
     getNaturalGift(gen, defender.item)!.t === move.type)
   ) {

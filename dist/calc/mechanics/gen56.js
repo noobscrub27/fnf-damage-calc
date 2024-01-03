@@ -131,7 +131,8 @@ function calculateBWXY(gen, attacker, defender, move, field) {
             desc.attackerAbility = attacker.ability;
         }
     }
-    if (attacker.hasAbility('Gale Wings') && move.hasType('Flying')) {
+    if (attacker.hasAbility('Gale Wings') && move.hasType('Flying') ||
+        (attacker.hasAbility('Melody Allegretto') && move.flags.sound)) {
         move.priority = 1;
         desc.attackerAbility = attacker.ability;
     }
@@ -216,6 +217,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         (move.flags.blade && defender.hasAbility('Bladeproof')) ||
         (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
         (move.hasType('Poison') && defender.hasAbility('Acid Absorb')) ||
+        (move.hasType('Dark') && defender.hasAbility('Karma')) ||
         (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get((0, util_1.toID)(defender.item)).isBerry &&
             (0, items_1.getNaturalGift)(gen, defender.item).t === move.type)) {
         desc.defenderAbility = defender.ability;

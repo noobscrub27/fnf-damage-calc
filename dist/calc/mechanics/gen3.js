@@ -73,6 +73,10 @@ function calculateADV(gen, attacker, defender, move, field) {
     else if (move.named('Primal Burst') && attacker.item && attacker.item.includes('Orb')) {
         move.type = (0, items_2.getOrbType)(attacker.item);
     }
+    if (attacker.hasAbility('Melody Allegretto') && move.flags.sound) {
+        move.priority = 1;
+        desc.attackerAbility = attacker.ability;
+    }
     var typeEffectivenessPrecedenceRules = [
         'Normal',
         'Fire',
@@ -127,6 +131,7 @@ function calculateADV(gen, attacker, defender, move, field) {
         (move.flags.blade && defender.hasAbility('Bladeproof')) ||
         (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
         (move.hasType('Poison') && defender.hasAbility('Acid Absorb')) ||
+        (move.hasType('Dark') && defender.hasAbility('Karma')) ||
         (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get((0, util_2.toID)(defender.item)).isBerry &&
             (0, items_1.getNaturalGift)(gen, defender.item).t === move.type)) {
         desc.defenderAbility = defender.ability;

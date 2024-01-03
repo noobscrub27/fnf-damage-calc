@@ -116,6 +116,12 @@ export function calculateDPP(
     move.category = 'Special';
     move.flags.contact = 0;
   }
+
+  if (attacker.hasAbility('Melody Allegretto') && move.flags.sound) {
+    move.priority = 1;
+    desc.attackerAbility = attacker.ability;
+  }
+
   const isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
 
   const typeEffectivenessPrecedenceRules = [
@@ -192,6 +198,7 @@ export function calculateDPP(
     (move.flags.blade && defender.hasAbility('Bladeproof')) ||
     (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
     (move.hasType('Poison') && defender.hasAbility('Acid Absorb')) ||
+    (move.hasType('Dark') && defender.hasAbility('Karma')) ||
     (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get(toID(defender.item))!.isBerry &&
     getNaturalGift(gen, defender.item)!.t === move.type)
   ) {
