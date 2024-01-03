@@ -1,6 +1,7 @@
 $("#p2 .ability").bind("keyup change", function () {
 	autosetWeather($(this).val(), 1);
 	autosetTerrain($(this).val(), 1);
+	autosetRoom($(this).val(), 1);
 });
 
 $("#p2 .item").bind("keyup change", function () {

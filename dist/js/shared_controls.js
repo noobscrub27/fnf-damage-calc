@@ -304,14 +304,8 @@ function autosetQP(pokemon) {
 $("#p1 .ability").bind("keyup change", function () {
 	autosetWeather($(this).val(), 0);
 	autosetTerrain($(this).val(), 0);
-	$("#wonderroom").prop("checked", false);
-	$("#mysteryroom").prop("checked", false);
 	autosetRoom($(this).val(), 0);
 	autosetQP($(this).closest(".poke-info"));
-});
-
-$("#p2 .ability").bind("keyup change", function () {
-	autosetRoom($(this).val(), 0);
 });
 
 $("input[name='weather']").change(function () {
@@ -376,17 +370,30 @@ function autosetWeather(ability, i) {
 	}
 }
 
+// index 0 is pokemon 1's autoroom, index 2 is pokemon 2's autoroom
+let lastAutoRooms = ["", ""];
 function autosetRoom(ability, i) {
+	var currentAutoRooms = lastAutoRooms;
 	switch (ability) {
 		case "Enigmatify":
+			currentAutoRooms[i] = "Enigmatify";
 			$("#wonderroom").prop("checked", true);
 			break;
 		case "Arcana":
+			currentAutoRooms[i] = "Arcana";
 			$("#mysteryroom").prop("checked", true);
 			break;
 		default:
+			// if this pokemon's ability changing caused no more abilities to set this terrain
+			// remove the terrain
+			if (lastAutoRooms.indexOf("Enigmatify") !== -1 && currentAutoRooms.indexOf("Enigmatify") === -1) {
+				$("#wonderroom").prop("checked", false);
+			}
+			if (lastAutoRooms.indexOf("Arcana") !== -1 && currentAutoRooms.indexOf("Arcana") === -1) {
+				$("#mysteryroom").prop("checked", false);
+			}
+			lastAutoRooms = currentAutoRooms;
 			break;
-	}
 }
 
 $("input[name='terrain']").change(function () {
