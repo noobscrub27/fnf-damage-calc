@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Pok&eacute;mon Damage Calculator</title>
+    <title>FnF Showdown Damage Calc</title>
     <link type="text/css" rel="stylesheet" href="./js/vendor/select2/select2.css" />
     <link type="text/css" rel="stylesheet" href="./css/main.css?" />
     <link type="text/css" rel="stylesheet" href="./css/vendor/bootstrap.css" />
@@ -40,8 +40,7 @@
 
 <nav><div class="header"><div class="header-inner">
     <ul class="nav">
-        <li><a class="button nav-first" href="//fnf-showdown-client.herokuapp.com/"><img src="./img/pokemonshowdownbeta.png" alt="FnF Showdown!" /> Home</a></li>
-        <li><a class="button" href="https://discord.gg/H6GmxdWHy4">Discord</a></li>
+        <li><a class="button nav-first" href="https://discord.gg/H6GmxdWHy4"><img src="./img/pokemonshowdownbeta.png" alt="FnF Showdown!" /> Discord</a></li>
         <li><a class="button nav-last" href="//docs.google.com/spreadsheets/d/1olW_CgttMCgvR3LYIMndMfNDH18lqQAOf3ylPoosf_k/edit?usp=sharing">Doc</a></li>
     </ul>
     <ul class="nav nav-play">
@@ -50,7 +49,7 @@
     <div style="clear:both"></div>
 </div></div></nav>
 <div class="wrapper">
-    <span class="title-text main-title-text">FnF Damage Calculator</span>
+    <span class="title-text main-title-text">FnF Showdown Damage Calculator</span>
     <div aria-label="Settings" role="region">
         <span class="genSelection" aria-labelledby="selectGenInstruction" role="radiogroup" title="Select the generation.">
             <span class="visually-hidden" id="selectGenInstruction">Select the generation.</span>
@@ -722,14 +721,14 @@
                         <label class="btn btn-small btn-mid" for="sand">Sand</label>
                         <span class="gen-specific g3 g4 g5 g6 g7 g8">
                             <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Hail" id="hail" />
-                            <label class="btn btn-small btn-right" for="hail">Hail</label>
+                            <label class="btn btn-small btn-mid" for="hail">Hail</label>
                         </span>
                         <span class="gen-specific g9">
                             <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Snow" id="snow" />
-                            <label class="btn btn-small btn-right" for="snow">Snow</label>
+                            <label class="btn btn-small btn-mid" for="snow">Snow</label>
                         </span>
                         <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Miasma" id="miasma" />
-                        <label class="btn btn-small btn-mid" for="miasma">Miasma</label>
+                        <label class="btn btn-small btn-right" for="miasma">Miasma</label>
                     </div>
                     <div class="gen-specific g6 g7 g8 g9" title="Select the current weather condition.">
                         <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Harsh Sunshine" id="harsh-sunshine" />
@@ -749,7 +748,7 @@
                     <input class="visually-hidden calc-trigger" type="radio" name="gscWeather" value="Rain" id="gscRain" />
                     <label class="btn btn-small btn-mid" for="gscRain">Rain</label>
                     <input class="visually-hidden calc-trigger" type="radio" name="gscWeather" value="Sand" id="gscSand" />
-                    <label class="btn btn-small btn-right" for="gscSand">Sand</label>
+                    <label class="btn btn-small btn-mid" for="gscSand">Sand</label>
                     <input class="visually-hidden calc-trigger" type="radio" name="gscWeather" value="Miasma" id="gscMiasma" />
                     <label class="btn btn-small btn-right" for="gscMiasma">Miasma</label>
                 </div>
@@ -760,7 +759,7 @@
                     <input aria-describedby="magicRoomInstruction" class="visually-hidden calc-trigger" type="checkbox" id="magicroom" />
                     <label class="btn btn-xxxwide btn-left" for="magicroom">Magic Room</label>
                     <input aria-describedby="wonderRoomInstruction" class="visually-hidden calc-trigger" type="checkbox" id="wonderroom" />
-                    <label class="btn btn-xxxwide btn-right" for="wonderroom">Wonder Room</label>
+                    <label class="btn btn-xxxwide btn-mid" for="wonderroom">Wonder Room</label>
                     <input aria-describedby="mysteryRoomInstruction" class="visually-hidden calc-trigger" type="checkbox" id="mysteryroom" />
                     <label class="btn btn-xxxwide btn-right" for="mysteryroom">Mystery Room</label>
                 </div>
