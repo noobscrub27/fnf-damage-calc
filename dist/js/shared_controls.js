@@ -375,27 +375,27 @@ let lastAutoRooms = ["", ""];
 function autosetRoom(ability, i) {
 	var currentAutoRooms = lastAutoRooms;
 	switch (ability) {
-		case "Enigmatify":
-			currentAutoRooms[i] = "Enigmatify";
-			$("#wonderroom").prop("checked", true);
-			break;
-		case "Arcana":
-			currentAutoRooms[i] = "Arcana";
-			$("#mysteryroom").prop("checked", true);
-			break;
-		default:
-			currentAutoRooms[i] = "";
-			// if this pokemon's ability changing caused no more abilities to set this terrain
-			// remove the terrain
-			if (lastAutoRooms.indexOf("Enigmatify") !== -1 && currentAutoRooms.indexOf("Enigmatify") === -1) {
-				$("#wonderroom").prop("checked", false);
-			}
-			if (lastAutoRooms.indexOf("Arcana") !== -1 && currentAutoRooms.indexOf("Arcana") === -1) {
-				$("#mysteryroom").prop("checked", false);
-			}
-			lastAutoRooms = currentAutoRooms;
-			break;
+	case "Enigmatify":
+		currentAutoRooms[i] = "Enigmatify";
+		$("#wonderroom").prop("checked", true);
+		break;
+	case "Arcana":
+		currentAutoRooms[i] = "Arcana";
+		$("#mysteryroom").prop("checked", true);
+		break;
+	default:
+		currentAutoRooms[i] = "";
+		// if this pokemon's ability changing caused no more abilities to set this terrain
+		// remove the terrain
+		if (lastAutoRooms.indexOf("Enigmatify") !== -1 && currentAutoRooms.indexOf("Enigmatify") === -1) {
+			$("#wonderroom").prop("checked", false);
+		}
+		if (lastAutoRooms.indexOf("Arcana") !== -1 && currentAutoRooms.indexOf("Arcana") === -1) {
+			$("#mysteryroom").prop("checked", false);
+		}
+		break;
 	}
+	lastAutoRooms = currentAutoRooms;
 }
 
 $("input[name='terrain']").change(function () {
