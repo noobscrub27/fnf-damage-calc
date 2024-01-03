@@ -384,6 +384,7 @@ function autosetRoom(ability, i) {
 			$("#mysteryroom").prop("checked", true);
 			break;
 		default:
+			currentAutoRooms[i] = "";
 			// if this pokemon's ability changing caused no more abilities to set this terrain
 			// remove the terrain
 			if (lastAutoRooms.indexOf("Enigmatify") !== -1 && currentAutoRooms.indexOf("Enigmatify") === -1) {
