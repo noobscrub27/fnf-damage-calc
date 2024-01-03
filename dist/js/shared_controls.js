@@ -373,7 +373,7 @@ function autosetWeather(ability, i) {
 // index 0 is pokemon 1's autoroom, index 2 is pokemon 2's autoroom
 let lastAutoRooms = ["", ""];
 function autosetRoom(ability, i) {
-	var currentAutoRooms = lastAutoRooms;
+	var currentAutoRooms = structuredClone(lastAutoRooms);
 	switch (ability) {
 	case "Enigmatify":
 		currentAutoRooms[i] = "Enigmatify";
@@ -395,7 +395,7 @@ function autosetRoom(ability, i) {
 		}
 		break;
 	}
-	lastAutoRooms = currentAutoRooms;
+	lastAutoRooms = structuredClone(currentAutoRooms);
 }
 
 $("input[name='terrain']").change(function () {
