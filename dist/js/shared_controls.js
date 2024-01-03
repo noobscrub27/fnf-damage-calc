@@ -394,6 +394,7 @@ function autosetRoom(ability, i) {
 			}
 			lastAutoRooms = currentAutoRooms;
 			break;
+	}
 }
 
 $("input[name='terrain']").change(function () {
