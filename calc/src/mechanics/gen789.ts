@@ -114,14 +114,14 @@ export function calculateSMSSSV(
     return result;
   }
 
-  const defenderIgnoresAbility = defender.hasAbility(
+  const defenderIgnoresAbility = field.isMysteryRoom || defender.hasAbility(
     'Full Metal Body',
     'Neutralizing Gas',
     'Prism Armor',
     'Shadow Shield'
   );
 
-  const attackerIgnoresAbility = attacker.hasAbility('Mold Breaker', 'Teravolt', 'Turboblaze');
+  const attackerIgnoresAbility = field.isMysteryRoom || attacker.hasAbility('Mold Breaker', 'Teravolt', 'Turboblaze');
   const moveIgnoresAbility = move.named(
     'G-Max Drum Solo',
     'G-Max Fire Ball',
@@ -1600,7 +1600,8 @@ function calculateBaseDamageSMSSSV(
   } else if (!defender.hasItem('Utility Umbrella')) {
     if (
       (field.hasWeather('Sun', 'Harsh Sunshine') && move.hasType('Fire')) ||
-      (field.hasWeather('Rain', 'Heavy Rain') && move.hasType('Water'))
+      (field.hasWeather('Rain', 'Heavy Rain') && move.hasType('Water')) ||
+      (field.hasWeather('Miasma') && move.hasType('Poison'))
     ) {
       baseDamage = pokeRound(OF32(baseDamage * 6144) / 4096);
       desc.weather = field.weather;

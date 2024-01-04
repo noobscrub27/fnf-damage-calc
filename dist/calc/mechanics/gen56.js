@@ -837,7 +837,8 @@ function calculateBaseDamageBWXY(gen, attacker, basePower, attack, defense, move
         baseDamage = (0, util_2.pokeRound)((0, util_2.OF32)(baseDamage * 2048) / 4096);
     }
     if ((field.hasWeather('Sun', 'Harsh Sunshine') && move.hasType('Fire')) ||
-        (field.hasWeather('Rain', 'Heavy Rain') && move.hasType('Water'))) {
+        (field.hasWeather('Rain', 'Heavy Rain') && move.hasType('Water')) ||
+        (field.hasWeather('Miasma') && move.hasType('Poison'))) {
         baseDamage = (0, util_2.pokeRound)((0, util_2.OF32)(baseDamage * 6144) / 4096);
         desc.weather = field.weather;
     }

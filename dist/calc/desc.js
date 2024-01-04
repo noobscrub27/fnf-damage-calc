@@ -189,7 +189,7 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
     }
     var hazards = getHazards(gen, defender, field.defenderSide);
     var eot = getEndOfTurn(gen, attacker, defender, move, field);
-    var toxicCounter = defender.hasStatus('tox') && !defender.hasAbility('Magic Guard') ? defender.toxicCounter : 0;
+    var toxicCounter = defender.hasStatus('tox') && !(defender.hasAbility('Magic Guard') && !field.hasWeather('Miasma')) ? defender.toxicCounter : 0;
     var qualifier = move.hits > 1 ? 'approx. ' : '';
     var hazardsText = hazards.texts.length > 0
         ? ' after ' + serializeText(hazards.texts)
@@ -443,21 +443,21 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
         }
     }
     if (defender.hasStatus('psn')) {
-        if (defender.hasAbility('Poison Heal')) {
-            damage += Math.floor(defender.maxHP() / 8);
+        if (defender.hasAbility('Poison Heal') && !field.hasWeather('Miasma')) {
+            damage += Math.floor(defender.maxHP() / 16);
             texts.push('Poison Heal');
         }
-        else if (!defender.hasAbility('Magic Guard')) {
+        else if (!defender.hasAbility('Magic Guard') && !field.hasWeather('Miasma')) {
             damage -= Math.floor(defender.maxHP() / (gen.num === 1 ? 16 : 8));
             texts.push('poison damage');
         }
     }
     else if (defender.hasStatus('tox')) {
-        if (defender.hasAbility('Poison Heal')) {
-            damage += Math.floor(defender.maxHP() / 8);
+        if (defender.hasAbility('Poison Heal') && !field.hasWeather('Miasma')) {
+            damage += Math.floor(defender.maxHP() / 16);
             texts.push('Poison Heal');
         }
-        else if (!defender.hasAbility('Magic Guard')) {
+        else if (!defender.hasAbility('Magic Guard') && !field.hasWeather('Miasma')) {
             texts.push('toxic damage');
         }
     }

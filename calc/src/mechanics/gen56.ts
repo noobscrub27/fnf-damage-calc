@@ -1017,7 +1017,8 @@ function calculateBaseDamageBWXY(
   }
 
   if ((field.hasWeather('Sun', 'Harsh Sunshine') && move.hasType('Fire')) ||
-      (field.hasWeather('Rain', 'Heavy Rain') && move.hasType('Water'))) {
+    (field.hasWeather('Rain', 'Heavy Rain') && move.hasType('Water')) ||
+    (field.hasWeather('Miasma') && move.hasType('Poison'))) {
     baseDamage = pokeRound(OF32(baseDamage * 6144) / 4096);
     desc.weather = field.weather;
   } else if (

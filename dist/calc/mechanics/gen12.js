@@ -191,7 +191,8 @@ function calculateRBYGSC(gen, attacker, defender, move, field) {
     }
     baseDamage = Math.min(997, baseDamage) + 2;
     if ((field.hasWeather('Sun') && move.hasType('Fire')) ||
-        (field.hasWeather('Rain') && move.hasType('Water'))) {
+        (field.hasWeather('Rain') && move.hasType('Water')) ||
+        (field.hasWeather('Miasma') && move.hasType('Poison'))) {
         baseDamage = Math.floor(baseDamage * 1.5);
         desc.weather = field.weather;
     }

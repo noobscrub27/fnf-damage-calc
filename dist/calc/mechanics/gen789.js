@@ -53,8 +53,8 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         desc.isProtected = true;
         return result;
     }
-    var defenderIgnoresAbility = defender.hasAbility('Full Metal Body', 'Neutralizing Gas', 'Prism Armor', 'Shadow Shield');
-    var attackerIgnoresAbility = attacker.hasAbility('Mold Breaker', 'Teravolt', 'Turboblaze');
+    var defenderIgnoresAbility = field.isMysteryRoom || defender.hasAbility('Full Metal Body', 'Neutralizing Gas', 'Prism Armor', 'Shadow Shield');
+    var attackerIgnoresAbility = field.isMysteryRoom || attacker.hasAbility('Mold Breaker', 'Teravolt', 'Turboblaze');
     var moveIgnoresAbility = move.named('G-Max Drum Solo', 'G-Max Fire Ball', 'G-Max Hydrosnipe', 'Light That Burns the Sky', 'Menacing Moonraze Maelstrom', 'Moongeist Beam', 'Photon Geyser', 'Searing Sunraze Smash', 'Sunsteel Strike');
     if (!defenderIgnoresAbility && !defender.hasAbility('Poison Heal') &&
         (attackerIgnoresAbility || moveIgnoresAbility)) {
@@ -1214,7 +1214,8 @@ function calculateBaseDamageSMSSSV(gen, attacker, defender, basePower, attack, d
     }
     else if (!defender.hasItem('Utility Umbrella')) {
         if ((field.hasWeather('Sun', 'Harsh Sunshine') && move.hasType('Fire')) ||
-            (field.hasWeather('Rain', 'Heavy Rain') && move.hasType('Water'))) {
+            (field.hasWeather('Rain', 'Heavy Rain') && move.hasType('Water')) ||
+            (field.hasWeather('Miasma') && move.hasType('Poison'))) {
             baseDamage = (0, util_2.pokeRound)((0, util_2.OF32)(baseDamage * 6144) / 4096);
             desc.weather = field.weather;
         }

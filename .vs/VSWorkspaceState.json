@@ -1,16 +1,15 @@
 {
   "ExpandedNodes": [
     "",
-    "\\calc",
-    "\\calc\\src",
-    "\\calc\\src\\data",
-    "\\calc\\src\\mechanics",
     "\\dist",
-    "\\src",
-    "\\src\\js",
-    "\\src\\js\\data",
-    "\\src\\js\\data\\sets"
+    "\\dist\\calc",
+    "\\dist\\calc\\data",
+    "\\dist\\calc\\mechanics",
+    "\\dist\\calc\\test",
+    "\\dist\\js",
+    "\\dist\\js\\data",
+    "\\dist\\js\\data\\sets",
+    "\\dist\\js\\vendor"
   ],
-  "SelectedNode": "\\calc\\src\\mechanics\\gen3.ts",
   "PreviewInSolutionExplorer": false
 }
