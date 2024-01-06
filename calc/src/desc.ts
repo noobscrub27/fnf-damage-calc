@@ -598,18 +598,18 @@ function getEndOfTurn(
   }
 
   if (defender.hasStatus('psn')) {
-    if (defender.hasAbility('Poison Heal') && !field.hasWeather('Miasma')) {
+    if (defender.hasAbility('Poison Heal')) {
       damage += Math.floor(defender.maxHP() / 16);
       texts.push('Poison Heal');
-    } else if (!defender.hasAbility('Magic Guard') && !field.hasWeather('Miasma')) {
+    } else if (!defender.hasAbility('Magic Guard')) {
       damage -= Math.floor(defender.maxHP() / (gen.num === 1 ? 16 : 8));
       texts.push('poison damage');
     }
   } else if (defender.hasStatus('tox')) {
-    if (defender.hasAbility('Poison Heal') && !field.hasWeather('Miasma')) {
+    if (defender.hasAbility('Poison Heal')) {
       damage += Math.floor(defender.maxHP() / 16);
       texts.push('Poison Heal');
-    } else if (!defender.hasAbility('Magic Guard') && !field.hasWeather('Miasma')) {
+    } else if (!defender.hasAbility('Magic Guard')) {
       texts.push('toxic damage');
     }
   } else if (defender.hasStatus('brn')) {
