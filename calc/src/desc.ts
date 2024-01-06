@@ -1,4 +1,4 @@
-import {Generation, Weather, Terrain, TypeName, ID} from './data/interface';
+import {Generation, Weather, Terrain, TypeName, ID, AbilityName} from './data/interface';
 import {Field, Side} from './field';
 import {Move} from './move';
 import {Pokemon} from './pokemon';
@@ -261,7 +261,18 @@ export function getKOChance(
     error(err, 'damage[damage.length - 1] === 0.');
     return {chance: 0, n: 0, text: ''};
   }
-
+  if (field.isMysteryRoom || attacker.hasAbility('Neutralizing Gas') || defender.hasAbility('Neutralizing Gas')) {
+    defender.ability = '' as AbilityName;
+    attacker.ability = '' as AbilityName;
+  }
+  if (field.hasWeather('Miasma')) {
+    if (defender.hasAbility('Poison Heal')) {
+      defender.ability = '' as AbilityName;
+    }
+    if (attacker.hasAbility('Poison Heal')) {
+      attacker.ability = '' as AbilityName;
+    }
+  }
   // Code doesn't really work if these aren't set.
   if (move.timesUsed === undefined) move.timesUsed = 1;
   if (move.timesUsedWithMetronome === undefined) move.timesUsedWithMetronome = 1;
@@ -273,7 +284,7 @@ export function getKOChance(
   const hazards = getHazards(gen, defender, field.defenderSide);
   const eot = getEndOfTurn(gen, attacker, defender, move, field);
   const toxicCounter =
-    defender.hasStatus('tox') && !(defender.hasAbility('Magic Guard') && !field.hasWeather('Miasma')) ? defender.toxicCounter : 0;
+    defender.hasStatus('tox') && !defender.hasAbility('Magic Guard') ? defender.toxicCounter : 0;
 
   // multi-hit moves have too many possibilities for brute-forcing to work, so reduce it
   // to an approximate distribution

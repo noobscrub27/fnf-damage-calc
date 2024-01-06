@@ -180,6 +180,18 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
         (0, util_1.error)(err, 'damage[damage.length - 1] === 0.');
         return { chance: 0, n: 0, text: '' };
     }
+    if (field.isMysteryRoom || attacker.hasAbility('Neutralizing Gas') || defender.hasAbility('Neutralizing Gas')) {
+        defender.ability = '';
+        attacker.ability = '';
+    }
+    if (field.hasWeather('Miasma')) {
+        if (defender.hasAbility('Poison Heal')) {
+            defender.ability = '';
+        }
+        if (attacker.hasAbility('Poison Heal')) {
+            attacker.ability = '';
+        }
+    }
     if (move.timesUsed === undefined)
         move.timesUsed = 1;
     if (move.timesUsedWithMetronome === undefined)
@@ -189,7 +201,7 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
     }
     var hazards = getHazards(gen, defender, field.defenderSide);
     var eot = getEndOfTurn(gen, attacker, defender, move, field);
-    var toxicCounter = defender.hasStatus('tox') && !(defender.hasAbility('Magic Guard') && !field.hasWeather('Miasma')) ? defender.toxicCounter : 0;
+    var toxicCounter = defender.hasStatus('tox') && !defender.hasAbility('Magic Guard') ? defender.toxicCounter : 0;
     var qualifier = move.hits > 1 ? 'approx. ' : '';
     var hazardsText = hazards.texts.length > 0
         ? ' after ' + serializeText(hazards.texts)

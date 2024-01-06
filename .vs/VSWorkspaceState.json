@@ -3,13 +3,14 @@
     "",
     "\\dist",
     "\\dist\\calc",
-    "\\dist\\calc\\data",
-    "\\dist\\calc\\mechanics",
     "\\dist\\calc\\test",
     "\\dist\\js",
     "\\dist\\js\\data",
     "\\dist\\js\\data\\sets",
-    "\\dist\\js\\vendor"
+    "\\dist\\js\\vendor",
+    "\\src",
+    "\\src\\js"
   ],
+  "SelectedNode": "\\src\\js\\shared_controls.js",
   "PreviewInSolutionExplorer": false
 }

@@ -94,7 +94,10 @@ export function calculateBWXY(
     desc.isProtected = true;
     return result;
   }
-
+  if (field.isMysteryRoom) {
+    defender.ability = '' as AbilityName;
+    attacker.ability = '' as AbilityName;
+  }
   if (attacker.hasAbility('Mold Breaker', 'Teravolt', 'Turboblaze')) {
     defender.ability = '' as AbilityName;
     desc.attackerAbility = attacker.ability;

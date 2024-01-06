@@ -113,15 +113,12 @@ export function calculateSMSSSV(
     desc.isProtected = true;
     return result;
   }
-
-  const defenderIgnoresAbility = field.isMysteryRoom || defender.hasAbility(
-    'Full Metal Body',
-    'Neutralizing Gas',
-    'Prism Armor',
-    'Shadow Shield'
-  );
-
-  const attackerIgnoresAbility = field.isMysteryRoom || attacker.hasAbility('Mold Breaker', 'Teravolt', 'Turboblaze');
+  if (field.isMysteryRoom || attacker.hasAbility('Neutralizing Gas') || defender.hasAbility('Neutralizing Gas')) {
+    defender.ability = '' as AbilityName;
+    attacker.ability = '' as AbilityName;
+  }
+  const defenderIgnoresAbility = defender.hasAbility('Full Metal Body', 'Neutralizing Gas', 'Prism Armor', 'Shadow Shield');
+  const attackerIgnoresAbility = attacker.hasAbility('Mold Breaker', 'Teravolt', 'Turboblaze');
   const moveIgnoresAbility = move.named(
     'G-Max Drum Solo',
     'G-Max Fire Ball',
