@@ -9,6 +9,6 @@ export declare function getNaturalGift(gen: Generation, item: string): {
     t: TypeName;
     p: number;
 };
-export declare function getTechnoBlast(item: string): "Fire" | "Water" | "Electric" | "Ice" | undefined;
+export declare function getTechnoBlast(item: string): "Electric" | "Fire" | "Water" | "Ice" | undefined;
 export declare function getMultiAttack(item: string): TypeName | undefined;
 export declare function getOrbType(item: string): "Normal" | "Fire" | "Water";
