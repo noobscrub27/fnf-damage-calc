@@ -297,6 +297,7 @@ export function getKOChance(
     hazards.texts.length > 0 || eot.texts.length > 0
       ? ' after ' + serializeText(hazards.texts.concat(eot.texts))
       : '';
+  const afterTextNoHazards = eot.texts.length > 0 ? ' after ' + serializeText(eot.texts) : '';
 
   if ((move.timesUsed === 1 && move.timesUsedWithMetronome === 1) || move.isZ) {
     // checks KO chance from the move itself before eot effects
@@ -312,21 +313,21 @@ export function getKOChance(
         return {
           chanceWithEot,
           n: 1,
-          text: `guaranteed OHKO${afterText} (` + Math.round(chance * 1000) / 10 + `% chance for ${move.name} to OHKO${hazardsText})`,
+          text: qualifier + Math.round(chance * 1000) / 10 + `% chance to OHKO${hazardsText} (guaranteed OHKO${afterTextNoHazards})`,
         };
       }
       else if (chanceWithEot > chance) {
         return {
           chanceWithEot,
           n: 1,
-          text: qualifier + Math.round(chanceWithEot * 1000) / 10 + `% chance to OHKO${afterText} (` + Math.round(chance * 1000) / 10 + `% chance for ${move.name} to OHKO${hazardsText})`,
+          text: qualifier + Math.round(chance * 1000) / 10 + `% chance to OHKO${hazardsText} (` + qualifier + Math.round(chanceWithEot * 1000) / 10 + `% to OHKO${afterTextNoHazards})`,
         };
       }
       // note: still not accounting for EOT due to poor eot damage handling
       return {
         chance,
         n: 1,
-        text: qualifier + Math.round(chance * 1000) / 10 + `% chance to OHKO${hazardsText}`,
+        text: qualifier + Math.round(chance * 1000) / 10 + `% chance to OHKO${afterText}`,
       };
     } else if (chance === 0 && chanceWithEot === 1) {
       return {

@@ -209,6 +209,7 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
     var afterText = hazards.texts.length > 0 || eot.texts.length > 0
         ? ' after ' + serializeText(hazards.texts.concat(eot.texts))
         : '';
+    var afterTextNoHazards = eot.texts.length > 0 ? ' after ' + serializeText(eot.texts) : '';
     if ((move.timesUsed === 1 && move.timesUsedWithMetronome === 1) || move.isZ) {
         var chance = computeKOChance(damage, defender.curHP() - hazards.damage, 0, 1, 1, defender.maxHP(), 0);
         var chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter);
@@ -220,20 +221,20 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
                 return {
                     chanceWithEot: chanceWithEot,
                     n: 1,
-                    text: "guaranteed OHKO".concat(afterText, " (") + Math.round(chance * 1000) / 10 + "% chance for ".concat(move.name, " to OHKO").concat(hazardsText, ")")
+                    text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(hazardsText, " (guaranteed OHKO").concat(afterTextNoHazards, ")")
                 };
             }
             else if (chanceWithEot > chance) {
                 return {
                     chanceWithEot: chanceWithEot,
                     n: 1,
-                    text: qualifier + Math.round(chanceWithEot * 1000) / 10 + "% chance to OHKO".concat(afterText, " (") + Math.round(chance * 1000) / 10 + "% chance for ".concat(move.name, " to OHKO").concat(hazardsText, ")")
+                    text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(hazardsText, " (") + qualifier + Math.round(chanceWithEot * 1000) / 10 + "% to OHKO".concat(afterTextNoHazards, ")")
                 };
             }
             return {
                 chance: chance,
                 n: 1,
-                text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(hazardsText)
+                text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(afterText)
             };
         }
         else if (chance === 0 && chanceWithEot === 1) {
