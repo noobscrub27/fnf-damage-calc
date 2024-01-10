@@ -29,10 +29,17 @@ export declare class Result {
         chance: number;
         n: number;
         text: string;
+        chanceWithEot?: undefined;
+    } | {
+        chanceWithEot: number;
+        n: number;
+        text: string;
+        chance?: undefined;
     } | {
         n: number;
         text: string;
         chance?: undefined;
+        chanceWithEot?: undefined;
     };
 }
 export declare function damageRange(damage: Damage): [number, number] | [[number, number], [number, number]];

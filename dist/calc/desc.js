@@ -210,11 +210,26 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
         ? ' after ' + serializeText(hazards.texts.concat(eot.texts))
         : '';
     if ((move.timesUsed === 1 && move.timesUsedWithMetronome === 1) || move.isZ) {
-        var chance = computeKOChance(damage, defender.curHP() - hazards.damage, 0, 1, 1, defender.maxHP(), toxicCounter);
+        var chance = computeKOChance(damage, defender.curHP() - hazards.damage, 0, 1, 1, defender.maxHP(), 0);
         if (chance === 1) {
             return { chance: chance, n: 1, text: "guaranteed OHKO".concat(hazardsText) };
         }
         else if (chance > 0) {
+            var chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter);
+            if (chanceWithEot === 1) {
+                return {
+                    chanceWithEot: chanceWithEot,
+                    n: 1,
+                    text: "guaranteed OHKO".concat(afterText, " (") + Math.round(chance * 1000) / 10 + '% direct OHKO$(hazardsText))'
+                };
+            }
+            else if (chanceWithEot > chance) {
+                return {
+                    chanceWithEot: chanceWithEot,
+                    n: 1,
+                    text: qualifier + Math.round(chanceWithEot * 1000) / 10 + "% chance to OHKO".concat(afterText, " (") + Math.round(chance * 1000) / 10 + '% direct OHKO$(hazardsText))'
+                };
+            }
             return {
                 chance: chance,
                 n: 1,
@@ -534,19 +549,19 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
 }
 function computeKOChance(damage, hp, eot, hits, timesUsed, maxHP, toxicCounter) {
     var n = damage.length;
-    if (hits === 1) {
-        for (var i = 0; i < n; i++) {
-            if (damage[n - 1] < hp)
-                return 0;
-            if (damage[i] >= hp) {
-                return (n - i) / n;
-            }
-        }
-    }
     var toxicDamage = 0;
     if (toxicCounter > 0) {
         toxicDamage = Math.floor((toxicCounter * maxHP) / 16);
         toxicCounter++;
+    }
+    if (hits === 1) {
+        for (var i = 0; i < n; i++) {
+            if (damage[n - 1] - eot + toxicDamage < hp)
+                return 0;
+            if (damage[i] - eot + toxicDamage >= hp) {
+                return (n - i) / n;
+            }
+        }
     }
     var sum = 0;
     var lastc = 0;

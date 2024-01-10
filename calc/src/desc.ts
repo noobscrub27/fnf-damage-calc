@@ -299,12 +299,29 @@ export function getKOChance(
       : '';
 
   if ((move.timesUsed === 1 && move.timesUsedWithMetronome === 1) || move.isZ) {
+    // checks KO chance from the move itself before eot effects
     const chance = computeKOChance(
-      damage, defender.curHP() - hazards.damage, 0, 1, 1, defender.maxHP(), toxicCounter
+      damage, defender.curHP() - hazards.damage, 0, 1, 1, defender.maxHP(), 0
     );
     if (chance === 1) {
       return {chance, n: 1, text: `guaranteed OHKO${hazardsText}`}; // eot wasn't considered
     } else if (chance > 0) {
+      // now see if eot increases the KO chance
+      const chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter);
+      if (chanceWithEot === 1) {
+        return {
+          chanceWithEot,
+          n: 1,
+          text: `guaranteed OHKO${afterText} (` + Math.round(chance * 1000) / 10 + '% direct OHKO$(hazardsText))',
+        };
+      }
+      else if (chanceWithEot > chance) {
+        return {
+          chanceWithEot,
+          n: 1,
+          text: qualifier + Math.round(chanceWithEot * 1000) / 10 + `% chance to OHKO${afterText} (` + Math.round(chance * 1000) / 10 + '% direct OHKO$(hazardsText))',
+        };
+      }
       // note: still not accounting for EOT due to poor eot damage handling
       return {
         chance,
@@ -687,18 +704,19 @@ function computeKOChance(
   toxicCounter: number
 ) {
   const n = damage.length;
-  if (hits === 1) {
-    for (let i = 0; i < n; i++) {
-      if (damage[n - 1] < hp) return 0;
-      if (damage[i] >= hp) {
-        return (n - i) / n;
-      }
-    }
-  }
   let toxicDamage = 0;
   if (toxicCounter > 0) {
     toxicDamage = Math.floor((toxicCounter * maxHP) / 16);
     toxicCounter++;
+  }
+  // modified to take eot/toxic into account
+  if (hits === 1) {
+    for (let i = 0; i < n; i++) {
+      if (damage[n - 1] - eot + toxicDamage < hp) return 0;
+      if (damage[i] - eot + toxicDamage >= hp) {
+        return (n - i) / n;
+      }
+    }
   }
   let sum = 0;
   let lastc = 0;

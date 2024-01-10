@@ -60,8 +60,15 @@ export declare function getKOChance(gen: Generation, attacker: Pokemon, defender
     chance: number;
     n: number;
     text: string;
+    chanceWithEot?: undefined;
+} | {
+    chanceWithEot: number;
+    n: number;
+    text: string;
+    chance?: undefined;
 } | {
     n: number;
     text: string;
     chance?: undefined;
+    chanceWithEot?: undefined;
 };
