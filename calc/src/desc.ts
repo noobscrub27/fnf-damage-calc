@@ -303,23 +303,23 @@ export function getKOChance(
     const chance = computeKOChance(
       damage, defender.curHP() - hazards.damage, 0, 1, 1, defender.maxHP(), 0
     );
+    const chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter);
     if (chance === 1) {
-      return {chance, n: 1, text: `guaranteed OHKO${hazardsText}`}; // eot wasn't considered
+      return { chance, n: 1, text: `guaranteed OHKO${hazardsText}` }; // eot wasn't considered
     } else if (chance > 0) {
       // now see if eot increases the KO chance
-      const chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter);
       if (chanceWithEot === 1) {
         return {
           chanceWithEot,
           n: 1,
-          text: `guaranteed OHKO${afterText} (` + Math.round(chance * 1000) / 10 + '% direct OHKO$(hazardsText))',
+          text: `guaranteed OHKO${afterText} (` + Math.round(chance * 1000) / 10 + `% chance for ${move.name} to OHKO${hazardsText})`,
         };
       }
       else if (chanceWithEot > chance) {
         return {
           chanceWithEot,
           n: 1,
-          text: qualifier + Math.round(chanceWithEot * 1000) / 10 + `% chance to OHKO${afterText} (` + Math.round(chance * 1000) / 10 + '% direct OHKO$(hazardsText))',
+          text: qualifier + Math.round(chanceWithEot * 1000) / 10 + `% chance to OHKO${afterText} (` + Math.round(chance * 1000) / 10 + `% chance for ${move.name} to OHKO${hazardsText})`,
         };
       }
       // note: still not accounting for EOT due to poor eot damage handling
@@ -327,6 +327,18 @@ export function getKOChance(
         chance,
         n: 1,
         text: qualifier + Math.round(chance * 1000) / 10 + `% chance to OHKO${hazardsText}`,
+      };
+    } else if (chance === 0 && chanceWithEot === 1) {
+      return {
+        chanceWithEot,
+        n: 1,
+        text: `guaranteed OHKO${afterText}`,
+      };
+    } else if (chance === 0 && chanceWithEot > 0) {
+      return {
+        chanceWithEot,
+        n: 1,
+        text: qualifier + Math.round(chanceWithEot * 1000) / 10 + `% chance to OHKO${afterText}`,
       };
     }
 

@@ -211,29 +211,43 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
         : '';
     if ((move.timesUsed === 1 && move.timesUsedWithMetronome === 1) || move.isZ) {
         var chance = computeKOChance(damage, defender.curHP() - hazards.damage, 0, 1, 1, defender.maxHP(), 0);
+        var chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter);
         if (chance === 1) {
             return { chance: chance, n: 1, text: "guaranteed OHKO".concat(hazardsText) };
         }
         else if (chance > 0) {
-            var chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter);
             if (chanceWithEot === 1) {
                 return {
                     chanceWithEot: chanceWithEot,
                     n: 1,
-                    text: "guaranteed OHKO".concat(afterText, " (") + Math.round(chance * 1000) / 10 + '% direct OHKO$(hazardsText))'
+                    text: "guaranteed OHKO".concat(afterText, " (") + Math.round(chance * 1000) / 10 + "% chance for ".concat(move.name, " to OHKO").concat(hazardsText, ")")
                 };
             }
             else if (chanceWithEot > chance) {
                 return {
                     chanceWithEot: chanceWithEot,
                     n: 1,
-                    text: qualifier + Math.round(chanceWithEot * 1000) / 10 + "% chance to OHKO".concat(afterText, " (") + Math.round(chance * 1000) / 10 + '% direct OHKO$(hazardsText))'
+                    text: qualifier + Math.round(chanceWithEot * 1000) / 10 + "% chance to OHKO".concat(afterText, " (") + Math.round(chance * 1000) / 10 + "% chance for ".concat(move.name, " to OHKO").concat(hazardsText, ")")
                 };
             }
             return {
                 chance: chance,
                 n: 1,
                 text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(hazardsText)
+            };
+        }
+        else if (chance === 0 && chanceWithEot === 1) {
+            return {
+                chanceWithEot: chanceWithEot,
+                n: 1,
+                text: "guaranteed OHKO".concat(afterText)
+            };
+        }
+        else if (chance === 0 && chanceWithEot > 0) {
+            return {
+                chanceWithEot: chanceWithEot,
+                n: 1,
+                text: qualifier + Math.round(chanceWithEot * 1000) / 10 + "% chance to OHKO".concat(afterText)
             };
         }
         if (damage.length === 256) {
