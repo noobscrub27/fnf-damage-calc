@@ -201,7 +201,6 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
     }
     var hazards = getHazards(gen, defender, field.defenderSide);
     var eot = getEndOfTurn(gen, attacker, defender, move, field);
-    var eotFirstTurn = eot.damage < 0 ? eot.damage : 0;
     var toxicCounter = defender.hasStatus('tox') && !defender.hasAbility('Magic Guard', 'Poison Heal') ? defender.toxicCounter : 0;
     var qualifier = move.hits > 1 ? 'approx. ' : '';
     var hazardsText = hazards.texts.length > 0
@@ -213,7 +212,7 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
     var afterTextNoHazards = eot.texts.length > 0 ? ' after ' + serializeText(eot.texts) : '';
     if ((move.timesUsed === 1 && move.timesUsedWithMetronome === 1) || move.isZ) {
         var chance = computeKOChance(damage, defender.curHP() - hazards.damage, 0, 1, 1, defender.maxHP(), 0);
-        var chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eotFirstTurn, 1, 1, defender.maxHP(), toxicCounter);
+        var chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter);
         if (chance === 1) {
             return { chance: chance, n: 1, text: "guaranteed OHKO".concat(hazardsText) };
         }
@@ -571,6 +570,8 @@ function computeKOChance(damage, hp, eot, hits, timesUsed, maxHP, toxicCounter) 
         toxicCounter++;
     }
     if (hits === 1) {
+        if (eot > 0)
+            eot = 0;
         for (var i = 0; i < n; i++) {
             if (damage[n - 1] - eot + toxicDamage < hp)
                 return 0;

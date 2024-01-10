@@ -283,8 +283,6 @@ export function getKOChance(
 
   const hazards = getHazards(gen, defender, field.defenderSide);
   const eot = getEndOfTurn(gen, attacker, defender, move, field);
-  // healing takes place after the move, so it shouldnt be considered for calcs for OHKOs
-  const eotFirstTurn = eot.damage < 0 ? eot.damage : 0;
   const toxicCounter =
     defender.hasStatus('tox') && !defender.hasAbility('Magic Guard', 'Poison Heal') ? defender.toxicCounter : 0;
 
@@ -306,7 +304,7 @@ export function getKOChance(
     const chance = computeKOChance(
       damage, defender.curHP() - hazards.damage, 0, 1, 1, defender.maxHP(), 0
     );
-    const chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eotFirstTurn, 1, 1, defender.maxHP(), toxicCounter);
+    const chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter);
     if (chance === 1) {
       return { chance, n: 1, text: `guaranteed OHKO${hazardsText}` }; // eot wasn't considered
     } else if (chance > 0) {
@@ -726,6 +724,7 @@ function computeKOChance(
   }
   // modified to take eot/toxic into account
   if (hits === 1) {
+    if (eot > 0) eot = 0;
     for (let i = 0; i < n; i++) {
       if (damage[n - 1] - eot + toxicDamage < hp) return 0;
       if (damage[i] - eot + toxicDamage >= hp) {
