@@ -231,25 +231,29 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
                     text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(hazardsText, " (") + qualifier + Math.round(chanceWithEot * 1000) / 10 + "% to OHKO".concat(afterTextNoHazards, ")")
                 };
             }
-            return {
-                chance: chance,
-                n: 1,
-                text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(afterText)
-            };
+            else if (chance > 0) {
+                return {
+                    chance: chance,
+                    n: 1,
+                    text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(afterText)
+                };
+            }
         }
-        else if (chance === 0 && chanceWithEot === 1) {
-            return {
-                chanceWithEot: chanceWithEot,
-                n: 1,
-                text: "guaranteed OHKO".concat(afterText)
-            };
-        }
-        else if (chance === 0 && chanceWithEot > 0) {
-            return {
-                chanceWithEot: chanceWithEot,
-                n: 1,
-                text: qualifier + Math.round(chanceWithEot * 1000) / 10 + "% chance to OHKO".concat(afterText)
-            };
+        else if (chance == 0) {
+            if (chanceWithEot === 1) {
+                return {
+                    chanceWithEot: chanceWithEot,
+                    n: 1,
+                    text: "guaranteed OHKO".concat(afterText)
+                };
+            }
+            else if (chanceWithEot > 0) {
+                return {
+                    chanceWithEot: chanceWithEot,
+                    n: 1,
+                    text: qualifier + Math.round(chanceWithEot * 1000) / 10 + "% chance to OHKO".concat(afterText)
+                };
+            }
         }
         if (damage.length === 256) {
             qualifier = 'approx. ';
@@ -563,15 +567,17 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
     return { damage: damage, texts: texts };
 }
 function computeKOChance(damage, hp, eot, hits, timesUsed, maxHP, toxicCounter) {
-    var n = damage.length;
     var toxicDamage = 0;
     if (toxicCounter > 0) {
         toxicDamage = Math.floor((toxicCounter * maxHP) / 16);
         toxicCounter++;
     }
+    var n = damage.length;
     if (hits === 1) {
-        if (eot > 0)
+        if (eot - toxicDamage > 0) {
             eot = 0;
+            toxicDamage = 0;
+        }
         for (var i = 0; i < n; i++) {
             if (damage[n - 1] - eot + toxicDamage < hp)
                 return 0;

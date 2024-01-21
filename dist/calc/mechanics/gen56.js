@@ -141,10 +141,11 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         desc.attackerAbility = attacker.ability;
     }
     var isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
+    var isDarkRevealed = field.defenderSide.isMiracleEye || attacker.hasAbility('Psyche Control');
     var isBoneMaster = attacker.hasAbility('Bone Master') && !!move.flags.bone;
-    var type1Effectiveness = (0, util_2.getMoveEffectiveness)(gen, move, defender.types[0], isGhostRevealed, field.isGravity, false, isBoneMaster);
+    var type1Effectiveness = (0, util_2.getMoveEffectiveness)(gen, move, defender.types[0], isGhostRevealed, isDarkRevealed, field.isGravity, false, isBoneMaster);
     var type2Effectiveness = defender.types[1]
-        ? (0, util_2.getMoveEffectiveness)(gen, move, defender.types[1], isGhostRevealed, field.isGravity, false, isBoneMaster)
+        ? (0, util_2.getMoveEffectiveness)(gen, move, defender.types[1], isGhostRevealed, isDarkRevealed, field.isGravity, false, isBoneMaster)
         : 1;
     var typeEffectiveness = type1Effectiveness * type2Effectiveness;
     var resistedKnockOffDamage = !defender.item ||
@@ -586,7 +587,8 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         desc.attackerAbility = attacker.ability;
     }
     var atMods = [];
-    if (defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) {
+    if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
+        (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water'))) {
         atMods.push(2048);
         desc.defenderAbility = defender.ability;
     }
@@ -635,7 +637,8 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         atMods.push(2048);
         desc.attackerAbility = attacker.ability;
     }
-    else if (attacker.hasAbility('Huge Power', 'Pure Power') && move.category === 'Physical') {
+    else if ((attacker.hasAbility('Huge Power', 'Pure Power') && move.category === 'Physical') ||
+        (attacker.hasAbility('Mystic Power') && move.category === 'Special')) {
         atMods.push(8192);
         desc.attackerAbility = attacker.ability;
     }

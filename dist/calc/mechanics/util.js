@@ -170,8 +170,11 @@ function getFinalSpeed(gen, pokemon, field, side) {
     return Math.max(0, speed);
 }
 exports.getFinalSpeed = getFinalSpeed;
-function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRingTarget, isBoneMaster) {
-    if ((isRingTarget || isGhostRevealed) && type === 'Ghost' && move.hasType('Normal', 'Fighting')) {
+function getMoveEffectiveness(gen, move, type, isGhostRevealed, isDarkRevealed, isGravity, isRingTarget, isBoneMaster) {
+    if (isGhostRevealed && type === 'Ghost' && move.hasType('Normal', 'Fighting')) {
+        return 1;
+    }
+    else if (isDarkRevealed && type === 'Dark' && move.hasType('Psychic')) {
         return 1;
     }
     else if ((isRingTarget || isGravity) && type === 'Flying' && move.hasType('Ground')) {
@@ -199,6 +202,9 @@ function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRin
         return (gen.types.get('fighting').effectiveness[type] *
             gen.types.get('flying').effectiveness[type]);
     }
+    else if (isRingTarget && gen.types.get((0, util_1.toID)(move.type)).effectiveness[type] === 0) {
+        return 1;
+    }
     else {
         return gen.types.get((0, util_1.toID)(move.type)).effectiveness[type];
     }
@@ -210,6 +216,13 @@ function checkAirLock(pokemon, field) {
     }
 }
 exports.checkAirLock = checkAirLock;
+function checkTeraformZero(pokemon, field) {
+    if (pokemon.hasAbility('Teraform Zero') && pokemon.abilityOn) {
+        field.weather = undefined;
+        field.terrain = undefined;
+    }
+}
+exports.checkTeraformZero = checkTeraformZero;
 function checkForecast(pokemon, weather) {
     if (pokemon.hasAbility('Forecast') && pokemon.named('Castform')) {
         switch (weather) {

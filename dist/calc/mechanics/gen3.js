@@ -106,9 +106,10 @@ function calculateADV(gen, attacker, defender, move, field) {
         }
     }
     var isBoneMaster = attacker.hasAbility('Bone Master') && !!move.flags.bone;
-    var type1Effectiveness = (0, util_1.getMoveEffectiveness)(gen, move, firstDefenderType, field.defenderSide.isForesight, false, false, isBoneMaster);
+    var isDarkRevealed = field.defenderSide.isMiracleEye || attacker.hasAbility('Psyche Control');
+    var type1Effectiveness = (0, util_1.getMoveEffectiveness)(gen, move, firstDefenderType, field.defenderSide.isForesight, isDarkRevealed, false, false, isBoneMaster);
     var type2Effectiveness = secondDefenderType
-        ? (0, util_1.getMoveEffectiveness)(gen, move, secondDefenderType, field.defenderSide.isForesight, false, false, isBoneMaster)
+        ? (0, util_1.getMoveEffectiveness)(gen, move, secondDefenderType, field.defenderSide.isForesight, isDarkRevealed, false, false, isBoneMaster)
         : 1;
     var typeEffectiveness = type1Effectiveness * type2Effectiveness;
     if (typeEffectiveness === 0) {
@@ -222,7 +223,8 @@ function calculateADV(gen, attacker, defender, move, field) {
     desc.defenseEVs = (0, util_1.getEVDescriptionText)(gen, defender, defenseStat, defender.nature);
     var at = attacker.rawStats[attackStat];
     var df = defender.rawStats[defenseStat];
-    if (isPhysical && attacker.hasAbility('Huge Power', 'Pure Power')) {
+    if ((isPhysical && attacker.hasAbility('Huge Power', 'Pure Power')) ||
+        (!isPhysical && attacker.hasAbility('Mystic Power'))) {
         at *= 2;
         desc.attackerAbility = attacker.ability;
     }
@@ -254,7 +256,8 @@ function calculateADV(gen, attacker, defender, move, field) {
         df *= 2;
         desc.defenderItem = defender.item;
     }
-    if (defender.hasAbility('Thick Fat') && (move.hasType('Fire', 'Ice'))) {
+    if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
+        (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water'))) {
         at = Math.floor(at / 2);
         desc.defenderAbility = defender.ability;
     }

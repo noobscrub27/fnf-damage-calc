@@ -94,6 +94,7 @@ var Side = (function () {
         this.isProtected = !!side.isProtected;
         this.isSeeded = !!side.isSeeded;
         this.isForesight = !!side.isForesight;
+        this.isMiracleEye = !!side.isMiracleEye;
         this.isTailwind = !!side.isTailwind;
         this.isHelpingHand = !!side.isHelpingHand;
         this.isFlowerGift = !!side.isFlowerGift;

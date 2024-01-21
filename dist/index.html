@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <title>FnF Showdown Damage Calc</title>
     <link type="text/css" rel="stylesheet" href="./js/vendor/select2/select2.css" />
-    <link type="text/css" rel="stylesheet" href="./css/main.css?993524e2" />
+    <link type="text/css" rel="stylesheet" href="./css/main.css?2b5e84dd" />
     <link type="text/css" rel="stylesheet" href="./css/vendor/bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="./css/dark-theme.css" id="dark-theme-styles">
     <script>
@@ -540,6 +540,8 @@
                 <label class="btn crit-btn" for="critL1" title="Force this attack to be a critical hit?">Crit</label>
                 <input aria-describedby="zMoveInstruction" class="move-z calc-trigger visually-hidden" type="checkbox" id="zL1"/>
                 <label class="btn z-btn gen-specific g7 g8 g9" for="zL1" title="Make this attack a Z-move?">Z</label>
+                <input aria-describedby="stellarBoostInstruction" class="move-stellar calc-trigger visually-hidden" type="checkbox" id="stellarL1" />
+                <label class="stellar-btn btn" style="display: none;" for="stellarL1" title="Make this attack Stellar boosted?">Stellar</label>
                 <select class="move-hits calc-trigger hide">
                     <option value="2">2 hits</option>
                     <option value="3">3 hits</option>
@@ -574,6 +576,8 @@
                 <label class="btn crit-btn" for="critL2" title="Force this attack to be a critical hit?">Crit</label>
                 <input aria-describedby="zMoveInstruction" class="move-z calc-trigger visually-hidden" type="checkbox" id="zL2"/>
                 <label class="btn z-btn gen-specific g7 g8 g9" for="zL2" title="Make this attack a Z-move?">Z</label>
+                <input aria-describedby="stellarBoostInstruction" class="move-stellar calc-trigger visually-hidden" type="checkbox" id="stellarL2" />
+                <label class="stellar-btn btn" style="display: none;" for="stellarL2" title="Make this attack Stellar boosted?">Stellar</label>
                 <select class="move-hits calc-trigger hide">
                     <option value="2">2 hits</option>
                     <option value="3">3 hits</option>
@@ -608,6 +612,8 @@
                 <label class="btn crit-btn" for="critL3" title="Force this attack to be a critical hit?">Crit</label>
                 <input aria-describedby="zMoveInstruction" class="move-z calc-trigger visually-hidden" type="checkbox" id="zL3"/>
                 <label class="btn z-btn gen-specific g7 g8 g9" for="zL3" title="Make this attack a Z-move?">Z</label>
+                <input aria-describedby="stellarBoostInstruction" class="move-stellar calc-trigger visually-hidden" type="checkbox" id="stellarL3" />
+                <label class="stellar-btn btn" style="display: none;" for="stellarL3" title="Make this attack Stellar boosted?">Stellar</label>
                 <select class="move-hits calc-trigger hide">
                     <option value="2">2 hits</option>
                     <option value="3">3 hits</option>
@@ -642,6 +648,8 @@
                 <label class="btn crit-btn" for="critL4" title="Force this attack to be a critical hit?">Crit</label>
                 <input aria-describedby="zMoveInstruction" class="move-z calc-trigger visually-hidden" type="checkbox" id="zL4"/>
                 <label class="btn z-btn gen-specific g7 g8 g9" for="zL4" title="Make this attack a Z-move?">Z</label>
+                <input aria-describedby="stellarBoostInstruction" class="move-stellar calc-trigger visually-hidden" type="checkbox" id="stellarL4" />
+                <label class="stellar-btn btn" style="display: none;" for="stellarL4" title="Make this attack Stellar boosted?">Stellar</label>
                 <select class="move-hits calc-trigger hide">
                     <option value="2">2 hits</option>
                     <option value="3">3 hits</option>
@@ -694,7 +702,7 @@
                     <input class="visually-hidden terrain-trigger calc-trigger" type="checkbox" name="terrain" value="Misty" id="misty" /><label class="btn btn-xxxwide btn-right" for="misty">Misty Terrain</label>
                     <input class="visually-hidden terrain-trigger calc-trigger" type="checkbox" name="terrain" value="Psychic" id="psychic" /><label class="btn btn-xxxwide btn-mid" for="psychic">Psychic Terrain</label>
                 </div>
-					 <div aria-labelledby="selectRuinInstruction" class="gen-specific g9 format-specific doubles" role="group" style="margin: 5px auto auto;" title="Select the ruin abilities from other Pok&eacute;mon on the field.">
+					<div aria-labelledby="selectRuinInstruction" class="gen-specific g9 format-specific doubles" role="group" style="margin: 5px auto auto;" title="Select the ruin abilities from other Pok&eacute;mon on the field.">
                     <span class="visually-hidden" id="selectRuinInstruction">Select the active Ruin abilities from other Poke&eacute;mon on the field.</span>
                     <input class="visually-hidden calc-trigger" type="checkbox" name="ruin" value="Beads" id="beads" />
 						  <label class="btn btn-xxxwide btn-left" for="beads">Beads of Ruin</label>
@@ -907,6 +915,21 @@
                                 <input aria-describedby="selectRevealInstruction" class="visually-hidden calc-trigger" type="checkbox" id="foresightR" />
                                 <label class="btn btn-wide" for="foresightR">Foresight</label>
                             </div></td>
+                        </tr>
+                        <tr class="gen-specific g4 g5 g6 g7 g8 g9">
+                           <td>
+                              <div class="left" title="Has this Pok&eacute;mon been revealed with Miracle Eye?">
+                                 <div hidden id="selectRevealInstruction">Has this Pok&eacute;mon been revealed with Miracle Eye?</div>
+                                 <input aria-describedby="selectRevealInstruction" class="visually-hidden calc-trigger" type="checkbox" id="miracleEyeL" />
+                                 <label class="btn btn-xxwide" for="miracleEyeL">Miracle Eye</label>
+                              </div>
+                           </td>
+                           <td>
+                              <div class="right" title="Has this Pok&eacute;mon been revealed with Miracle Eye?">
+                                 <input aria-describedby="selectRevealInstruction" class="visually-hidden calc-trigger" type="checkbox" id="miracleEyeR" />
+                                 <label class="btn btn-xxwide" for="miracleEyeR">Miracle Eye</label>
+                              </div>
+                           </td>
                         </tr>
                         <tr class="gen-specific g3 g4 g5 g6 g7 g8 g9">
                             <td><div class="left" title="Has this Pok&eacute;mon's power been boosted by an ally's Helping Hand?">
@@ -1436,6 +1459,8 @@
                 <label class="btn crit-btn" for="critR1" title="Force this attack to be a critical hit?">Crit</label>
                 <input aria-describedby="zMoveInstruction" class="move-z calc-trigger visually-hidden" type="checkbox" id="zR1"/>
                 <label class="btn z-btn gen-specific g7 g8 g9" for="zR1" title="Make this attack a Z-move?">Z</label>
+                <input aria-describedby="stellarBoostInstruction" class="move-stellar calc-trigger visually-hidden" type="checkbox" id="stellarR1" />
+                <label class="stellar-btn btn" style="display: none;" for="stellarR1" title="Make this attack Stellar boosted?">Stellar</label>
                 <select class="move-hits calc-trigger hide">
                     <option value="2">2 hits</option>
                     <option value="3">3 hits</option>
@@ -1470,6 +1495,8 @@
                 <label class="btn crit-btn" for="critR2" title="Force this attack to be a critical hit?">Crit</label>
                 <input aria-describedby="zMoveInstruction" class="move-z calc-trigger visually-hidden" type="checkbox" id="zR2"/>
                 <label class="btn z-btn gen-specific g7 g8 g9" for="zR2" title="Make this attack a Z-move?">Z</label>
+                <input aria-describedby="stellarBoostInstruction" class="move-stellar calc-trigger visually-hidden" type="checkbox" id="stellarR2" />
+                <label class="stellar-btn btn" style="display: none;" for="stellarR2" title="Make this attack Stellar boosted?">Stellar</label>
                 <select class="move-hits calc-trigger hide">
                     <option value="2">2 hits</option>
                     <option value="3">3 hits</option>
@@ -1504,6 +1531,8 @@
                 <label class="btn crit-btn" for="critR3" title="Force this attack to be a critical hit?">Crit</label>
                 <input aria-describedby="zMoveInstruction" class="move-z calc-trigger visually-hidden" type="checkbox" id="zR3"/>
                 <label class="btn z-btn gen-specific g7 g8 g9" for="zR3" title="Make this attack a Z-move?">Z</label>
+                <input aria-describedby="stellarBoostInstruction" class="move-stellar calc-trigger visually-hidden" type="checkbox" id="stellarR3" />
+                <label class="stellar-btn btn" style="display: none;" for="stellarR3" title="Make this attack Stellar boosted?">Stellar</label>
                 <select class="move-hits calc-trigger hide">
                     <option value="2">2 hits</option>
                     <option value="3">3 hits</option>
@@ -1538,6 +1567,8 @@
                 <label class="btn crit-btn" for="critR4" title="Force this attack to be a critical hit?">Crit</label>
                 <input aria-describedby="zMoveInstruction" class="move-z calc-trigger visually-hidden" type="checkbox" id="zR4"/>
                 <label class="btn z-btn gen-specific g7 g8 g9" for="zR4" title="Make this attack a Z-move?">Z</label>
+                <input aria-describedby="stellarBoostInstruction" class="move-stellar calc-trigger visually-hidden" type="checkbox" id="stellarR4" />
+                <label class="stellar-btn btn" style="display: none;" for="stellarR4" title="Make this attack Stellar boosted?">Stellar</label>
                 <select class="move-hits calc-trigger hide">
                     <option value="2">2 hits</option>
                     <option value="3">3 hits</option>
@@ -1575,42 +1606,42 @@
         var calc = exports = {};
         function require() { return exports };
     </script>
-    <script type="text/javascript" src="./calc/util.js?51463f0d"></script>
-    <script type="text/javascript" src="./calc/stats.js?a9e37d1a"></script>
-    <script type="text/javascript" src="./calc/data/species.js?e3766d3f"></script>
-	 <script type="text/javascript" src="./js/data/sets/gen9.js?a3616268"></script>
-    <script type="text/javascript" src="./js/data/sets/gen8.js?5afd4384"></script>
-    <script type="text/javascript" src="./js/data/sets/gen7.js?10ee3e1a"></script>
-    <script type="text/javascript" src="./js/data/sets/gen6.js?0ed37e9a"></script>
-    <script type="text/javascript" src="./js/data/sets/gen5.js?2ac416bb"></script>
-    <script type="text/javascript" src="./js/data/sets/gen4.js?5e23ca2f"></script>
-    <script type="text/javascript" src="./js/data/sets/gen3.js?5c53a7b7"></script>
-    <script type="text/javascript" src="./js/data/sets/gen2.js?baf85b89"></script>
-    <script type="text/javascript" src="./js/data/sets/gen1.js?d1381975"></script>
-    <script type="text/javascript" src="./calc/data/types.js?9d30fae7"></script>
-    <script type="text/javascript" src="./calc/data/natures.js?28612810"></script>
-    <script type="text/javascript" src="./calc/data/abilities.js?2019c001"></script>
-    <script type="text/javascript" src="./calc/data/moves.js?0e375242"></script>
-    <script type="text/javascript" src="./calc/data/items.js?826e9d48"></script>
-    <script type="text/javascript" src="./calc/data/index.js?abecbd82"></script>
-    <script type="text/javascript" src="./calc/move.js?57ab9f0a"></script>
-    <script type="text/javascript" src="./calc/pokemon.js?1e459e1e"></script>
-    <script type="text/javascript" src="./calc/field.js?6e188f0b"></script>
-    <script type="text/javascript" src="./calc/items.js?f69bb934"></script>
-    <script type="text/javascript" src="./calc/mechanics/util.js?1d41cb26"></script>
-    <script type="text/javascript" src="./calc/mechanics/gen789.js?076ce024"></script>
-    <script type="text/javascript" src="./calc/mechanics/gen56.js?42f53ade"></script>
-    <script type="text/javascript" src="./calc/mechanics/gen4.js?196101ce"></script>
-    <script type="text/javascript" src="./calc/mechanics/gen3.js?18ade0c6"></script>
-    <script type="text/javascript" src="./calc/mechanics/gen12.js?0d1b5b05"></script>
-    <script type="text/javascript" src="./calc/calc.js?40a2d9b1"></script>
-    <script type="text/javascript" src="./calc/desc.js?408e8107"></script>
-    <script type="text/javascript" src="./calc/result.js?9f8881b5"></script>
-    <script type="text/javascript" src="./calc/adaptable.js?92e49194"></script>
-    <script type="text/javascript" src="./calc/index.js?0b1745b9"></script>
-    <script type="text/javascript" src="./js/shared_controls.js?d374e01b"></script>
-    <script type="text/javascript" src="./js/index_randoms_controls.js?05d65b53"></script>
-    <script type="text/javascript" src="./js/moveset_import.js?b09106ef"></script>
+    <script type="text/javascript" src="./calc/util.js?8fa0c7ff"></script>
+    <script type="text/javascript" src="./calc/stats.js?9220179f"></script>
+    <script type="text/javascript" src="./calc/data/species.js?19d62ffe"></script>
+	 <script type="text/javascript" src="./js/data/sets/gen9.js?de368993"></script>
+    <script type="text/javascript" src="./js/data/sets/gen8.js?5449f1b9"></script>
+    <script type="text/javascript" src="./js/data/sets/gen7.js?319db59c"></script>
+    <script type="text/javascript" src="./js/data/sets/gen6.js?ee4ed6e2"></script>
+    <script type="text/javascript" src="./js/data/sets/gen5.js?aa3a3a46"></script>
+    <script type="text/javascript" src="./js/data/sets/gen4.js?58c8a4cc"></script>
+    <script type="text/javascript" src="./js/data/sets/gen3.js?c90c9944"></script>
+    <script type="text/javascript" src="./js/data/sets/gen2.js?91fc7c77"></script>
+    <script type="text/javascript" src="./js/data/sets/gen1.js?de59cf63"></script>
+    <script type="text/javascript" src="./calc/data/types.js?24e33d53"></script>
+    <script type="text/javascript" src="./calc/data/natures.js?04f00dc5"></script>
+    <script type="text/javascript" src="./calc/data/abilities.js?595dc19c"></script>
+    <script type="text/javascript" src="./calc/data/moves.js?c9210052"></script>
+    <script type="text/javascript" src="./calc/data/items.js?585aa5a9"></script>
+    <script type="text/javascript" src="./calc/data/index.js?083d2bc9"></script>
+    <script type="text/javascript" src="./calc/move.js?01e033ea"></script>
+    <script type="text/javascript" src="./calc/pokemon.js?e0fe71b6"></script>
+    <script type="text/javascript" src="./calc/field.js?7703ada9"></script>
+    <script type="text/javascript" src="./calc/items.js?541586da"></script>
+    <script type="text/javascript" src="./calc/mechanics/util.js?23e00e22"></script>
+    <script type="text/javascript" src="./calc/mechanics/gen789.js?7d8d0d54"></script>
+    <script type="text/javascript" src="./calc/mechanics/gen56.js?9ac297e9"></script>
+    <script type="text/javascript" src="./calc/mechanics/gen4.js?832b9325"></script>
+    <script type="text/javascript" src="./calc/mechanics/gen3.js?8b2dbc65"></script>
+    <script type="text/javascript" src="./calc/mechanics/gen12.js?c066ba98"></script>
+    <script type="text/javascript" src="./calc/calc.js?cd072314"></script>
+    <script type="text/javascript" src="./calc/desc.js?9987c660"></script>
+    <script type="text/javascript" src="./calc/result.js?d5c7552b"></script>
+    <script type="text/javascript" src="./calc/adaptable.js?afeb3759"></script>
+    <script type="text/javascript" src="./calc/index.js?2377cbc8"></script>
+    <script type="text/javascript" src="./js/shared_controls.js?fecb83a3"></script>
+    <script type="text/javascript" src="./js/index_randoms_controls.js?3398793e"></script>
+    <script type="text/javascript" src="./js/moveset_import.js?60db7f40"></script>
 </div>
 
 <div class="credits">Original created by Honko amd maintained by Austin and Kris. Fork created and maintained by noobscrub and Noel.
@@ -1619,7 +1650,7 @@
     <li><a href="https://github.com/noobscrub27/fnf-damage-calc" class="links-lighten" target="_blank">Forked GitHub repository</a></li></ul>
 
     <button type="button" id="dark-theme-toggle"></button>
-    <script type="text/javascript" src="./js/dark-theme-toggle.js?054b266a"></script>
+    <script type="text/javascript" src="./js/dark-theme-toggle.js?4adfa54a"></script>
 </div>
 
 </body>

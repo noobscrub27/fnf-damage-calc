@@ -30,6 +30,7 @@ import {
   checkItem,
   checkMultihitBoost,
   checkSeedBoost,
+  checkTeraformZero,
   checkWonderRoom,
   computeFinalStats,
   countBoosts,
@@ -59,6 +60,8 @@ export function calculateSMSSSV(
 
   checkAirLock(attacker, field);
   checkAirLock(defender, field);
+  checkTeraformZero(attacker, field);
+  checkTeraformZero(defender, field);
   checkForecast(attacker, field.weather);
   checkForecast(defender, field.weather);
   checkItem(attacker, field.isMagicRoom);
@@ -287,7 +290,8 @@ export function calculateSMSSSV(
 
   const isGhostRevealed =
     attacker.hasAbility('Scrappy') || attacker.hasAbility('Mind\'s Eye') ||
-      field.defenderSide.isForesight;
+    field.defenderSide.isForesight;
+  const isDarkRevealed = field.defenderSide.isMiracleEye || attacker.hasAbility('Psyche Control');
   const isRingTarget =
     defender.hasItem('Ring Target') && !defender.hasAbility('Klutz');
   const isBoneMaster = attacker.hasAbility('Bone Master') && !!move.flags.bone;
@@ -296,6 +300,7 @@ export function calculateSMSSSV(
     move,
     defender.types[0],
     isGhostRevealed,
+    isDarkRevealed,
     field.isGravity,
     isRingTarget,
     isBoneMaster
@@ -306,6 +311,7 @@ export function calculateSMSSSV(
       move,
       defender.types[1],
       isGhostRevealed,
+      isDarkRevealed,
       field.isGravity,
       isRingTarget,
       isBoneMaster
@@ -313,12 +319,13 @@ export function calculateSMSSSV(
     : 1;
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
 
-  if (defender.teraType) {
+  if (defender.teraType && defender.teraType !== 'Stellar') {
     typeEffectiveness = getMoveEffectiveness(
       gen,
       move,
       defender.teraType,
       isGhostRevealed,
+      isDarkRevealed,
       field.isGravity,
       isRingTarget,
       isBoneMaster
@@ -365,7 +372,20 @@ export function calculateSMSSSV(
     } else {
       desc.defenderAbility = defender.ability;
     }
-    
+  }
+
+  if (move.type === 'Stellar') {
+    typeEffectiveness = !defender.teraType ? 1 : 2;
+  }
+
+  // Tera Shell works only at full HP, but for all hits of multi-hit moves
+  if (defender.hasAbility('Tera Shell') &&
+    defender.curHP() === defender.maxHP() &&
+    (!field.defenderSide.isSR && (!field.defenderSide.spikes || defender.hasType('Flying')) ||
+      defender.hasItem('Heavy-Duty Boots'))
+  ) {
+    typeEffectiveness = 0.5;
+    desc.defenderAbility = defender.ability;
   }
 
   if ((defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
@@ -544,13 +564,25 @@ export function calculateSMSSSV(
     desc.attackerAbility = attacker.ability;
   }
   const teraType = attacker.teraType;
-  if (teraType === move.type) {
+  if (teraType === move.type && teraType !== 'Stellar') {
     stabMod += 2048;
     desc.attackerTera = teraType;
   }
   if (attacker.hasAbility('Adaptability') && attacker.hasType(move.type)) {
     stabMod += teraType && attacker.hasOriginalType(teraType) ? 1024 : 2048;
     desc.attackerAbility = attacker.ability;
+  }
+
+  // TODO: For now all moves are always boosted
+  const isStellarBoosted =
+    attacker.teraType === 'Stellar' &&
+    (move.isStellarFirstUse || attacker.named('Terapagos-Stellar'));
+  if (isStellarBoosted) {
+    if (attacker.hasOriginalType(move.type)) {
+      stabMod += 2048;
+    } else {
+      stabMod = 4915;
+    }
   }
 
   const applyBurn =
@@ -905,6 +937,15 @@ export function calculateBasePowerSMSSSV(
       basePower = move.bp * ((defender.hasType(attacker.types[0]) || (attacker.types[1] && defender.hasType(attacker.types[1]))) ? 2 : 1);
       desc.moveBP = basePower;
       break;
+    case 'Hard Press':
+      basePower = 100 * Math.floor((defender.curHP() * 4096) / defender.maxHP());
+      basePower = Math.floor(Math.floor((120 * basePower + 2048 - 1) / 4096) / 100) || 1;
+      desc.moveBP = basePower;
+      break;
+    case 'Tera Blast':
+      basePower = attacker.teraType === 'Stellar' ? 100 : 80;
+      desc.moveBP = basePower;
+      break;
   default:
     basePower = move.bp;
   }
@@ -1009,6 +1050,11 @@ export function calculateBPModsSMSSSV(
     move.target = 'allAdjacentFoes';
     bpMods.push(6144);
     desc.moveBP = basePower * 1.5;
+  } else if (
+    move.named('Tera Starstorm') && attacker.name === 'Terapagos-Stellar'
+  ) {
+    move.target = 'allAdjacentFoes';
+    move.type = 'Stellar';
   } else if ((move.named('Knock Off') && !resistedKnockOffDamage) ||
     (move.named('Misty Explosion') && isGrounded(attacker, field) && field.hasTerrain('Misty')) ||
     (move.named('Grav Apple') && field.isGravity)
@@ -1357,13 +1403,15 @@ export function calculateAtModsSMSSSV(
     desc.attackerAbility = attacker.ability;
   } else if (
     (attacker.hasAbility('Water Bubble') && move.hasType('Water')) ||
-    (attacker.hasAbility('Huge Power', 'Pure Power') && move.category === 'Physical')
+    (attacker.hasAbility('Huge Power', 'Pure Power') && move.category === 'Physical') ||
+    (attacker.hasAbility('Mystic Power') && move.category === 'Special')
   ) {
     atMods.push(8192);
     desc.attackerAbility = attacker.ability;
   }
 
   if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
+      (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water')) ||
       (defender.hasAbility('Water Bubble') && move.hasType('Fire')) ||
      (defender.hasAbility('Purifying Salt') && move.hasType('Ghost'))) {
     atMods.push(2048);
@@ -1520,6 +1568,13 @@ export function calculateDfModsSMSSSV(
   ) {
     dfMods.push(6144);
     desc.defenderAbility = defender.ability;
+  } else if (
+      defender.hasAbility('Misty Cover') &&
+      field.hasTerrain('Misty') &&
+      !hitsPhysical
+    ) {
+      dfMods.push(6144);
+      desc.defenderAbility = defender.ability;
   } else if (defender.hasAbility('Fur Coat') && hitsPhysical) {
     dfMods.push(8192);
     desc.defenderAbility = defender.ability;

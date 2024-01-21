@@ -186,11 +186,12 @@ export function calculateBWXY(
   }
 
   const isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
+  const isDarkRevealed = field.defenderSide.isMiracleEye || attacker.hasAbility('Psyche Control');
   const isBoneMaster = attacker.hasAbility('Bone Master') && !!move.flags.bone;
   const type1Effectiveness =
-    getMoveEffectiveness(gen, move, defender.types[0], isGhostRevealed, field.isGravity, false, isBoneMaster);
+    getMoveEffectiveness(gen, move, defender.types[0], isGhostRevealed, isDarkRevealed, field.isGravity, false, isBoneMaster);
   const type2Effectiveness = defender.types[1]
-    ? getMoveEffectiveness(gen, move, defender.types[1], isGhostRevealed, field.isGravity, false, isBoneMaster)
+    ? getMoveEffectiveness(gen, move, defender.types[1], isGhostRevealed, isDarkRevealed, field.isGravity, false, isBoneMaster)
     : 1;
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
 
@@ -671,7 +672,8 @@ export function calculateBWXY(
   }
 
   const atMods = [];
-  if (defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) {
+  if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
+     (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water'))){
     atMods.push(2048);
     desc.defenderAbility = defender.ability;
   }
@@ -720,7 +722,8 @@ export function calculateBWXY(
   ) {
     atMods.push(2048);
     desc.attackerAbility = attacker.ability;
-  } else if (attacker.hasAbility('Huge Power', 'Pure Power') && move.category === 'Physical') {
+  } else if ((attacker.hasAbility('Huge Power', 'Pure Power') && move.category === 'Physical') ||
+    (attacker.hasAbility('Mystic Power') && move.category === 'Special')) {
     atMods.push(8192);
     desc.attackerAbility = attacker.ability;
   }

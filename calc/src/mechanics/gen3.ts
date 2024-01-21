@@ -110,18 +110,20 @@ export function calculateADV(
   }
 
   const isBoneMaster = attacker.hasAbility('Bone Master') && !!move.flags.bone;
+  const isDarkRevealed = field.defenderSide.isMiracleEye || attacker.hasAbility('Psyche Control');
 
   const type1Effectiveness = getMoveEffectiveness(
     gen,
     move,
     firstDefenderType,
     field.defenderSide.isForesight,
+    isDarkRevealed,
     false,
     false,
     isBoneMaster
   );
   const type2Effectiveness = secondDefenderType
-    ? getMoveEffectiveness(gen, move, secondDefenderType, field.defenderSide.isForesight, false, false, isBoneMaster)
+    ? getMoveEffectiveness(gen, move, secondDefenderType, field.defenderSide.isForesight, isDarkRevealed, false, false, isBoneMaster)
     : 1;
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
 
@@ -244,7 +246,8 @@ export function calculateADV(
   let at = attacker.rawStats[attackStat];
   let df = defender.rawStats[defenseStat];
 
-  if (isPhysical && attacker.hasAbility('Huge Power', 'Pure Power')) {
+  if ((isPhysical && attacker.hasAbility('Huge Power', 'Pure Power')) ||
+    (!isPhysical && attacker.hasAbility('Mystic Power'))) {
     at *= 2;
     desc.attackerAbility = attacker.ability;
   }
@@ -281,7 +284,8 @@ export function calculateADV(
     desc.defenderItem = defender.item;
   }
 
-  if (defender.hasAbility('Thick Fat') && (move.hasType('Fire', 'Ice'))) {
+  if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
+     (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water'))) {
     at = Math.floor(at / 2);
     desc.defenderAbility = defender.ability;
   } else if (isPhysical && defender.hasAbility('Marvel Scale') && defender.status) {

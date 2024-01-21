@@ -28,6 +28,7 @@ export declare namespace State {
         useZ?: boolean;
         useMax?: boolean;
         isCrit?: boolean;
+        isStellarFirstUse?: boolean;
         hits?: number;
         timesUsed?: number;
         timesUsedWithMetronome?: number;
@@ -64,6 +65,7 @@ export declare namespace State {
         isProtected?: boolean;
         isSeeded?: boolean;
         isForesight?: boolean;
+        isMiracleEye?: boolean;
         isTailwind?: boolean;
         isHelpingHand?: boolean;
         isFlowerGift?: boolean;

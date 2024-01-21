@@ -123,6 +123,7 @@ export function calculateDPP(
   }
 
   const isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
+  const isDarkRevealed = field.defenderSide.isMiracleEye || attacker.hasAbility('Psyche Control');
 
   const typeEffectivenessPrecedenceRules = [
     'Normal',
@@ -156,10 +157,11 @@ export function calculateDPP(
     }
   }
   const isBoneMaster = attacker.hasAbility('Bone Master') && !!move.flags.bone;
+  
   let type1Effectiveness =
-    getMoveEffectiveness(gen, move, firstDefenderType, isGhostRevealed, field.isGravity, false, isBoneMaster);
+    getMoveEffectiveness(gen, move, firstDefenderType, isGhostRevealed, isDarkRevealed, field.isGravity, false, isBoneMaster);
   let type2Effectiveness = secondDefenderType
-    ? getMoveEffectiveness(gen, move, secondDefenderType, isGhostRevealed, field.isGravity, false, isBoneMaster)
+    ? getMoveEffectiveness(gen, move, secondDefenderType, isGhostRevealed, isDarkRevealed, field.isGravity, false, isBoneMaster)
     : 1;
 
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
@@ -403,7 +405,8 @@ export function calculateDPP(
     desc.attackBoost = attackBoost;
   }
 
-  if (isPhysical && attacker.hasAbility('Pure Power', 'Huge Power')) {
+  if ((isPhysical && attacker.hasAbility('Pure Power', 'Huge Power')) ||
+    (!isPhysical && attacker.hasAbility('Mystic Power'))) {
     attack *= 2;
     desc.attackerAbility = attacker.ability;
   } else if (field.hasWeather('Sun') &&
@@ -423,13 +426,16 @@ export function calculateDPP(
     (isPhysical &&
       (attacker.hasAbility('Hustle') || (attacker.hasAbility('Guts') && attacker.status)) ||
       ((attacker.curHP() <= attacker.maxHP() / 4) && (attacker.hasAbility('Adrenalize'))) ||
-    (!isPhysical && attacker.abilityOn && attacker.hasAbility('Plus', 'Minus')))
+      (!isPhysical && attacker.abilityOn && attacker.hasAbility('Plus', 'Minus')))
   ) {
     attack = Math.floor(attack * 1.5);
     desc.attackerAbility = attacker.ability;
   } else if (isPhysical && attacker.hasAbility('Slow Start') && attacker.abilityOn) {
     attack = Math.floor(attack / 2);
     desc.attackerAbility = attacker.ability;
+  } else if (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water')) {
+    attack = Math.floor(attack / 2);
+    desc.defenderAbility = defender.ability;
   }
 
   if ((isPhysical ? attacker.hasItem('Choice Band') : attacker.hasItem('Choice Specs')) ||

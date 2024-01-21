@@ -138,12 +138,15 @@ export function getMoveEffectiveness(
   move: Move,
   type: TypeName,
   isGhostRevealed?: boolean,
+  isDarkRevealed?: boolean,
   isGravity?: boolean,
   isRingTarget?: boolean,
   isBoneMaster?: boolean,
 ) {
-  if ((isRingTarget || isGhostRevealed) && type === 'Ghost' && move.hasType('Normal', 'Fighting')) {
+  if (isGhostRevealed && type === 'Ghost' && move.hasType('Normal', 'Fighting')) {
     return 1;
+  } else if (isDarkRevealed && type === 'Dark' && move.hasType('Psychic')) {
+      return 1;
   } else if ((isRingTarget || isGravity) && type === 'Flying' && move.hasType('Ground')) {
     return 1;
   } else if (isBoneMaster && ((type === 'Ghost' && move.hasType('Normal')) || (type === 'Flying' && move.hasType('Ground')) || (type === 'Normal' && move.hasType('Ghost')))) {
@@ -163,6 +166,8 @@ export function getMoveEffectiveness(
       gen.types.get('fighting' as ID)!.effectiveness[type]! *
       gen.types.get('flying' as ID)!.effectiveness[type]!
     );
+  } else if (isRingTarget && gen.types.get(toID(move.type))!.effectiveness[type] === 0) {
+    return 1;
   } else {
     return gen.types.get(toID(move.type))!.effectiveness[type]!;
   }
@@ -171,6 +176,13 @@ export function getMoveEffectiveness(
 export function checkAirLock(pokemon: Pokemon, field: Field) {
   if (pokemon.hasAbility('Air Lock', 'Cloud Nine')) {
     field.weather = undefined;
+  }
+}
+
+export function checkTeraformZero(pokemon: Pokemon, field: Field) {
+  if (pokemon.hasAbility('Teraform Zero') && pokemon.abilityOn) {
+    field.weather = undefined;
+    field.terrain = undefined;
   }
 }
 

@@ -1,16 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\dist",
-    "\\dist\\calc",
-    "\\dist\\calc\\test",
-    "\\dist\\js",
-    "\\dist\\js\\data",
-    "\\dist\\js\\data\\sets",
-    "\\dist\\js\\vendor",
+    "\\calc",
+    "\\calc\\src",
+    "\\calc\\src\\data",
+    "\\calc\\src\\mechanics",
     "\\src",
     "\\src\\js"
   ],
-  "SelectedNode": "\\src\\js\\shared_controls.js",
+  "SelectedNode": "\\calc\\src\\pokemon.ts",
   "PreviewInSolutionExplorer": false
 }
