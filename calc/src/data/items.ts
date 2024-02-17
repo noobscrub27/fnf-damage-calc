@@ -324,6 +324,7 @@ export const MEGA_STONES: {[species: string]: string} = {
   Latiosite: 'Latios',
   Lopunnite: 'Lopunny',
   Lucarionite: 'Lucario',
+  Magnezite: 'Magnezone',
   Manectite: 'Manectric',
   Mawilite: 'Mawile',
   Medichamite: 'Medicham',

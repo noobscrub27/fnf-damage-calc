@@ -104,14 +104,15 @@ export function calculateBWXY(
   }
 
   const isCritical =
-    move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor') && move.timesUsed === 1;
+    move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart') && move.timesUsed === 1;
 
   if (move.named('Weather Ball')) {
     move.type =
       field.hasWeather('Sun', 'Harsh Sunshine') ? 'Fire'
         : field.hasWeather('Rain', 'Heavy Rain') ? 'Water'
           : field.hasWeather('Sand') ? 'Rock'
-            : field.hasWeather('Hail') ? 'Ice'
+          : field.hasWeather('Hail') ? 'Ice'
+            : field.hasWeather('Miasma') ? 'Poison'
               : 'Normal';
     desc.weather = field.weather;
     desc.moveType = move.type;
@@ -513,7 +514,8 @@ export function calculateBWXY(
     desc.attackerAbility = attacker.ability;
   }
 
-  if (defender.hasAbility('Heatproof') && move.hasType('Fire')) {
+  if ((defender.hasAbility('Heatproof') && move.hasType('Fire')) ||
+    (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
     bpMods.push(2048);
     desc.defenderAbility = defender.ability;
   } else if (defender.hasAbility('Dry Skin') && move.hasType('Fire')) {
@@ -575,7 +577,7 @@ export function calculateBWXY(
   } else if (gen.num > 5 && move.named('Knock Off') && !resistedKnockOffDamage) {
     bpMods.push(6144);
     desc.moveBP = basePower * 1.5;
-  } else if (move.named('Solar Beam') && field.hasWeather('Rain', 'Heavy Rain', 'Sand', 'Hail')) {
+  } else if (move.named('Solar Beam') && field.hasWeather('Rain', 'Heavy Rain', 'Sand', 'Hail', 'Miasma')) {
     bpMods.push(2048);
     desc.moveBP = basePower / 2;
     desc.weather = field.weather;
@@ -673,7 +675,7 @@ export function calculateBWXY(
 
   const atMods = [];
   if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
-     (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water'))){
+    (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water'))) {
     atMods.push(2048);
     desc.defenderAbility = defender.ability;
   }
@@ -692,8 +694,10 @@ export function calculateBWXY(
   } else if (attacker.hasAbility('Flash Fire') && attacker.abilityOn && move.hasType('Fire')) {
     atMods.push(6144);
     desc.attackerAbility = 'Flash Fire';
-  } else if (attacker.hasAbility('Corona') && move.hasType('Fire')) {
+  } else if ((attacker.hasAbility('Corona') && move.hasType('Fire'))  ||
+    (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)) {
     atMods.push(6144);
+    desc.attackerAbility = attacker.ability;
   } else if (
     (attacker.hasAbility('Solar Power') &&
      field.hasWeather('Sun', 'Harsh Sunshine') &&
@@ -725,6 +729,9 @@ export function calculateBWXY(
   } else if ((attacker.hasAbility('Huge Power', 'Pure Power') && move.category === 'Physical') ||
     (attacker.hasAbility('Mystic Power') && move.category === 'Special')) {
     atMods.push(8192);
+    desc.attackerAbility = attacker.ability;
+  } else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+    atMods.push(5325);
     desc.attackerAbility = attacker.ability;
   }
 
@@ -1076,7 +1083,10 @@ function calculateFinalModsBWXY(
     finalMods.push(8192);
     desc.attackerAbility = attacker.ability;
   }
-
+  if (defender.hasAbility('Royal Guard') && defender.curHP() <= defender.maxHP() / 2) {
+    finalMods.push(3072);
+    desc.defenderAbility = defender.ability;
+  }
   if (field.defenderSide.isFriendGuard) {
     finalMods.push(3072);
     desc.isFriendGuard = true;

@@ -54,14 +54,15 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         defender.ability = '';
         desc.attackerAbility = attacker.ability;
     }
-    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor') && move.timesUsed === 1;
+    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart') && move.timesUsed === 1;
     if (move.named('Weather Ball')) {
         move.type =
             field.hasWeather('Sun', 'Harsh Sunshine') ? 'Fire'
                 : field.hasWeather('Rain', 'Heavy Rain') ? 'Water'
                     : field.hasWeather('Sand') ? 'Rock'
                         : field.hasWeather('Hail') ? 'Ice'
-                            : 'Normal';
+                            : field.hasWeather('Miasma') ? 'Poison'
+                                : 'Normal';
         desc.weather = field.weather;
         desc.moveType = move.type;
     }
@@ -440,7 +441,8 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         bpMods.push(4915);
         desc.attackerAbility = attacker.ability;
     }
-    if (defender.hasAbility('Heatproof') && move.hasType('Fire')) {
+    if ((defender.hasAbility('Heatproof') && move.hasType('Fire')) ||
+        (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
         bpMods.push(2048);
         desc.defenderAbility = defender.ability;
     }
@@ -502,7 +504,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         bpMods.push(6144);
         desc.moveBP = basePower * 1.5;
     }
-    else if (move.named('Solar Beam') && field.hasWeather('Rain', 'Heavy Rain', 'Sand', 'Hail')) {
+    else if (move.named('Solar Beam') && field.hasWeather('Rain', 'Heavy Rain', 'Sand', 'Hail', 'Miasma')) {
         bpMods.push(2048);
         desc.moveBP = basePower / 2;
         desc.weather = field.weather;
@@ -607,8 +609,10 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         atMods.push(6144);
         desc.attackerAbility = 'Flash Fire';
     }
-    else if (attacker.hasAbility('Corona') && move.hasType('Fire')) {
+    else if ((attacker.hasAbility('Corona') && move.hasType('Fire')) ||
+        (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)) {
         atMods.push(6144);
+        desc.attackerAbility = attacker.ability;
     }
     else if ((attacker.hasAbility('Solar Power') &&
         field.hasWeather('Sun', 'Harsh Sunshine') &&
@@ -640,6 +644,10 @@ function calculateBWXY(gen, attacker, defender, move, field) {
     else if ((attacker.hasAbility('Huge Power', 'Pure Power') && move.category === 'Physical') ||
         (attacker.hasAbility('Mystic Power') && move.category === 'Special')) {
         atMods.push(8192);
+        desc.attackerAbility = attacker.ability;
+    }
+    else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+        atMods.push(5325);
         desc.attackerAbility = attacker.ability;
     }
     if ((attacker.hasItem('Thick Club') &&
@@ -882,6 +890,10 @@ function calculateFinalModsBWXY(gen, attacker, defender, move, field, desc, isCr
     if (attacker.hasAbility('Tinted Lens') && typeEffectiveness < 1) {
         finalMods.push(8192);
         desc.attackerAbility = attacker.ability;
+    }
+    if (defender.hasAbility('Royal Guard') && defender.curHP() <= defender.maxHP() / 2) {
+        finalMods.push(3072);
+        desc.defenderAbility = defender.ability;
     }
     if (field.defenderSide.isFriendGuard) {
         finalMods.push(3072);

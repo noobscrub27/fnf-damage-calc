@@ -145,7 +145,7 @@ export function calculateSMSSSV(
 
   // Merciless does not ignore Shell Armor, damage dealt to a poisoned Pokemon with Shell Armor
   // will not be a critical hit (UltiMario)
-  const isCritical = !defender.hasAbility('Battle Armor', 'Shell Armor') &&
+  const isCritical = !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart') &&
     (move.isCrit || (attacker.hasAbility('Merciless') && defender.hasStatus('psn', 'tox'))) &&
     move.timesUsed === 1;
 
@@ -1062,7 +1062,7 @@ export function calculateBPModsSMSSSV(
     bpMods.push(6144);
     desc.moveBP = basePower * 1.5;
   } else if (move.named('Solar Beam', 'Solar Blade') &&
-      field.hasWeather('Rain', 'Heavy Rain', 'Sand', 'Hail', 'Snow')) {
+      field.hasWeather('Rain', 'Heavy Rain', 'Sand', 'Hail', 'Snow', 'Miasma')) {
     bpMods.push(2048);
     desc.moveBP = basePower / 2;
     desc.weather = field.weather;
@@ -1218,7 +1218,8 @@ export function calculateBPModsSMSSSV(
     desc.attackerItem = attacker.item;
   }
 
-  if (gen.num <= 8 && defender.hasAbility('Heatproof') && move.hasType('Fire')) {
+  if ((gen.num <= 8 && defender.hasAbility('Heatproof') && move.hasType('Fire')) ||
+    (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
     bpMods.push(2048);
     desc.defenderAbility = defender.ability;
   } else if (defender.hasAbility('Dry Skin') && move.hasType('Fire')) {
@@ -1391,7 +1392,8 @@ export function calculateAtModsSMSSSV(
     (attacker.hasAbility('Steelworker') && move.hasType('Steel')) ||
     (attacker.hasAbility('Dragon\'s Maw') && move.hasType('Dragon')) ||
     (attacker.hasAbility('Rocky Payload') && move.hasType('Rock')) ||
-    (attacker.hasAbility('Corona') && move.hasType('Fire'))
+    (attacker.hasAbility('Corona') && move.hasType('Fire')) ||
+    (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() /2)
   ) {
     atMods.push(6144);
     desc.attackerAbility = attacker.ability;
@@ -1408,6 +1410,9 @@ export function calculateAtModsSMSSSV(
   ) {
     atMods.push(8192);
     desc.attackerAbility = attacker.ability;
+  } else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+    atMods.push(5325);
+    desc.attackerAbility = attacker.ability;
   }
 
   if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
@@ -1416,7 +1421,7 @@ export function calculateAtModsSMSSSV(
      (defender.hasAbility('Purifying Salt') && move.hasType('Ghost'))) {
     atMods.push(2048);
     desc.defenderAbility = defender.ability;
-  }
+  } 
 
   if (gen.num >= 9 && defender.hasAbility('Heatproof') && move.hasType('Fire')) {
     atMods.push(2048);
@@ -1751,6 +1756,10 @@ export function calculateFinalModsSMSSSV(
   }
   if (defender.hasAbility('Enfeebling Venom') && attacker.hasStatus('psn', 'tox')) {
     finalMods.push(2048);
+    desc.defenderAbility = defender.ability;
+  }
+  if (defender.hasAbility('Royal Guard') && defender.curHP() <= defender.maxHP() / 2) {
+    finalMods.push(3072);
     desc.defenderAbility = defender.ability;
   }
   if (field.defenderSide.isFriendGuard) {

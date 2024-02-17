@@ -73,7 +73,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
             defender.ability = '';
         }
     }
-    var isCritical = !defender.hasAbility('Battle Armor', 'Shell Armor') &&
+    var isCritical = !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart') &&
         (move.isCrit || (attacker.hasAbility('Merciless') && defender.hasStatus('psn', 'tox'))) &&
         move.timesUsed === 1;
     var type = move.type;
@@ -796,7 +796,7 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         desc.moveBP = basePower * 1.5;
     }
     else if (move.named('Solar Beam', 'Solar Blade') &&
-        field.hasWeather('Rain', 'Heavy Rain', 'Sand', 'Hail', 'Snow')) {
+        field.hasWeather('Rain', 'Heavy Rain', 'Sand', 'Hail', 'Snow', 'Miasma')) {
         bpMods.push(2048);
         desc.moveBP = basePower / 2;
         desc.weather = field.weather;
@@ -913,7 +913,8 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         bpMods.push(4506);
         desc.attackerItem = attacker.item;
     }
-    if (gen.num <= 8 && defender.hasAbility('Heatproof') && move.hasType('Fire')) {
+    if ((gen.num <= 8 && defender.hasAbility('Heatproof') && move.hasType('Fire')) ||
+        (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
         bpMods.push(2048);
         desc.defenderAbility = defender.ability;
     }
@@ -1061,7 +1062,8 @@ function calculateAtModsSMSSSV(gen, attacker, defender, move, field, desc) {
     else if ((attacker.hasAbility('Steelworker') && move.hasType('Steel')) ||
         (attacker.hasAbility('Dragon\'s Maw') && move.hasType('Dragon')) ||
         (attacker.hasAbility('Rocky Payload') && move.hasType('Rock')) ||
-        (attacker.hasAbility('Corona') && move.hasType('Fire'))) {
+        (attacker.hasAbility('Corona') && move.hasType('Fire')) ||
+        (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)) {
         atMods.push(6144);
         desc.attackerAbility = attacker.ability;
     }
@@ -1077,6 +1079,10 @@ function calculateAtModsSMSSSV(gen, attacker, defender, move, field, desc) {
         (attacker.hasAbility('Huge Power', 'Pure Power') && move.category === 'Physical') ||
         (attacker.hasAbility('Mystic Power') && move.category === 'Special')) {
         atMods.push(8192);
+        desc.attackerAbility = attacker.ability;
+    }
+    else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+        atMods.push(5325);
         desc.attackerAbility = attacker.ability;
     }
     if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
@@ -1339,6 +1345,10 @@ function calculateFinalModsSMSSSV(gen, attacker, defender, move, field, desc, is
     }
     if (defender.hasAbility('Enfeebling Venom') && attacker.hasStatus('psn', 'tox')) {
         finalMods.push(2048);
+        desc.defenderAbility = defender.ability;
+    }
+    if (defender.hasAbility('Royal Guard') && defender.curHP() <= defender.maxHP() / 2) {
+        finalMods.push(3072);
         desc.defenderAbility = defender.ability;
     }
     if (field.defenderSide.isFriendGuard) {

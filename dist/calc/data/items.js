@@ -383,6 +383,7 @@ exports.MEGA_STONES = {
     Latiosite: 'Latios',
     Lopunnite: 'Lopunny',
     Lucarionite: 'Lucario',
+    Magnezite: 'Magnezone',
     Manectite: 'Manectric',
     Mawilite: 'Mawile',
     Medichamite: 'Medicham',

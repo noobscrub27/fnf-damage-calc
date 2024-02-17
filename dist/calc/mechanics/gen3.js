@@ -64,8 +64,9 @@ function calculateADV(gen, attacker, defender, move, field) {
                 : field.hasWeather('Rain') ? 'Water'
                     : field.hasWeather('Sand') ? 'Rock'
                         : field.hasWeather('Hail') ? 'Ice'
-                            : 'Normal';
-        move.category = move.type === 'Rock' ? 'Physical' : 'Special';
+                            : field.hasWeather('Miasma') ? 'Poison'
+                                : 'Normal';
+        move.category = move.type === 'Rock' || 'Poison' ? 'Physical' : 'Special';
         desc.weather = field.weather;
         desc.moveType = move.type;
         desc.moveBP = move.bp;
@@ -228,6 +229,15 @@ function calculateADV(gen, attacker, defender, move, field) {
         at *= 2;
         desc.attackerAbility = attacker.ability;
     }
+    else if ((attacker.hasAbility('Corona') && move.hasType('Fire')) ||
+        (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)) {
+        at = Math.floor(at * 1.5);
+        desc.attackerAbility = attacker.ability;
+    }
+    else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+        at = Math.floor(at * 1.3);
+        desc.attackerAbility = attacker.ability;
+    }
     if (!attacker.hasItem('Sea Incense') && move.hasType((0, items_1.getItemBoostType)(attacker.item))) {
         at = Math.floor(at * 1.1);
         desc.attackerItem = attacker.item;
@@ -257,7 +267,8 @@ function calculateADV(gen, attacker, defender, move, field) {
         desc.defenderItem = defender.item;
     }
     if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
-        (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water'))) {
+        (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water')) ||
+        (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
         at = Math.floor(at / 2);
         desc.defenderAbility = defender.ability;
     }
@@ -284,7 +295,7 @@ function calculateADV(gen, attacker, defender, move, field) {
     if (move.named('Explosion', 'Self-Destruct')) {
         df = Math.floor(df / 2);
     }
-    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor');
+    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart');
     var attackBoost = attacker.boosts[attackStat];
     var defenseBoost = defender.boosts[defenseStat];
     if (attackBoost > 0 || (!isCritical && attackBoost < 0)) {
@@ -327,16 +338,13 @@ function calculateADV(gen, attacker, defender, move, field) {
     }
     else if ((field.hasWeather('Sun') && move.hasType('Water')) ||
         (field.hasWeather('Rain') && move.hasType('Fire')) ||
-        (move.named('Solar Beam') && field.hasWeather('Rain', 'Sand', 'Hail'))) {
+        (move.named('Solar Beam') && field.hasWeather('Rain', 'Sand', 'Hail', 'Miasma'))) {
         baseDamage = Math.floor(baseDamage / 2);
         desc.weather = field.weather;
     }
     if (attacker.hasAbility('Flash Fire') && attacker.abilityOn && move.hasType('Fire')) {
         baseDamage = Math.floor(baseDamage * 1.5);
         desc.attackerAbility = 'Flash Fire';
-    }
-    if (attacker.hasAbility('Corona') && move.hasType('Fire')) {
-        baseDamage = Math.floor(baseDamage * 1.5);
     }
     baseDamage = (move.category === 'Physical' ? Math.max(1, baseDamage) : baseDamage) + 2;
     if (isCritical) {
@@ -355,6 +363,10 @@ function calculateADV(gen, attacker, defender, move, field) {
         baseDamage = Math.floor(baseDamage * 1.5);
     }
     baseDamage = Math.floor(baseDamage * typeEffectiveness);
+    if (defender.hasAbility('Royal Guard') && defender.curHP() <= defender.maxHP() / 2) {
+        baseDamage = Math.floor(baseDamage * 0.75);
+        desc.defenderAbility = defender.ability;
+    }
     if (defender.hasAbility('Bagwormicade') && typeEffectiveness > 1) {
         baseDamage = Math.floor(baseDamage * 0.5);
     }

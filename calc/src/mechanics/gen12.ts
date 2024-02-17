@@ -222,8 +222,9 @@ export function calculateRBYGSC(
     desc.weather = field.weather;
   } else if (
     (field.hasWeather('Sun') && move.hasType('Water')) ||
-    (field.hasWeather('Rain') && (move.hasType('Fire') || move.named('Solar Beam')))
-  ) {
+    (field.hasWeather('Rain') && move.hasType('Fire')) ||
+    (field.hasWeather('Rain', 'Miasma') && move.named('Solar Beam')))
+  {
     baseDamage = Math.floor(baseDamage / 2);
     desc.weather = field.weather;
   }

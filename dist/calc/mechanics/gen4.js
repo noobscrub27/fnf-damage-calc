@@ -66,7 +66,7 @@ function calculateDPP(gen, attacker, defender, move, field) {
         defender.ability = '';
         desc.attackerAbility = attacker.ability;
     }
-    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor');
+    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart');
     var basePower = move.bp;
     if (move.named('Weather Ball')) {
         if (field.hasWeather('Sun')) {
@@ -83,6 +83,10 @@ function calculateDPP(gen, attacker, defender, move, field) {
         }
         else if (field.hasWeather('Hail')) {
             move.type = 'Ice';
+            basePower *= 2;
+        }
+        else if (field.hasWeather('Miasma')) {
+            move.type = 'Poison';
             basePower *= 2;
         }
         else {
@@ -346,7 +350,8 @@ function calculateDPP(gen, attacker, defender, move, field) {
         desc.attackerAbility = attacker.ability;
     }
     if ((defender.hasAbility('Heatproof') && move.hasType('Fire')) ||
-        (defender.hasAbility('Thick Fat') && (move.hasType('Fire', 'Ice')))) {
+        (defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
+        (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
         basePower = Math.floor(basePower * 0.5);
         desc.defenderAbility = defender.ability;
     }
@@ -394,6 +399,11 @@ function calculateDPP(gen, attacker, defender, move, field) {
         attack = Math.floor(attack * 1.5);
         desc.attackerAbility = attacker.ability;
     }
+    else if ((attacker.hasAbility('Corona') && move.hasType('Fire')) ||
+        (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)) {
+        attack = Math.floor(attack * 1.5);
+        desc.attackerAbility = attacker.ability;
+    }
     else if (field.attackerSide.isFlowerGift && field.hasWeather('Sun') && isPhysical) {
         attack = Math.floor(attack * 1.5);
         desc.weather = field.weather;
@@ -410,7 +420,11 @@ function calculateDPP(gen, attacker, defender, move, field) {
         attack = Math.floor(attack / 2);
         desc.attackerAbility = attacker.ability;
     }
-    else if (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water')) {
+    else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+        attack = Math.floor(attack * 1.3);
+        desc.attackerAbility = attacker.ability;
+    }
+    if (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water')) {
         attack = Math.floor(attack / 2);
         desc.defenderAbility = defender.ability;
     }
@@ -510,16 +524,13 @@ function calculateDPP(gen, attacker, defender, move, field) {
     }
     else if ((field.hasWeather('Sun') && move.hasType('Water')) ||
         (field.hasWeather('Rain') && move.hasType('Fire')) ||
-        (move.named('Solar Beam') && field.hasWeather('Rain', 'Sand', 'Hail'))) {
+        (move.named('Solar Beam') && field.hasWeather('Rain', 'Sand', 'Hail', 'Miasma'))) {
         baseDamage = Math.floor(baseDamage * 0.5);
         desc.weather = field.weather;
     }
     if (attacker.hasAbility('Flash Fire') && attacker.abilityOn && move.hasType('Fire')) {
         baseDamage = Math.floor(baseDamage * 1.5);
         desc.attackerAbility = 'Flash Fire';
-    }
-    if (attacker.hasAbility('Corona') && move.hasType('Fire')) {
-        baseDamage = Math.floor(baseDamage * 1.5);
     }
     baseDamage += 2;
     if (isCritical) {
@@ -560,6 +571,11 @@ function calculateDPP(gen, attacker, defender, move, field) {
         filterMod = 0.75;
         desc.defenderAbility = defender.ability;
     }
+    var royalGuardMod = 1;
+    if (defender.hasAbility('Royal Guard') && defender.curHP() <= defender.maxHP() / 2) {
+        royalGuardMod = 0.75;
+        desc.defenderAbility = defender.ability;
+    }
     var bagwormicadeMod = 1;
     if (defender.hasAbility('Bagwormicade') && typeEffectiveness > 1) {
         bagwormicadeMod = 0.5;
@@ -593,6 +609,7 @@ function calculateDPP(gen, attacker, defender, move, field) {
         damage[i] = Math.floor(damage[i] * type1Effectiveness);
         damage[i] = Math.floor(damage[i] * type2Effectiveness);
         damage[i] = Math.floor(damage[i] * filterMod);
+        damage[i] = Math.floor(damage[i] * royalGuardMod);
         damage[i] = Math.floor(damage[i] * bagwormicadeMod);
         damage[i] = Math.floor(damage[i] * enfeeblingVenomMod);
         damage[i] = Math.floor(damage[i] * ebeltMod);
