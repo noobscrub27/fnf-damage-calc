@@ -693,6 +693,10 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         defense = (0, util_2.pokeRound)((defense * 3) / 2);
         desc.weather = field.weather;
     }
+    if (field.hasWeather('Hail') && defender.hasType('Ice') && hitsPhysical) {
+        defense = (0, util_2.pokeRound)((defense * 3) / 2);
+        desc.weather = field.weather;
+    }
     var dfMods = [];
     if (defender.hasAbility('Marvel Scale') && defender.status && hitsPhysical) {
         dfMods.push(6144);

@@ -784,7 +784,10 @@ export function calculateBWXY(
     defense = pokeRound((defense * 3) / 2);
     desc.weather = field.weather;
   }
-
+  if (field.hasWeather('Hail') && defender.hasType('Ice') && hitsPhysical) {
+    defense = pokeRound((defense * 3) / 2);
+    desc.weather = field.weather;
+  }
   const dfMods = [];
   if (defender.hasAbility('Marvel Scale') && defender.status && hitsPhysical) {
     dfMods.push(6144);

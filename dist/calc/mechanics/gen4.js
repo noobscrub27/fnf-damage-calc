@@ -490,6 +490,10 @@ function calculateDPP(gen, attacker, defender, move, field) {
         defense = Math.floor(defense * 1.5);
         desc.weather = field.weather;
     }
+    if (field.hasWeather('Hail') && defender.hasType('Ice') && isPhysical) {
+        defense = Math.floor(defense * 1.5);
+        desc.weather = field.weather;
+    }
     if (move.named('Explosion') || move.named('Self-Destruct')) {
         defense = Math.floor(defense * 0.5);
     }
