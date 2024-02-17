@@ -1440,3 +1440,7 @@ var SETDEX_ADV = {
     "LC Showdown Usage": {"level":5,"ability":"Trace","item":"Sitrus Berry","nature":"Bold","evs":{"hp":212,"df":236,"sp":36},"moves":["Growl","Icy Wind","Memento","Thunder Wave"]}
   }
 };
+  "Ralts": {
+    "LC Showdown Usage": {"level":5,"ability":"Trace","item":"Sitrus Berry","nature":"Bold","evs":{"hp":212,"df":236,"sp":36},"moves":["Growl","Icy Wind","Memento","Thunder Wave"]}
+  }
+};

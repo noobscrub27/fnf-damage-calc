@@ -1289,7 +1289,7 @@ var SETDEX_DPP = {
   "Forretress": {
     "OU Specially Defensive": {"ability":"Sturdy","item":"Leftovers","nature":"Careful","evs":{"hp":252,"df":4,"sd":252},"moves":["Spikes","Rapid Spin","Payback","Protect"]},
     "OU Physically Defensive": {"ability":"Sturdy","item":"Leftovers","nature":"Impish","evs":{"hp":252,"at":112,"df":144},"moves":["Spikes","Rapid Spin","Payback","Earthquake"]},
-    "Ubers Support": {"ability":"Sturdy","item":"Leftovers","nature":"Impish","evs":{"hp":252,"df":4,"sd":252},"moves":["Rapid Spin","Toxic Spikes","Spikes","Payback"]},
+    "Ubers Support": {"ability":"Sturdy","item":"Leftovers","nature":"Careful","evs":{"hp":248,"sd":248,"sp":12},"moves":["Rapid Spin","Spikes","Toxic Spikes","Payback"]},
     "Anything Goes Showdown Usage": {"ability":"Sturdy","item":"Chesto Berry","nature":"Impish","evs":{"hp":252,"df":4,"sd":252},"moves":["Rapid Spin","Explosion","Spikes","Toxic Spikes"]}
   },
   "Dunsparce": {
@@ -1300,7 +1300,7 @@ var SETDEX_DPP = {
     "UU SubRoost": {"ability":"Hyper Cutter","item":"Leftovers","nature":"Jolly","evs":{"hp":200,"df":84,"sp":224},"moves":["Substitute","Roost","Taunt","Toxic"]},
     "UU Wall": {"ability":"Hyper Cutter","item":"Leftovers","nature":"Impish","evs":{"hp":252,"df":252,"sp":4},"moves":["Taunt","Roost","Earthquake","Aerial Ace"]},
     "UU Swords Dance": {"ability":"Hyper Cutter","item":"Life Orb","nature":"Jolly","evs":{"hp":4,"at":252,"sp":252},"moves":["Swords Dance","Earthquake","Stone Edge","X-Scissor"]},
-    "LC Stealth Rock": {"level":5,"ability":"Sand Veil","item":"Oran Berry","nature":"Jolly","evs":{"at":236,"sp":236},"moves":["U-turn","Earthquake","Aqua Tail","Stealth Rock"]},
+    "LC Stealth Rock": {"level":5,"ability":"Sand Veil","item":"Oran Berry","nature":"Jolly","evs":{"at":156,"df":76,"sp":236},"moves":["U-turn","Earthquake","Aqua Tail","Stealth Rock"]},
     "LC Choice Scarf": {"level":5,"ability":"Sand Veil","item":"Choice Scarf","nature":"Jolly","evs":{"at":236,"sp":236},"moves":["U-turn","Earthquake","Aqua Tail","Stone Edge"]},
     "LC Swords Dance": {"level":5,"ability":"Sand Veil","item":"Oran Berry","nature":"Jolly","evs":{"at":236,"sp":236},"moves":["Night Slash","Earthquake","Aqua Tail","Swords Dance"]},
     "NU Showdown Usage": {"ability":"Hyper Cutter","item":"Leftovers","nature":"Jolly","evs":{"hp":252,"at":4,"sp":252},"moves":["Earthquake","Stealth Rock","Taunt","U-turn"]}
@@ -1840,6 +1840,8 @@ var SETDEX_DPP = {
     "OU Agility": {"ability":"Clear Body","item":"Lum Berry","nature":"Adamant","evs":{"at":252,"sd":4,"sp":252},"moves":["Agility","Earthquake","Meteor Mash","Explosion"]},
     "OU Trick + Iron Ball": {"ability":"Clear Body","item":"Iron Ball","nature":"Adamant","evs":{"hp":252,"at":236,"sp":20},"moves":["Trick","Earthquake","Meteor Mash","Explosion"]},
     "OU Choice Scarf": {"ability":"Clear Body","item":"Choice Scarf","nature":"Jolly","evs":{"at":252,"sd":4,"sp":252},"moves":["Meteor Mash","Earthquake","Thunder Punch","Explosion"]},
+    "Ubers Lead": {"ability":"Clear Body","item":"Lum Berry","nature":"Jolly","evs":{"hp":4,"at":252,"sp":252},"moves":["Stealth Rock","Meteor Mash","Explosion","Bullet Punch"]},
+    "Ubers Agility": {"ability":"Clear Body","item":"Occa Berry","nature":"Adamant","evs":{"hp":4,"at":252,"sp":252},"moves":["Agility","Meteor Mash","Explosion","Ice Punch"]},
     "Doubles OU Showdown Usage": {"ability":"Clear Body","item":"Life Orb","nature":"Jolly","evs":{"at":252,"sd":4,"sp":252},"moves":["Meteor Mash","Explosion","Earthquake","Protect"]}
   },
   "Latias": {
@@ -2166,7 +2168,8 @@ var SETDEX_DPP = {
   "Snover": {
     "UU Lead": {"ability":"Snow Warning","item":"Leftovers","nature":"Calm","evs":{"hp":248,"sd":172,"sp":88},"moves":["Leech Seed","Protect","Blizzard","Substitute"]},
     "UU Choice Scarf": {"ability":"Snow Warning","item":"Choice Scarf","nature":"Hasty","ivs":{"sa":30,"sd":30},"evs":{"hp":8,"sa":252,"sd":4,"sp":244},"moves":["Blizzard","Hidden Power Ground","Ice Shard","Energy Ball"]},
-    "LC Physically Offensive": {"level":5,"ability":"Snow Warning","item":"Oran Berry","nature":"Adamant","evs":{"hp":36,"at":180,"df":36,"sd":36,"sp":196},"moves":["Swords Dance","Ice Shard","Wood Hammer","Protect"]}
+    "LC Physically Offensive": {"level":5,"ability":"Snow Warning","item":"Oran Berry","nature":"Adamant","evs":{"hp":36,"at":180,"df":36,"sd":36,"sp":196},"moves":["Swords Dance","Ice Shard","Wood Hammer","Protect"]},
+    "LC Choice Scarf": {"level":5,"ability":"Snow Warning","item":"Choice Scarf","nature":"Timid","ivs":{"at":2,"sa":30,"sp":30},"evs":{"hp":36,"df":36,"sa":184,"sd":36,"sp":200},"moves":["Blizzard","Energy Ball","Hidden Power Fire","Water Pulse"]}
   },
   "Abomasnow": {
     "OU Leech Seed": {"ability":"Snow Warning","item":"Leftovers","nature":"Adamant","evs":{"hp":252,"at":252,"sd":4},"moves":["Leech Seed","Protect","Wood Hammer","Ice Shard"]},
@@ -2240,7 +2243,6 @@ var SETDEX_DPP = {
   },
   "Froslass": {
     "Ubers Spikes Lead": {"ability":"Snow Cloak","item":"Focus Sash","nature":"Timid","evs":{"sa":252,"sd":4,"sp":252},"moves":["Spikes","Icy Wind","Shadow Ball","Destiny Bond"]},
-    "OU Showdown Usage": {"ability":"Snow Cloak","item":"Leftovers","nature":"Timid","evs":{"hp":32,"sa":224,"sp":252},"moves":["Substitute","Thunder Wave","Ice Beam","Confuse Ray"]},
     "Anything Goes Showdown Usage": {"ability":"Snow Cloak","item":"Leftovers","nature":"Timid","evs":{"hp":224,"sa":32,"sp":252},"moves":["Blizzard","Protect","Substitute","Double Team"]}
   },
   "Rotom": {
@@ -2344,7 +2346,7 @@ var SETDEX_DPP = {
     "Ubers Choice Specs": {"ability":"Serene Grace","item":"Choice Specs","nature":"Timid","ivs":{"at":30,"df":30},"evs":{"hp":4,"sa":252,"sp":252},"moves":["Seed Flare","Air Slash","Earth Power","Hidden Power Ice"]}
   },
   "Vaporeon": {
-    "OU Showdown Usage": {"ability":"Water Absorb","item":"Leftovers","nature":"Modest","evs":{"hp":248,"sa":252,"sd":8},"moves":["Surf","Wish","Ice Beam","Hydro Pump"]}
+    "OU Showdown Usage": {"ability":"Water Absorb","item":"Leftovers","nature":"Modest","ivs":{"sa":30},"evs":{"hp":248,"sa":252,"sd":8},"moves":["Surf","Ice Beam","Wish","Hidden Power Electric"]}
   },
   "Lopunny": {
     "Doubles OU Showdown Usage": {"ability":"Klutz","item":"Choice Scarf","nature":"Jolly","evs":{"hp":248,"df":40,"sp":220},"moves":["Endeavor","Fake Out","Switcheroo","Thunder Wave"]}
