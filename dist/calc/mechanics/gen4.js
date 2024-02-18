@@ -389,8 +389,10 @@ function calculateDPP(gen, attacker, defender, move, field) {
         attack *= 2;
         desc.attackerAbility = attacker.ability;
     }
-    else if (field.hasWeather('Sun') &&
-        (attacker.hasAbility('Solar Power') || (attacker.hasAbility('Flower Gift') || move.category == 'Physical'))) {
+    else if ((field.hasWeather('Sun') && ((attacker.hasAbility('Solar Power') && move.category === 'Special') ||
+        (attacker.hasAbility('Solar Boost') && move.category === 'Physical') ||
+        ((attacker.named('Cherrim') && attacker.hasAbility('Flower Gift')) && move.category === 'Physical'))) ||
+        (field.hasWeather('Hail') && attacker.hasAbility('Ice Breaker') && move.category === 'Physical')) {
         attack = Math.floor(attack * 1.5);
         desc.attackerAbility = attacker.ability;
         desc.weather = field.weather;

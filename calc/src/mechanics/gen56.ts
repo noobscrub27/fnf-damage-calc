@@ -703,15 +703,10 @@ export function calculateBWXY(
     (attacker.hasAbility('Shadow Sparks') && move.category === 'Special' && field.hasTerrain('Electric'))) {
     atMods.push(6144);
     desc.attackerAbility = attacker.ability;
-  } else if (
-    (attacker.hasAbility('Solar Power') &&
-     field.hasWeather('Sun', 'Harsh Sunshine') &&
-     move.category === 'Special') ||
-    (attacker.named('Cherrim') &&
-     attacker.hasAbility('Flower Gift') &&
-     field.hasWeather('Sun', 'Harsh Sunshine') &&
-     move.category === 'Physical')
-  ) {
+  } else if ((field.hasWeather('Sun', 'Harsh Sunshine') && ((attacker.hasAbility('Solar Power') && move.category === 'Special') ||
+              (attacker.hasAbility('Solar Boost') && move.category === 'Physical') ||
+              ((attacker.named('Cherrim') && attacker.hasAbility('Flower Gift')) && move.category === 'Physical'))) ||
+              (field.hasWeather('Hail') && attacker.hasAbility('Ice Breaker') && move.category === 'Physical')) {
     atMods.push(6144);
     desc.attackerAbility = attacker.ability;
     desc.weather = field.weather;

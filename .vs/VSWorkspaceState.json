@@ -4,10 +4,14 @@
     "\\calc",
     "\\calc\\src",
     "\\calc\\src\\data",
-    "\\calc\\src\\mechanics",
+    "\\dist\\js",
+    "\\dist\\js\\data",
+    "\\dist\\js\\data\\sets",
     "\\src",
-    "\\src\\js"
+    "\\src\\js",
+    "\\src\\js\\data",
+    "\\src\\js\\data\\sets"
   ],
-  "SelectedNode": "\\calc\\src\\pokemon.ts",
+  "SelectedNode": "\\calc\\src\\desc.ts",
   "PreviewInSolutionExplorer": false
 }

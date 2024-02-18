@@ -307,19 +307,26 @@ export function calculateADV(
   if ((isPhysical &&
     (attacker.hasAbility('Hustle') || (attacker.hasAbility('Guts') && attacker.status))) ||
     ((attacker.curHP() <= attacker.maxHP() / 4) && (attacker.hasAbility('Adrenalize'))) ||
-      (!isPhysical && attacker.abilityOn && attacker.hasAbility('Plus', 'Minus'))
+    (!isPhysical && attacker.abilityOn && attacker.hasAbility('Plus', 'Minus'))
   ) {
     at = Math.floor(at * 1.5);
     desc.attackerAbility = attacker.ability;
   } else if ((attacker.curHP() <= attacker.maxHP() / 3 &&
     ((attacker.hasAbility('Overgrow') && move.hasType('Grass')) ||
-     (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
-     (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
-     (attacker.hasAbility('Swarm') && move.hasType('Bug')))) ||
+      (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
+      (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
+      (attacker.hasAbility('Swarm') && move.hasType('Bug')))) ||
     (attacker.hasAbility('Escape Artist') && move.named('Flip Turn', 'U-turn', 'Volt Switch', 'Shadow Pivot', 'Propulsion Shot'))
   ) {
     bp = Math.floor(bp * 1.5);
     desc.attackerAbility = attacker.ability;
+  } else if ((field.hasWeather('Sun') && ((attacker.hasAbility('Solar Power') && move.category === 'Special') ||
+            (attacker.hasAbility('Solar Boost') && move.category === 'Physical') ||
+            ((attacker.named('Cherrim') && attacker.hasAbility('Flower Gift')) && move.category === 'Physical'))) ||
+            (field.hasWeather('Hail') && attacker.hasAbility('Ice Breaker') && move.category === 'Physical')) {
+    bp = Math.floor(bp * 1.5);
+    desc.attackerAbility = attacker.ability;
+    desc.weather = field.weather;
   }
 
   if (move.named('Explosion', 'Self-Destruct')) {
