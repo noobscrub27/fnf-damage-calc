@@ -18,6 +18,7 @@ import {
   checkInflate,
   countBoosts,
   handleFixedDamageMoves,
+  isGrounded
 } from './util';
 import { toID } from '../util';
 
@@ -136,13 +137,13 @@ export function calculateADV(
     typeEffectiveness /= 2;
     desc.defenderAbility = defender.ability;
   }
-  if ((defender.hasAbility('Flash Fire', 'Flame Absorb') && move.hasType('Fire')) ||
+  if ((defender.hasAbility('Flash Fire', 'Flame Absorb', 'Shadow Convection') && move.hasType('Fire')) ||
     (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
     (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
       (!(defender.hasAbility('Bone Master') && move.flags.bone) &&
       (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn)) && move.hasType('Ground')) ||
-      (defender.hasAbility('Volt Absorb') && move.hasType('Electric')) ||
-      (defender.hasAbility('Water Absorb') && move.hasType('Water')) ||
+      (defender.hasAbility('Volt Absorb', 'Shadow Conduction') && move.hasType('Electric')) ||
+      (defender.hasAbility('Water Absorb', 'Shadow Hydraulics') && move.hasType('Water')) ||
       (defender.hasAbility('Wonder Guard') && !move.hasType('???') && typeEffectiveness <= 1) ||
     (defender.hasAbility('Soundproof') && move.flags.sound) ||
     (move.flags.blade && defender.hasAbility('Bladeproof')) ||
@@ -255,6 +256,9 @@ export function calculateADV(
     (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)) {
     at = Math.floor(at * 1.5);
     desc.attackerAbility = attacker.ability;
+  } else if (attacker.hasAbility('Shadow Adaptation') && move.hasType('Shadow')) {
+    at = Math.floor(at * 2);
+    desc.attackerAbility = attacker.ability;
   } else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
     at = Math.floor(at * 1.3);
     desc.attackerAbility = attacker.ability;
@@ -292,7 +296,7 @@ export function calculateADV(
 
   if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
     (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water')) ||
-    (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
+    (defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'))) {
     at = Math.floor(at / 2);
     desc.defenderAbility = defender.ability;
   } else if (isPhysical && defender.hasAbility('Marvel Scale') && defender.status) {
@@ -322,7 +326,7 @@ export function calculateADV(
     df = Math.floor(df / 2);
   }
 
-  const isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart');
+  const isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart', 'Shadow Armor');
 
   const attackBoost = attacker.boosts[attackStat];
   const defenseBoost = defender.boosts[defenseStat];
@@ -341,6 +345,9 @@ export function calculateADV(
   if (attacker.hasStatus('brn') && isPhysical && !attacker.hasAbility('Guts')) {
     baseDamage = Math.floor(baseDamage / 2);
     desc.isBurned = true;
+  } else if (attacker.hasStatus('frz') && !isPhysical) {
+    baseDamage = Math.floor(baseDamage / 2);
+    desc.isFrozen = true;
   }
 
   if (!isCritical) {
@@ -413,9 +420,16 @@ export function calculateADV(
   if (defender.hasAbility('Enfeebling Venom') && attacker.hasStatus('psn', 'tox')) {
     baseDamage = Math.floor(baseDamage * 0.5);
   }
+  // shadow shield needs to be handled differently bc it only applies on the first hit
+  let firstHitBaseDamage = baseDamage;
+  if (defender.curHP() === defender.maxHP() &&
+    (!field.defenderSide.spikes || !isGrounded(defender, field))) {
+    firstHitBaseDamage = Math.floor(firstHitBaseDamage * 0.5);
+    desc.defenderAbility = defender.ability;
+  }
   result.damage = [];
   for (let i = 85; i <= 100; i++) {
-    result.damage[i - 85] = Math.max(1, Math.floor((baseDamage * i) / 100));
+    result.damage[i - 85] = Math.max(1, Math.floor((firstHitBaseDamage * i) / 100));
   }
 
   if (move.hits > 1) {

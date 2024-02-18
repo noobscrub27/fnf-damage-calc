@@ -145,7 +145,7 @@ export function calculateSMSSSV(
 
   // Merciless does not ignore Shell Armor, damage dealt to a poisoned Pokemon with Shell Armor
   // will not be a critical hit (UltiMario)
-  const isCritical = !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart') &&
+  const isCritical = !defender.hasAbility('Battle Armor', 'Shell Armor', 'Shadow Armor', 'Pure Heart') &&
     (move.isCrit || (attacker.hasAbility('Merciless') && defender.hasStatus('psn', 'tox'))) &&
     move.timesUsed === 1;
 
@@ -390,12 +390,12 @@ export function calculateSMSSSV(
 
   if ((defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
     (move.hasType('Grass') && defender.hasAbility('Sap Sipper')) ||
-    (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb', 'Well-Baked Body')) ||
-    (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb')) ||
+    (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb', 'Well-Baked Body', 'Shadow Convection')) ||
+    (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb', 'Shadow Hydraulics')) ||
     (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
     (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
     (move.hasType('Electric') &&
-      defender.hasAbility('Lightning Rod', 'Motor Drive', 'Volt Absorb')) ||
+      defender.hasAbility('Lightning Rod', 'Motor Drive', 'Volt Absorb', 'Shadow Conduction')) ||
     (move.hasType('Ground') &&
       !field.isGravity && !move.named('Thousand Arrows') &&
       !defender.hasItem('Iron Ball') &&
@@ -591,6 +591,11 @@ export function calculateSMSSSV(
     !attacker.hasAbility('Guts') &&
     !move.named('Facade', 'Shadow Rage');
   desc.isBurned = applyBurn;
+  const applyFreeze =
+    attacker.hasStatus('frz') &&
+    move.category === 'Special';
+  desc.isFrozen = applyFreeze;
+  const statusReducesDamage = applyBurn || applyFreeze;
   const finalMods = calculateFinalModsSMSSSV(
     gen,
     attacker,
@@ -626,7 +631,7 @@ export function calculateSMSSSV(
   let damage = [];
   for (let i = 0; i < 16; i++) {
     damage[i] =
-      getFinalDamage(baseDamage, i, typeEffectiveness, applyBurn, stabMod, finalMod, protect);
+      getFinalDamage(baseDamage, i, typeEffectiveness, statusReducesDamage, stabMod, finalMod, protect);
   }
 
   if (move.dropsStats && move.timesUsed! > 1) {
@@ -646,7 +651,7 @@ export function calculateSMSSSV(
             newBaseDamage,
             damageMultiplier,
             typeEffectiveness,
-            applyBurn,
+            statusReducesDamage,
             stabMod,
             finalMod,
             protect
@@ -711,7 +716,7 @@ export function calculateSMSSSV(
             newBaseDamage,
             damageMultiplier,
             typeEffectiveness,
-            applyBurn,
+            statusReducesDamage,
             stabMod,
             newFinalMod,
             protect
@@ -1219,7 +1224,7 @@ export function calculateBPModsSMSSSV(
   }
 
   if ((gen.num <= 8 && defender.hasAbility('Heatproof') && move.hasType('Fire')) ||
-    (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
+    (defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'))) {
     bpMods.push(2048);
     desc.defenderAbility = defender.ability;
   } else if (defender.hasAbility('Dry Skin') && move.hasType('Fire')) {
@@ -1363,7 +1368,7 @@ export function calculateAtModsSMSSSV(
   } else if (
     // Gorilla Tactics has no effect during Dynamax (Anubis)
     (attacker.hasAbility('Gorilla Tactics') && move.category === 'Physical' &&
-     !attacker.isDynamaxed)) {
+      !attacker.isDynamaxed)) {
     atMods.push(6144);
     desc.attackerAbility = attacker.ability;
   } else if (
@@ -1378,9 +1383,9 @@ export function calculateAtModsSMSSSV(
     ((attacker.curHP() <= attacker.maxHP() / 4) && (attacker.hasAbility('Adrenalize'))) ||
     (attacker.curHP() <= attacker.maxHP() / 3 &&
       ((attacker.hasAbility('Overgrow') && move.hasType('Grass')) ||
-       (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
-       (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
-       (attacker.hasAbility('Swarm') && move.hasType('Bug')))) ||
+        (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
+        (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
+        (attacker.hasAbility('Swarm') && move.hasType('Bug')))) ||
     (move.category === 'Special' && attacker.abilityOn && attacker.hasAbility('Plus', 'Minus'))
   ) {
     atMods.push(6144);
@@ -1393,8 +1398,13 @@ export function calculateAtModsSMSSSV(
     (attacker.hasAbility('Dragon\'s Maw') && move.hasType('Dragon')) ||
     (attacker.hasAbility('Rocky Payload') && move.hasType('Rock')) ||
     (attacker.hasAbility('Corona') && move.hasType('Fire')) ||
-    (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() /2)
+    (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)
   ) {
+    atMods.push(6144);
+    desc.attackerAbility = attacker.ability;
+  } else if ((attacker.hasAbility('Shadow Birch') && move.category === 'Physical' && field.hasTerrain('Grassy')) ||
+    (attacker.hasAbility('Shadow Ribbons') && move.category === 'Special' && field.hasTerrain('Misty')) ||
+    (attacker.hasAbility('Shadow Sparks') && move.category === 'Special' && field.hasTerrain('Electric'))) {
     atMods.push(6144);
     desc.attackerAbility = attacker.ability;
   } else if (attacker.hasAbility('Transistor') && move.hasType('Electric')) {
@@ -1412,6 +1422,9 @@ export function calculateAtModsSMSSSV(
     desc.attackerAbility = attacker.ability;
   } else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
     atMods.push(5325);
+    desc.attackerAbility = attacker.ability;
+  } else if (attacker.hasAbility('Shadow Adaptation') && move.hasType('Shadow')) {
+    atMods.push(8192);
     desc.attackerAbility = attacker.ability;
   }
 
@@ -1728,7 +1741,7 @@ export function calculateFinalModsSMSSSV(
   if (defender.hasAbility('Multiscale', 'Shadow Shield') &&
       defender.curHP() === defender.maxHP() &&
       hitCount === 0 &&
-      (!field.defenderSide.isSR && (!field.defenderSide.spikes || defender.hasType('Flying')) ||
+      (!field.defenderSide.isSR && !field.defenderSide.steelsurge && (!field.defenderSide.spikes || !isGrounded(defender, field)) ||
       defender.hasItem('Heavy-Duty Boots')) && !attacker.hasAbility('Parental Bond (Child)')
   ) {
     finalMods.push(2048);

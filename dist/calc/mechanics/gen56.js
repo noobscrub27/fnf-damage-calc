@@ -54,7 +54,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         defender.ability = '';
         desc.attackerAbility = attacker.ability;
     }
-    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart') && move.timesUsed === 1;
+    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart', 'Shadow Armor') && move.timesUsed === 1;
     if (move.named('Weather Ball')) {
         move.type =
             field.hasWeather('Sun', 'Harsh Sunshine') ? 'Fire'
@@ -207,12 +207,12 @@ function calculateBWXY(gen, attacker, defender, move, field) {
     }
     if ((defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
         (move.hasType('Grass') && defender.hasAbility('Sap Sipper')) ||
-        (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb')) ||
-        (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb')) ||
+        (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb', 'Shadow Convection')) ||
+        (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb', 'Shadow Hydraulics')) ||
         (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
         (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
         (move.hasType('Electric') &&
-            defender.hasAbility('Lightning Rod', 'Motor Drive', 'Volt Absorb')) ||
+            defender.hasAbility('Lightning Rod', 'Motor Drive', 'Volt Absorb', 'Shadow Conduction')) ||
         (move.hasType('Ground') &&
             !field.isGravity && !move.named('Thousand Arrows') &&
             !(defender.hasAbility('Bone Master') && move.flags.bone) &&
@@ -442,7 +442,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         desc.attackerAbility = attacker.ability;
     }
     if ((defender.hasAbility('Heatproof') && move.hasType('Fire')) ||
-        (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
+        (defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'))) {
         bpMods.push(2048);
         desc.defenderAbility = defender.ability;
     }
@@ -614,6 +614,12 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         atMods.push(6144);
         desc.attackerAbility = attacker.ability;
     }
+    else if ((attacker.hasAbility('Shadow Birch') && move.category === 'Physical' && field.hasTerrain('Grassy')) ||
+        (attacker.hasAbility('Shadow Ribbons') && move.category === 'Special' && field.hasTerrain('Misty')) ||
+        (attacker.hasAbility('Shadow Sparks') && move.category === 'Special' && field.hasTerrain('Electric'))) {
+        atMods.push(6144);
+        desc.attackerAbility = attacker.ability;
+    }
     else if ((attacker.hasAbility('Solar Power') &&
         field.hasWeather('Sun', 'Harsh Sunshine') &&
         move.category === 'Special') ||
@@ -624,6 +630,10 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         atMods.push(6144);
         desc.attackerAbility = attacker.ability;
         desc.weather = field.weather;
+    }
+    else if (attacker.hasAbility('Shadow Adaptation') && move.hasType('Shadow')) {
+        atMods.push(8192);
+        desc.attackerAbility = attacker.ability;
     }
     else if (attacker.hasAbility('Galaxian') && field.isGravity && move.category === 'Special') {
         atMods.push(6144);
@@ -756,8 +766,11 @@ function calculateBWXY(gen, attacker, defender, move, field) {
     var applyBurn = attacker.hasStatus('brn') &&
         move.category === 'Physical' &&
         !attacker.hasAbility('Guts') &&
-        !(move.named('Facade') && gen.num === 6);
+        !(move.named('Facade', 'Shadow Rage') && gen.num === 6);
     desc.isBurned = applyBurn;
+    var applyFreeze = attacker.hasStatus('frz') && move.category === 'Special';
+    desc.isFrozen = applyFreeze;
+    var statusReducesDamage = applyBurn || applyFreeze;
     var finalMods = calculateFinalModsBWXY(gen, attacker, defender, move, field, desc, isCritical, typeEffectiveness);
     var finalMod = (0, util_2.chainMods)(finalMods, 41, 131072);
     var isSpread = field.gameType !== 'Singles' &&
@@ -773,7 +786,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
     var damage = [];
     for (var i = 0; i < 16; i++) {
         damage[i] =
-            (0, util_2.getFinalDamage)(baseDamage, i, typeEffectiveness, applyBurn, stabMod, finalMod);
+            (0, util_2.getFinalDamage)(baseDamage, i, typeEffectiveness, statusReducesDamage, stabMod, finalMod);
     }
     if (move.dropsStats && (move.timesUsed || 0) > 1) {
         var simpleMultiplier = attacker.hasAbility('Simple') ? 2 : 1;
@@ -787,7 +800,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
             damage = damage.map(function (affectedAmount) {
                 if (times) {
                     var newBaseDamage = (0, util_2.getBaseDamage)(attacker.level, basePower, newAttack, defense);
-                    var newFinalDamage = (0, util_2.getFinalDamage)(newBaseDamage, damageMultiplier, typeEffectiveness, applyBurn, stabMod, finalMod);
+                    var newFinalDamage = (0, util_2.getFinalDamage)(newBaseDamage, damageMultiplier, typeEffectiveness, statusReducesDamage, stabMod, finalMod);
                     damageMultiplier++;
                     return affectedAmount + newFinalDamage;
                 }
@@ -823,7 +836,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
                     var newFinalMod = (0, util_2.chainMods)(newFinalMods, 41, 131072);
                     var newDefense = (0, util_2.getModifiedStat)(defense, defenderDefBoost_1);
                     var newBaseDamage = calculateBaseDamageBWXY(gen, attacker, basePower, attack, newDefense, move, field, desc, isCritical);
-                    var newFinalDamage = (0, util_2.getFinalDamage)(newBaseDamage, damageMultiplier, typeEffectiveness, applyBurn, stabMod, newFinalMod);
+                    var newFinalDamage = (0, util_2.getFinalDamage)(newBaseDamage, damageMultiplier, typeEffectiveness, statusReducesDamage, stabMod, newFinalMod);
                     damageMultiplier++;
                     return affectedAmount + newFinalDamage;
                 }
@@ -884,9 +897,9 @@ function calculateFinalModsBWXY(gen, attacker, defender, move, field, desc, isCr
         finalMods.push(field.gameType !== 'Singles' ? (gen.num > 5 ? 2732 : 2703) : 2048);
         desc.isLightScreen = true;
     }
-    if (defender.hasAbility('Multiscale') && defender.curHP() === defender.maxHP() &&
+    if (defender.hasAbility('Multiscale', 'Shadow Shield') && defender.curHP() === defender.maxHP() &&
         hitCount === 0 &&
-        !field.defenderSide.isSR && (!field.defenderSide.spikes || defender.hasType('Flying')) &&
+        !field.defenderSide.isSR && (!field.defenderSide.spikes || !(0, util_2.isGrounded)(defender, field)) &&
         !attacker.hasAbility('Parental Bond (Child)')) {
         finalMods.push(2048);
         desc.defenderAbility = defender.ability;

@@ -394,17 +394,21 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
     var damage = 0;
     var texts = [];
     if (field.hasWeather('Sun', 'Harsh Sunshine')) {
-        if (defender.hasAbility('Dry Skin', 'Solar Power')) {
+        if (defender.hasAbility('Dry Skin') && !defender.hasItem('Utility Umbrella')) {
             damage -= Math.floor(defender.maxHP() / 8);
             texts.push(defender.ability + ' damage');
         }
+        else if (defender.hasAbility('Sunbathing', 'Shadow Embers') && !defender.hasItem('Utility Umbrella')) {
+            damage += Math.floor(defender.maxHP() / 16);
+            texts.push(defender.ability + ' recovery');
+        }
     }
     else if (field.hasWeather('Rain', 'Heavy Rain')) {
-        if (defender.hasAbility('Dry Skin')) {
+        if (defender.hasAbility('Dry Skin') && !defender.hasItem('Utility Umbrella')) {
             damage += Math.floor(defender.maxHP() / 8);
             texts.push('Dry Skin recovery');
         }
-        else if (defender.hasAbility('Rain Dish')) {
+        else if (defender.hasAbility('Rain Dish') && !defender.hasItem('Utility Umbrella')) {
             damage += Math.floor(defender.maxHP() / 16);
             texts.push('Rain Dish recovery');
         }
@@ -418,9 +422,9 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
         }
     }
     else if (field.hasWeather('Hail', 'Snow')) {
-        if (defender.hasAbility('Ice Body')) {
+        if (defender.hasAbility('Ice Body', 'Shadow Slush')) {
             damage += Math.floor(defender.maxHP() / 16);
-            texts.push('Ice Body recovery');
+            texts.push(defender.ability + ' recovery');
         }
         else if (!defender.hasType('Ice') &&
             !defender.hasAbility('Magic Guard', 'Overcoat', 'Snow Cloak') &&
@@ -487,6 +491,22 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
             damage += Math.floor(defender.maxHP() / 16);
             texts.push('Grassy Terrain recovery');
         }
+        if (defender.hasAbility('Shadow Birch')) {
+            damage += Math.floor(defender.maxHP() / 16);
+            texts.push('Shadow Birch recovery');
+        }
+    }
+    else if (field.hasTerrain('Misty')) {
+        if (defender.hasAbility('Shadow Ribbons')) {
+            damage += Math.floor(defender.maxHP() / 16);
+            texts.push('Shadow Ribbons recovery');
+        }
+    }
+    else if (field.hasTerrain('Electric')) {
+        if (defender.hasAbility('Shadow Sparks')) {
+            damage += Math.floor(defender.maxHP() / 16);
+            texts.push('Shadow Sparks recovery');
+        }
     }
     if (defender.hasStatus('psn')) {
         if (defender.hasAbility('Poison Heal')) {
@@ -524,10 +544,14 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
         }
     }
     else if ((defender.hasStatus('slp') || defender.hasAbility('Comatose')) &&
-        attacker.hasAbility('isBadDreams') &&
+        attacker.hasAbility('Bad Dreams') &&
         !defender.hasAbility('Magic Guard')) {
         damage -= Math.floor(defender.maxHP() / 8);
         texts.push('Bad Dreams');
+    }
+    if (attacker.hasAbility('Slow Digestion') && !defender.hasAbility('Magic Guard') && !defender.hasType('Poison')) {
+        damage -= Math.floor(defender.maxHP() / 8);
+        texts.push('Slow Digestion');
     }
     if (!defender.hasAbility('Magic Guard') && TRAPPING.includes(move.name)) {
         if (attacker.hasItem('Binding Band')) {
@@ -757,6 +781,9 @@ function buildDescription(description, attacker, defender) {
     output = appendIfSet(output, description.rivalry);
     if (description.isBurned) {
         output += 'burned ';
+    }
+    if (description.isFrozen) {
+        output += 'frozen ';
     }
     if (description.alliesFainted) {
         output += Math.min(5, description.alliesFainted) +

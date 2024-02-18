@@ -20,6 +20,7 @@ import {
   checkInflate,
   countBoosts,
   handleFixedDamageMoves,
+  isGrounded,
 } from './util';
 import { toID } from '../util';
 
@@ -71,7 +72,7 @@ export function calculateDPP(
     desc.attackerAbility = attacker.ability;
   }
 
-  const isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart');
+  const isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart', 'Shadow Armor');
 
   let basePower = move.bp;
   if (move.named('Weather Ball')) {
@@ -190,11 +191,11 @@ export function calculateDPP(
   }
   const ignoresWonderGuard = move.hasType('???') || move.named('Fire Fang');
   if ((!ignoresWonderGuard && defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
-      (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb')) ||
-      (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Water Absorb')) ||
+      (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb', 'Shadow Convection')) ||
+      (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Water Absorb', 'Shadow Hydraulics')) ||
       (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
       (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
-      (move.hasType('Electric') && defender.hasAbility('Motor Drive', 'Volt Absorb')) ||
+      (move.hasType('Electric') && defender.hasAbility('Motor Drive', 'Volt Absorb', 'Shadow Conduction')) ||
       (move.hasType('Ground') && !field.isGravity &&
       !(defender.hasAbility('Bone Master') && move.flags.bone) &&
       !defender.hasItem('Iron Ball') &&
@@ -375,7 +376,7 @@ export function calculateDPP(
 
   if ((defender.hasAbility('Heatproof') && move.hasType('Fire')) ||
     (defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
-    (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
+    (defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'))) {
     basePower = Math.floor(basePower * 0.5);
     desc.defenderAbility = defender.ability;
   } else if (defender.hasAbility('Dry Skin') && move.hasType('Fire')) {
@@ -423,8 +424,11 @@ export function calculateDPP(
     attack = Math.floor(attack * 1.5);
     desc.attackerAbility = attacker.ability;
   } else if ((attacker.hasAbility('Corona') && move.hasType('Fire')) ||
-            (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)) {
+    (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)) {
     attack = Math.floor(attack * 1.5);
+    desc.attackerAbility = attacker.ability;
+  } else if (attacker.hasAbility('Shadow Adaptation') && move.hasType('Shadow')) {
+    attack = Math.floor(attack * 2);
     desc.attackerAbility = attacker.ability;
   } else if (field.attackerSide.isFlowerGift && field.hasWeather('Sun') && isPhysical) {
     attack = Math.floor(attack * 1.5);
@@ -538,6 +542,9 @@ export function calculateDPP(
   if (attacker.hasStatus('brn') && isPhysical && !attacker.hasAbility('Guts')) {
     baseDamage = Math.floor(baseDamage * 0.5);
     desc.isBurned = true;
+  } else if (attacker.hasStatus('frz') && !isPhysical) {
+    baseDamage = Math.floor(baseDamage * 0.5);
+    desc.isFrozen = true;
   }
 
   if (!isCritical) {
@@ -554,6 +561,10 @@ export function calculateDPP(
   if (field.gameType !== 'Singles' &&
       ['allAdjacent', 'allAdjacentFoes'].includes(move.target)) {
     baseDamage = Math.floor((baseDamage * 3) / 4);
+  }
+
+  if (defender.hasAbility('Shadow Shield')) {
+
   }
 
   if ((field.hasWeather('Sun') && move.hasType('Fire')) ||
@@ -649,7 +660,12 @@ export function calculateDPP(
     berryMod = 0.5;
     desc.defenderItem = defender.item;
   }
-
+  let shadowShieldMod = 1;
+  if (defender.curHP() === defender.maxHP() &&
+    (!field.defenderSide.isSR && (!field.defenderSide.spikes || !isGrounded(defender, field)))) {
+    shadowShieldMod = 0.5;
+    desc.defenderAbility = defender.ability;
+  }
   const damage: number[] = [];
   for (let i = 0; i < 16; i++) {
     damage[i] = Math.floor((baseDamage * (85 + i)) / 100);
@@ -663,6 +679,7 @@ export function calculateDPP(
     damage[i] = Math.floor(damage[i] * ebeltMod);
     damage[i] = Math.floor(damage[i] * tintedMod);
     damage[i] = Math.floor(damage[i] * berryMod);
+    damage[i] = Math.floor(damage[i] * shadowShieldMod);
     damage[i] = Math.max(1, damage[i]);
   }
   result.damage = damage;
@@ -678,6 +695,9 @@ export function calculateDPP(
           newFinalDamage = Math.floor(newFinalDamage * type1Effectiveness);
           newFinalDamage = Math.floor(newFinalDamage * type2Effectiveness);
           newFinalDamage = Math.floor(newFinalDamage * filterMod);
+          newFinalDamage = Math.floor(newFinalDamage * royalGuardMod);
+          newFinalDamage = Math.floor(newFinalDamage * bagwormicadeMod);
+          newFinalDamage = Math.floor(newFinalDamage * enfeeblingVenomMod);
           newFinalDamage = Math.floor(newFinalDamage * ebeltMod);
           newFinalDamage = Math.floor(newFinalDamage * tintedMod);
           newFinalDamage = Math.max(1, newFinalDamage);

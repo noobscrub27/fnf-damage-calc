@@ -121,13 +121,13 @@ function calculateADV(gen, attacker, defender, move, field) {
         typeEffectiveness /= 2;
         desc.defenderAbility = defender.ability;
     }
-    if ((defender.hasAbility('Flash Fire', 'Flame Absorb') && move.hasType('Fire')) ||
+    if ((defender.hasAbility('Flash Fire', 'Flame Absorb', 'Shadow Convection') && move.hasType('Fire')) ||
         (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
         (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
         (!(defender.hasAbility('Bone Master') && move.flags.bone) &&
             (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn)) && move.hasType('Ground')) ||
-        (defender.hasAbility('Volt Absorb') && move.hasType('Electric')) ||
-        (defender.hasAbility('Water Absorb') && move.hasType('Water')) ||
+        (defender.hasAbility('Volt Absorb', 'Shadow Conduction') && move.hasType('Electric')) ||
+        (defender.hasAbility('Water Absorb', 'Shadow Hydraulics') && move.hasType('Water')) ||
         (defender.hasAbility('Wonder Guard') && !move.hasType('???') && typeEffectiveness <= 1) ||
         (defender.hasAbility('Soundproof') && move.flags.sound) ||
         (move.flags.blade && defender.hasAbility('Bladeproof')) ||
@@ -234,6 +234,10 @@ function calculateADV(gen, attacker, defender, move, field) {
         at = Math.floor(at * 1.5);
         desc.attackerAbility = attacker.ability;
     }
+    else if (attacker.hasAbility('Shadow Adaptation') && move.hasType('Shadow')) {
+        at = Math.floor(at * 2);
+        desc.attackerAbility = attacker.ability;
+    }
     else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
         at = Math.floor(at * 1.3);
         desc.attackerAbility = attacker.ability;
@@ -268,7 +272,7 @@ function calculateADV(gen, attacker, defender, move, field) {
     }
     if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
         (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water')) ||
-        (defender.hasAbility('Pure Heart') && move.hasType('Shadow'))) {
+        (defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'))) {
         at = Math.floor(at / 2);
         desc.defenderAbility = defender.ability;
     }
@@ -295,7 +299,7 @@ function calculateADV(gen, attacker, defender, move, field) {
     if (move.named('Explosion', 'Self-Destruct')) {
         df = Math.floor(df / 2);
     }
-    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart');
+    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart', 'Shadow Armor');
     var attackBoost = attacker.boosts[attackStat];
     var defenseBoost = defender.boosts[defenseStat];
     if (attackBoost > 0 || (!isCritical && attackBoost < 0)) {
@@ -311,6 +315,10 @@ function calculateADV(gen, attacker, defender, move, field) {
     if (attacker.hasStatus('brn') && isPhysical && !attacker.hasAbility('Guts')) {
         baseDamage = Math.floor(baseDamage / 2);
         desc.isBurned = true;
+    }
+    else if (attacker.hasStatus('frz') && !isPhysical) {
+        baseDamage = Math.floor(baseDamage / 2);
+        desc.isFrozen = true;
     }
     if (!isCritical) {
         var screenMultiplier = field.gameType !== 'Singles' ? 2 / 3 : 1 / 2;
@@ -373,9 +381,15 @@ function calculateADV(gen, attacker, defender, move, field) {
     if (defender.hasAbility('Enfeebling Venom') && attacker.hasStatus('psn', 'tox')) {
         baseDamage = Math.floor(baseDamage * 0.5);
     }
+    var firstHitBaseDamage = baseDamage;
+    if (defender.curHP() === defender.maxHP() &&
+        (!field.defenderSide.spikes || !(0, util_1.isGrounded)(defender, field))) {
+        firstHitBaseDamage = Math.floor(firstHitBaseDamage * 0.5);
+        desc.defenderAbility = defender.ability;
+    }
     result.damage = [];
     for (var i = 85; i <= 100; i++) {
-        result.damage[i - 85] = Math.max(1, Math.floor((baseDamage * i) / 100));
+        result.damage[i - 85] = Math.max(1, Math.floor((firstHitBaseDamage * i) / 100));
     }
     if (move.hits > 1) {
         var _loop_1 = function (times) {
