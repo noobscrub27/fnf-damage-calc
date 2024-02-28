@@ -4,14 +4,12 @@
     "\\calc",
     "\\calc\\src",
     "\\calc\\src\\data",
-    "\\dist\\js",
-    "\\dist\\js\\data",
-    "\\dist\\js\\data\\sets",
+    "\\calc\\src\\mechanics",
     "\\src",
     "\\src\\js",
     "\\src\\js\\data",
     "\\src\\js\\data\\sets"
   ],
-  "SelectedNode": "\\calc\\src\\desc.ts",
+  "SelectedNode": "\\calc\\src\\data\\moves.ts",
   "PreviewInSolutionExplorer": false
 }

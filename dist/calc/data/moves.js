@@ -282,12 +282,7 @@ var GSC_PATCH = {
     'Mean Look': { bp: 0, category: 'Status', type: 'Normal' },
     'Rapid Spin': { bp: 20, type: 'Normal' },
     'Rock Smash': { bp: 20, type: 'Fighting' },
-    'Spider Web': {
-        bp: 70,
-        category: 'Physical',
-        type: 'Bug',
-        secondaries: true
-    },
+    'Spider Web': { bp: 70, category: 'Physical', type: 'Bug' },
     Whirlpool: { bp: 15, type: 'Water' },
     'Zap Cannon': { bp: 100, type: 'Electric' },
     'Cotton Spore': { bp: 0, category: 'Status', type: 'Grass' },
@@ -467,7 +462,9 @@ var ADV_PATCH = {
     },
     Assist: { bp: 0, category: 'Status', type: 'Normal' },
     Astonish: { bp: 30, type: 'Ghost', makesContact: true },
+    'Beak Cannon': { bp: 20, type: 'Flying', multihit: [2, 5] },
     Block: { bp: 0, category: 'Status', type: 'Normal' },
+    'Bombs Away': { bp: 25, type: 'Fire', multihit: [2, 5] },
     Bounce: { bp: 85, type: 'Flying', makesContact: true },
     'Bullet Seed': { bp: 10, type: 'Grass', multihit: [2, 5] },
     Camouflage: { bp: 0, category: 'Status', type: 'Normal' },
@@ -573,9 +570,11 @@ var DPP_PATCH = {
     Absorb: { category: 'Special' },
     'Arm Thrust': { category: 'Physical' },
     Barrage: { category: 'Physical' },
+    'Beak Cannon': { category: 'Physical' },
     'Beat Up': { category: 'Physical' },
     Bide: { priority: 1, category: 'Physical' },
     Bind: { category: 'Physical' },
+    'Bombs Away': { category: 'Physical' },
     'Bone Rush': { category: 'Physical' },
     Bonemerang: { category: 'Physical' },
     Bounce: { category: 'Physical' },
@@ -762,7 +761,7 @@ var DPP_PATCH = {
     'Night Shade': { category: 'Special' },
     Octazooka: { category: 'Special' },
     'Paleo Wave': { category: 'Special' },
-    'Pay Day': { category: 'Special' },
+    'Pay Day': { category: 'Physical' },
     Peck: { category: 'Physical' },
     'Poison Sting': { category: 'Physical' },
     'Poison Tail': { category: 'Physical' },
@@ -1176,10 +1175,12 @@ var DPP_PATCH = {
 };
 var DPP = (0, util_1.extend)(true, {}, ADV, DPP_PATCH);
 var BW_PATCH = {
-    'Pay Day': { overrideDefensiveStat: 'def' },
+    'Pay Day': { category: 'Special', overrideDefensiveStat: 'def' },
     'Air Slash': { secondaries: true },
+    'Beak Cannon': { bp: 25 },
     Blizzard: { secondaries: true },
     'Body Slam': { secondaries: true },
+    'Bombs Away': { secondaries: true },
     Bounce: { secondaries: true },
     Bubble: { secondaries: true },
     'Brave Bird': { recoil: [33, 100] },
@@ -1238,6 +1239,7 @@ var BW_PATCH = {
     'Seed Flare': { secondaries: true },
     'Signal Beam': { secondaries: true },
     'Silver Wind': { secondaries: true },
+    'Spider Web': { secondaries: true },
     Twineedle: { secondaries: true },
     Acid: { secondaries: true },
     'Ancient Power': { secondaries: true },
@@ -1255,6 +1257,7 @@ var BW_PATCH = {
     'Crush Claw': { secondaries: true },
     Curse: { type: 'Ghost' },
     'Dark Pulse': { secondaries: true },
+    'Dark Void': { secondaries: true },
     Discharge: { secondaries: true },
     'Doom Desire': { bp: 140 },
     'Dragon Breath': { secondaries: true },
@@ -1681,10 +1684,12 @@ var BW_PATCH = {
 var BW = (0, util_1.extend)(true, {}, DPP, BW_PATCH);
 delete BW['Faint Attack'];
 var XY_PATCH = {
+    'Beak Cannon': { isBullet: true },
     'Ice Ball': { isBullet: true },
     'Knock Off': { bp: 65 },
     Thief: { bp: 60 },
     Barrage: { isBullet: true },
+    'Bombs Away': { isBullet: true },
     Bubble: { bp: 40 },
     Chatter: { bp: 65 },
     'Egg Bomb': { isBullet: true },
@@ -1976,7 +1981,9 @@ var SM_PATCH = {
     'Ally Switch': { priority: 2 },
     Aeroblast: { zp: 180 },
     Barrage: { zp: 100 },
+    'Beak Cannon': { zp: 100 },
     Bide: { zp: 100 },
+    'Bombs Away': { zp: 100 },
     'Bone Club': { zp: 120 },
     Bonemerang: { zp: 100 },
     Bubble: { zp: 100 },
@@ -2867,14 +2874,6 @@ var SM_PATCH = {
         makesContact: true,
         overrideDefensiveStat: 'spd'
     },
-    'Beak Cannon': {
-        bp: 25,
-        type: 'Flying',
-        category: 'Physical',
-        zp: 100,
-        multihit: [2, 5],
-        isBullet: true
-    },
     'Biddy Bud': {
         bp: 60,
         type: 'Grass',
@@ -2896,15 +2895,6 @@ var SM_PATCH = {
         category: 'Special',
         secondaries: true,
         isZ: true
-    },
-    'Bombs Away': {
-        bp: 25,
-        type: 'Fire',
-        category: 'Physical',
-        secondaries: true,
-        zp: 100,
-        multihit: [2, 5],
-        isBullet: true
     },
     'Bone Twirl': {
         bp: 25,

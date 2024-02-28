@@ -236,8 +236,6 @@ export function calculateBWXY(
 
   if ((move.named('Sky Drop') &&
         (defender.hasType('Flying') || defender.weightkg >= 200 || field.isGravity)) ||
-      (move.named('Synchronoise') && !defender.hasType(attacker.types[0]) &&
-        (!attacker.types[1] || !defender.hasType(attacker.types[1]))) ||
       (move.named('Dream Eater') && !defender.hasStatus('slp'))
   ) {
     return result;
@@ -345,6 +343,10 @@ export function calculateBWXY(
   switch (move.name) {
   case 'Payback':
     basePower = move.bp * (turnOrder === 'last' ? 2 : 1);
+    desc.moveBP = basePower;
+    break;
+  case 'Synchronoise':
+    basePower = move.bp * ((defender.hasType(attacker.types[0]) || (attacker.types[1] && defender.hasType(attacker.types[1]))) ? 2 : 1);
     desc.moveBP = basePower;
     break;
   case 'Pursuit':
