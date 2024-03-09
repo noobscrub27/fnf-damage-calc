@@ -8576,6 +8576,26 @@ var SM_PATCH = {
         weightkg: 47.0,
         abilities: { 0: 'Multiscale' }
     },
+    Dicee: {
+        types: ['Steel', 'Fairy'],
+        bs: { hp: 45, at: 55, df: 75, sa: 50, sd: 70, sp: 50 },
+        weightkg: 116.0,
+        abilities: { 0: 'Super Luck' },
+        nfe: true
+    },
+    Rollette: {
+        types: ['Steel', 'Fairy'],
+        bs: { hp: 55, at: 70, df: 95, sa: 65, sd: 90, sp: 40 },
+        weightkg: 200.0,
+        abilities: { 0: 'Super Luck' },
+        nfe: true
+    },
+    Cashino: {
+        types: ['Steel', 'Fairy'],
+        bs: { hp: 65, at: 85, df: 135, sa: 80, sd: 130, sp: 30 },
+        weightkg: 894.1,
+        abilities: { 0: 'Super Luck' }
+    },
     Butterno: {
         types: ['Bug', 'Psychic'],
         bs: { hp: 90, at: 82, df: 93, sa: 98, sd: 103, sp: 67 },
