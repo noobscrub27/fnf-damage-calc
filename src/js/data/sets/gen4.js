@@ -2272,6 +2272,7 @@ var SETDEX_DPP = {
     "OU Utility Counter": {"ability":"Levitate","item":"Leftovers","nature":"Bold","evs":{"hp":252,"df":180,"sd":76},"moves":["Thunderbolt","Ice Beam","Psychic","Thunder Wave"]},
     "OU Trick Room": {"ability":"Levitate","item":"Leftovers","nature":"Relaxed","ivs":{"df":29,"sp":0},"evs":{"hp":252,"df":180,"sd":76},"moves":["Trick Room","Thunderbolt","Ice Beam","Psychic"]},
     "OU Choice Scarf": {"ability":"Levitate","item":"Choice Scarf","nature":"Modest","evs":{"hp":72,"sa":252,"sp":184},"moves":["Psychic","Ice Beam","Thunderbolt","U-turn"]},
+    "UU Physically Defensive": {"ability":"Levitate","item":"Leftovers","nature":"Bold","evs":{"hp":240,"df":176,"sp":92},"moves":["Stealth Rock","Psychic","U-turn","Grass Knot"]},
     "UU Lead": {"ability":"Levitate","item":"Expert Belt","nature":"Modest","evs":{"hp":120,"sa":252,"sp":136},"moves":["Stealth Rock","Psychic","Ice Beam","Thunderbolt"]},
     "UU Offensive Calm Mind": {"ability":"Levitate","item":"Life Orb","nature":"Timid","ivs":{"sa":30,"sd":30},"evs":{"sa":252,"sd":4,"sp":252},"moves":["Calm Mind","Psychic","Thunderbolt","Hidden Power Ground"]},
     "UU Weather Support": {"ability":"Levitate","item":"Damp Rock","nature":"Timid","evs":{"hp":252,"sd":4,"sp":252},"moves":["Rain Dance","Psychic","Stealth Rock","Healing Wish"]},
@@ -2346,7 +2347,7 @@ var SETDEX_DPP = {
     "Ubers Choice Specs": {"ability":"Serene Grace","item":"Choice Specs","nature":"Timid","ivs":{"at":30,"df":30},"evs":{"hp":4,"sa":252,"sp":252},"moves":["Seed Flare","Air Slash","Earth Power","Hidden Power Ice"]}
   },
   "Vaporeon": {
-    "OU Showdown Usage": {"ability":"Water Absorb","item":"Leftovers","nature":"Modest","ivs":{"sa":30},"evs":{"hp":248,"sa":252,"sd":8},"moves":["Surf","Ice Beam","Wish","Hidden Power Electric"]}
+    "OU Showdown Usage": {"ability":"Water Absorb","item":"Leftovers","nature":"Calm","ivs":{"sa":30},"evs":{"hp":248,"sa":8,"sd":252},"moves":["Surf","Wish","Ice Beam","Hidden Power Electric"]}
   },
   "Lopunny": {
     "Doubles OU Showdown Usage": {"ability":"Klutz","item":"Choice Scarf","nature":"Jolly","evs":{"hp":248,"df":40,"sp":220},"moves":["Endeavor","Fake Out","Switcheroo","Thunder Wave"]}
