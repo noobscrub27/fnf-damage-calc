@@ -5016,8 +5016,8 @@ var SETDEX_SM = {
 	"UU Physically Defensive": { "ability": "Search Engine", "item": "Leftovers", "nature": "Bold", "ivs": { "at": 0 }, "evs": { "hp": 252, "df": 252, "sa": 4 }, "moves": ["Biddy Bud", "Recover", "Whirlwind", "Heal Bell"] },
 	},
   "Emolga-Delta": {
-    "RU Nasty Plot": {"ability": "Levitate", "item": "Dragonium Z", "nature": "Timid", "ivs":{"at":0},"evs":{"sa":252,"sd":4,"sp":252},"moves":["Nasty Plot","Sludge Bomb","Draco Meteor","Hidden Power [Fire]"]},
-    "RU Choice Specs": {"ability": "Levitate", "item": "Choice Specs", "nature": "Timid", "ivs":{"at":30},"evs":{"sa":252,"sd":4,"sp":252},"moves":["U - turn","Sludge Bomb","Draco Meteor","Hidden Power [Fire]"]},
+    "RU Nasty Plot": {"ability": "Levitate", "item": "Dragonium Z", "nature": "Timid", "ivs":{"at":0},"evs":{"sa":252,"sd":4,"sp":252},"moves":["Nasty Plot","Sludge Bomb","Draco Meteor","Hidden Power Fire"]},
+    "RU Choice Specs": {"ability": "Levitate", "item": "Choice Specs", "nature": "Timid", "ivs":{"at":30},"evs":{"sa":252,"sd":4,"sp":252},"moves":["U-turn","Sludge Bomb","Draco Meteor","Hidden Power Fire"]},
     "RU Choice Band": { "ability": "Levitate", "item": "Choice Band", "nature": "Adamant", "evs": { "at": 252, "sd": 4, "sp": 252 }, "moves": ["U-turn", "Outrage", "Knock Off", "Poison Jab"] },
   },
 };
