@@ -330,7 +330,7 @@ export function getKOChance(
         return {
           chance,
           n: 1,
-          text: qualifier + Math.round(chance * 1000) / 10 + `% chance to OHKO${afterText}`,
+          text: qualifier + Math.round(chance * 1000) / 10 + `% chance to OHKO`,
         };
       }
     } else if (chance == 0) {

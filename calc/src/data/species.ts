@@ -8557,6 +8557,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     weightkg: 116.0,
     abilities: { 0: 'Super Luck' },
     nfe: true,
+    gender: 'N',
   },
   Rollette: {
     types: ['Steel', 'Fairy'],
@@ -8564,12 +8565,20 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     weightkg: 200.0,
     abilities: { 0: 'Super Luck' },
     nfe: true,
+    gender: 'N',
   },
   Cashino: {
     types: ['Steel', 'Fairy'],
     bs: { hp: 65, at: 85, df: 135, sa: 80, sd: 130, sp: 30 },
     weightkg: 894.1,
     abilities: { 0: 'Super Luck' },
+    gender: 'N',
+  },
+  'Typhlosion-Armored': {
+    types: ['Fire', 'Poison'],
+    bs: { hp: 78, at: 120, df: 90, sa: 120, sd: 90, sp: 110 },
+    abilities: { 0: 'Iron Barbs' },
+    weightkg: 85.0,
   },
   Butterno: {
     types: ['Bug', 'Psychic'],

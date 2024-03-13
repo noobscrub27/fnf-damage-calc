@@ -235,7 +235,7 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
                 return {
                     chance: chance,
                     n: 1,
-                    text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(afterText)
+                    text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO"
                 };
             }
         }
