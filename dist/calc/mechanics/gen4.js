@@ -67,34 +67,15 @@ function calculateDPP(gen, attacker, defender, move, field) {
         desc.attackerAbility = attacker.ability;
     }
     var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart', 'Shadow Armor');
-    var basePower = move.bp;
     if (move.named('Weather Ball')) {
-        if (field.hasWeather('Sun')) {
-            move.type = 'Fire';
-            basePower *= 2;
-        }
-        else if (field.hasWeather('Rain')) {
-            move.type = 'Water';
-            basePower *= 2;
-        }
-        else if (field.hasWeather('Sand')) {
-            move.type = 'Rock';
-            basePower *= 2;
-        }
-        else if (field.hasWeather('Hail')) {
-            move.type = 'Ice';
-            basePower *= 2;
-        }
-        else if (field.hasWeather('Miasma')) {
-            move.type = 'Poison';
-            basePower *= 2;
-        }
-        else {
-            move.type = 'Normal';
-        }
+        move.type =
+            field.hasWeather('Sun') ? 'Fire'
+                : field.hasWeather('Rain') ? 'Water'
+                    : field.hasWeather('Sand') ? 'Rock'
+                        : field.hasWeather('Hail') ? 'Ice'
+                            : 'Normal';
         desc.weather = field.weather;
         desc.moveType = move.type;
-        desc.moveBP = basePower;
     }
     else if (move.named('Judgment') && attacker.item && attacker.item.includes('Plate')) {
         move.type = (0, items_1.getItemBoostType)(attacker.item);
@@ -222,6 +203,147 @@ function calculateDPP(gen, attacker, defender, move, field) {
     if (move.hits > 1) {
         desc.hits = move.hits;
     }
+    var isPhysical = move.category === 'Physical';
+    var basePower = calculateBasePowerDPP(gen, attacker, defender, move, field, desc);
+    if (basePower === 0) {
+        return result;
+    }
+    basePower = calculateBPModsDPP(attacker, defender, move, field, desc, basePower);
+    var attack = calculateAttackDPP(gen, attacker, defender, move, field, desc, isCritical);
+    var defense = calculateDefenseDPP(gen, attacker, defender, move, field, desc, isCritical);
+    var baseDamage = Math.floor(Math.floor((Math.floor((2 * attacker.level) / 5 + 2) * basePower * attack) / 50) / defense);
+    if (attacker.hasStatus('brn') && isPhysical && !attacker.hasAbility('Guts')) {
+        baseDamage = Math.floor(baseDamage * 0.5);
+        desc.isBurned = true;
+    }
+    else if (attacker.hasStatus('frz') && !isPhysical) {
+        baseDamage = Math.floor(baseDamage * 0.5);
+        desc.isFrozen = true;
+    }
+    baseDamage = calculateFinalModsDPP(baseDamage, attacker, defender, move, field, desc, isCritical);
+    var stabMod = 1;
+    if (move.hasType.apply(move, __spreadArray([], __read(attacker.types), false))) {
+        if (attacker.hasAbility('Adaptability')) {
+            stabMod = 2;
+            desc.attackerAbility = attacker.ability;
+        }
+        else {
+            stabMod = 1.5;
+        }
+    }
+    var filterMod = 1;
+    if (defender.hasAbility('Filter', 'Solid Rock') && typeEffectiveness > 1) {
+        filterMod = 0.75;
+        desc.defenderAbility = defender.ability;
+    }
+    var royalGuardMod = 1;
+    if (defender.hasAbility('Royal Guard') && defender.curHP() <= defender.maxHP() / 2) {
+        royalGuardMod = 0.75;
+        desc.defenderAbility = defender.ability;
+    }
+    var bagwormicadeMod = 1;
+    if (defender.hasAbility('Bagwormicade') && typeEffectiveness > 1) {
+        bagwormicadeMod = 0.5;
+        desc.defenderAbility = defender.ability;
+    }
+    var enfeeblingVenomMod = 1;
+    if (defender.hasAbility('Enfeebling Venom') && attacker.hasStatus('psn', 'tox')) {
+        enfeeblingVenomMod = 0.5;
+        desc.defenderAbility = defender.ability;
+    }
+    var ebeltMod = 1;
+    if (attacker.hasItem('Expert Belt') && typeEffectiveness > 1) {
+        ebeltMod = 1.2;
+        desc.attackerItem = attacker.item;
+    }
+    var tintedMod = 1;
+    if (attacker.hasAbility('Tinted Lens') && typeEffectiveness < 1) {
+        tintedMod = 2;
+        desc.attackerAbility = attacker.ability;
+    }
+    var berryMod = 1;
+    if (move.hasType((0, items_1.getBerryResistType)(defender.item)) &&
+        (typeEffectiveness > 1 || move.hasType('Normal'))) {
+        berryMod = 0.5;
+        desc.defenderItem = defender.item;
+    }
+    var shadowShieldMod = 1;
+    if (defender.hasAbility('Shadow Shield') &&
+        (defender.curHP() === defender.maxHP() &&
+            (!field.defenderSide.isSR && (!field.defenderSide.spikes || !(0, util_1.isGrounded)(defender, field))))) {
+        shadowShieldMod = 0.5;
+        desc.defenderAbility = defender.ability;
+    }
+    var damage = [];
+    for (var i = 0; i < 16; i++) {
+        damage[i] = Math.floor((baseDamage * (85 + i)) / 100);
+        damage[i] = Math.floor(damage[i] * stabMod);
+        damage[i] = Math.floor(damage[i] * type1Effectiveness);
+        damage[i] = Math.floor(damage[i] * type2Effectiveness);
+        damage[i] = Math.floor(damage[i] * filterMod);
+        damage[i] = Math.floor(damage[i] * royalGuardMod);
+        damage[i] = Math.floor(damage[i] * bagwormicadeMod);
+        damage[i] = Math.floor(damage[i] * enfeeblingVenomMod);
+        damage[i] = Math.floor(damage[i] * ebeltMod);
+        damage[i] = Math.floor(damage[i] * tintedMod);
+        damage[i] = Math.floor(damage[i] * berryMod);
+        damage[i] = Math.floor(damage[i] * shadowShieldMod);
+        damage[i] = Math.max(1, damage[i]);
+    }
+    result.damage = damage;
+    if ((move.dropsStats && move.timesUsed > 1) || move.hits > 1) {
+        var origDefBoost = desc.defenseBoost;
+        var origAtkBoost = desc.attackBoost;
+        var numAttacks = 1;
+        if (move.dropsStats && move.timesUsed > 1) {
+            desc.moveTurns = "over ".concat(move.timesUsed, " turns");
+            numAttacks = move.timesUsed;
+        }
+        else {
+            numAttacks = move.hits;
+        }
+        var usedItems = [false, false];
+        var _loop_1 = function (times) {
+            usedItems = (0, util_1.checkMultihitBoost)(gen, attacker, defender, move, field, desc, usedItems[0], usedItems[1]);
+            var newBasePower = calculateBasePowerDPP(gen, attacker, defender, move, field, desc);
+            newBasePower = calculateBPModsDPP(attacker, defender, move, field, desc, newBasePower);
+            var newAtk = calculateAttackDPP(gen, attacker, defender, move, field, desc, isCritical);
+            var baseDamage_1 = Math.floor(Math.floor((Math.floor((2 * attacker.level) / 5 + 2) * newBasePower * newAtk) / 50) / defense);
+            if (attacker.hasStatus('brn') && isPhysical && !attacker.hasAbility('Guts')) {
+                baseDamage_1 = Math.floor(baseDamage_1 * 0.5);
+                desc.isBurned = true;
+            }
+            baseDamage_1 = calculateFinalModsDPP(baseDamage_1, attacker, defender, move, field, desc, isCritical);
+            var damageMultiplier = 0;
+            result.damage = result.damage.map(function (affectedAmount) {
+                var newFinalDamage = 0;
+                newFinalDamage = Math.floor((baseDamage_1 * (85 + damageMultiplier)) / 100);
+                newFinalDamage = Math.floor(newFinalDamage * stabMod);
+                newFinalDamage = Math.floor(newFinalDamage * type1Effectiveness);
+                newFinalDamage = Math.floor(newFinalDamage * type2Effectiveness);
+                newFinalDamage = Math.floor(newFinalDamage * filterMod);
+                newFinalDamage = Math.floor(newFinalDamage * royalGuardMod);
+                newFinalDamage = Math.floor(newFinalDamage * bagwormicadeMod);
+                newFinalDamage = Math.floor(newFinalDamage * enfeeblingVenomMod);
+                newFinalDamage = Math.floor(newFinalDamage * ebeltMod);
+                newFinalDamage = Math.floor(newFinalDamage * tintedMod);
+                newFinalDamage = Math.max(1, newFinalDamage);
+                damageMultiplier++;
+                return affectedAmount + newFinalDamage;
+            });
+        };
+        for (var times = 1; times < numAttacks; times++) {
+            _loop_1(times);
+        }
+        desc.defenseBoost = origDefBoost;
+        desc.attackBoost = origAtkBoost;
+    }
+    return result;
+}
+exports.calculateDPP = calculateDPP;
+function calculateBasePowerDPP(gen, attacker, defender, move, field, desc, hit) {
+    if (hit === void 0) { hit = 1; }
+    var basePower = move.bp;
     var turnOrder = attacker.stats.spe > defender.stats.spe ? 'first' : 'last';
     switch (move.name) {
         case 'Brine':
@@ -304,15 +426,28 @@ function calculateDPP(gen, attacker, defender, move, field) {
             basePower = Math.floor((defender.curHP() * 120) / defender.maxHP()) + 1;
             desc.moveBP = basePower;
             break;
+        case 'Triple Kick':
+            basePower = hit * 10;
+            desc.moveBP = move.hits === 2 ? 30 : move.hits === 3 ? 60 : 10;
+            break;
+        case 'Weather Ball':
+            basePower = move.bp * (field.weather ? 2 : 1);
+            desc.moveBP = basePower;
+            break;
         default:
             basePower = move.bp;
     }
-    if (basePower === 0) {
-        return result;
-    }
+    return basePower;
+}
+exports.calculateBasePowerDPP = calculateBasePowerDPP;
+function calculateBPModsDPP(attacker, defender, move, field, desc, basePower) {
     if (field.attackerSide.isHelpingHand) {
         basePower = Math.floor(basePower * 1.5);
         desc.isHelpingHand = true;
+    }
+    if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+        move.category = 'Special';
+        move.flags.contact = 0;
     }
     var isPhysical = move.category === 'Physical';
     if ((attacker.hasItem('Muscle Band') && isPhysical) ||
@@ -363,6 +498,16 @@ function calculateDPP(gen, attacker, defender, move, field) {
         basePower = Math.floor(basePower * 1.3);
         desc.defenderAbility = defender.ability;
     }
+    return basePower;
+}
+exports.calculateBPModsDPP = calculateBPModsDPP;
+function calculateAttackDPP(gen, attacker, defender, move, field, desc, isCritical) {
+    if (isCritical === void 0) { isCritical = false; }
+    if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+        move.category = 'Special';
+        move.flags.contact = 0;
+    }
+    var isPhysical = move.category === 'Physical';
     var attackStat = isPhysical ? 'atk' : 'spa';
     desc.attackEVs = (0, util_1.getEVDescriptionText)(gen, attacker, attackStat, attacker.nature);
     var attack;
@@ -445,6 +590,16 @@ function calculateDPP(gen, attacker, defender, move, field) {
         attack *= 2;
         desc.attackerItem = attacker.item;
     }
+    return attack;
+}
+exports.calculateAttackDPP = calculateAttackDPP;
+function calculateDefenseDPP(gen, attacker, defender, move, field, desc, isCritical) {
+    if (isCritical === void 0) { isCritical = false; }
+    if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+        move.category = 'Special';
+        move.flags.contact = 0;
+    }
+    var isPhysical = move.category === 'Physical';
     if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
         move.overrideDefensiveStat = 'spd';
     }
@@ -506,15 +661,20 @@ function calculateDPP(gen, attacker, defender, move, field) {
     if (defense < 1) {
         defense = 1;
     }
-    var baseDamage = Math.floor(Math.floor((Math.floor((2 * attacker.level) / 5 + 2) * basePower * attack) / 50) / defense);
-    if (attacker.hasStatus('brn') && isPhysical && !attacker.hasAbility('Guts')) {
-        baseDamage = Math.floor(baseDamage * 0.5);
-        desc.isBurned = true;
+    return defense;
+}
+exports.calculateDefenseDPP = calculateDefenseDPP;
+function calculateFinalModsDPP(baseDamage, attacker, defender, move, field, desc, isCritical) {
+    if (isCritical === void 0) { isCritical = false; }
+    if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
+        move.category = 'Special';
+        move.flags.contact = 0;
     }
-    else if (attacker.hasStatus('frz') && !isPhysical) {
-        baseDamage = Math.floor(baseDamage * 0.5);
-        desc.isFrozen = true;
+    var isPhysical = move.category === 'Physical';
+    if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
+        move.overrideDefensiveStat = 'spd';
     }
+    var defenseStat = move.overrideDefensiveStat || move.category === 'Physical' ? 'def' : 'spd';
     if (!isCritical) {
         var screenMultiplier = field.gameType !== 'Singles' ? 2 / 3 : 1 / 2;
         if (isPhysical && field.defenderSide.isReflect) {
@@ -572,105 +732,8 @@ function calculateDPP(gen, attacker, defender, move, field) {
             desc.isSwitching = 'out';
         }
     }
-    var stabMod = 1;
-    if (move.hasType.apply(move, __spreadArray([], __read(attacker.types), false))) {
-        if (attacker.hasAbility('Adaptability')) {
-            stabMod = 2;
-            desc.attackerAbility = attacker.ability;
-        }
-        else {
-            stabMod = 1.5;
-        }
-    }
-    var filterMod = 1;
-    if (defender.hasAbility('Filter', 'Solid Rock') && typeEffectiveness > 1) {
-        filterMod = 0.75;
-        desc.defenderAbility = defender.ability;
-    }
-    var royalGuardMod = 1;
-    if (defender.hasAbility('Royal Guard') && defender.curHP() <= defender.maxHP() / 2) {
-        royalGuardMod = 0.75;
-        desc.defenderAbility = defender.ability;
-    }
-    var bagwormicadeMod = 1;
-    if (defender.hasAbility('Bagwormicade') && typeEffectiveness > 1) {
-        bagwormicadeMod = 0.5;
-        desc.defenderAbility = defender.ability;
-    }
-    var enfeeblingVenomMod = 1;
-    if (defender.hasAbility('Enfeebling Venom') && attacker.hasStatus('psn', 'tox')) {
-        enfeeblingVenomMod = 0.5;
-        desc.defenderAbility = defender.ability;
-    }
-    var ebeltMod = 1;
-    if (attacker.hasItem('Expert Belt') && typeEffectiveness > 1) {
-        ebeltMod = 1.2;
-        desc.attackerItem = attacker.item;
-    }
-    var tintedMod = 1;
-    if (attacker.hasAbility('Tinted Lens') && typeEffectiveness < 1) {
-        tintedMod = 2;
-        desc.attackerAbility = attacker.ability;
-    }
-    var berryMod = 1;
-    if (move.hasType((0, items_1.getBerryResistType)(defender.item)) &&
-        (typeEffectiveness > 1 || move.hasType('Normal'))) {
-        berryMod = 0.5;
-        desc.defenderItem = defender.item;
-    }
-    var shadowShieldMod = 1;
-    if (defender.curHP() === defender.maxHP() &&
-        (!field.defenderSide.isSR && (!field.defenderSide.spikes || !(0, util_1.isGrounded)(defender, field)))) {
-        shadowShieldMod = 0.5;
-        desc.defenderAbility = defender.ability;
-    }
-    var damage = [];
-    for (var i = 0; i < 16; i++) {
-        damage[i] = Math.floor((baseDamage * (85 + i)) / 100);
-        damage[i] = Math.floor(damage[i] * stabMod);
-        damage[i] = Math.floor(damage[i] * type1Effectiveness);
-        damage[i] = Math.floor(damage[i] * type2Effectiveness);
-        damage[i] = Math.floor(damage[i] * filterMod);
-        damage[i] = Math.floor(damage[i] * royalGuardMod);
-        damage[i] = Math.floor(damage[i] * bagwormicadeMod);
-        damage[i] = Math.floor(damage[i] * enfeeblingVenomMod);
-        damage[i] = Math.floor(damage[i] * ebeltMod);
-        damage[i] = Math.floor(damage[i] * tintedMod);
-        damage[i] = Math.floor(damage[i] * berryMod);
-        damage[i] = Math.floor(damage[i] * shadowShieldMod);
-        damage[i] = Math.max(1, damage[i]);
-    }
-    result.damage = damage;
-    if (move.hits > 1) {
-        var _loop_1 = function (times) {
-            var damageMultiplier = 0;
-            result.damage = result.damage.map(function (affectedAmount) {
-                if (times) {
-                    var newFinalDamage = 0;
-                    newFinalDamage = Math.floor((baseDamage * (85 + damageMultiplier)) / 100);
-                    newFinalDamage = Math.floor(newFinalDamage * stabMod);
-                    newFinalDamage = Math.floor(newFinalDamage * type1Effectiveness);
-                    newFinalDamage = Math.floor(newFinalDamage * type2Effectiveness);
-                    newFinalDamage = Math.floor(newFinalDamage * filterMod);
-                    newFinalDamage = Math.floor(newFinalDamage * royalGuardMod);
-                    newFinalDamage = Math.floor(newFinalDamage * bagwormicadeMod);
-                    newFinalDamage = Math.floor(newFinalDamage * enfeeblingVenomMod);
-                    newFinalDamage = Math.floor(newFinalDamage * ebeltMod);
-                    newFinalDamage = Math.floor(newFinalDamage * tintedMod);
-                    newFinalDamage = Math.max(1, newFinalDamage);
-                    damageMultiplier++;
-                    return affectedAmount + newFinalDamage;
-                }
-                return affectedAmount;
-            });
-        };
-        for (var times = 0; times < move.hits; times++) {
-            _loop_1(times);
-        }
-    }
-    return result;
+    return baseDamage;
 }
-exports.calculateDPP = calculateDPP;
 function getSimpleModifiedStat(stat, mod) {
     var simpleMod = Math.min(6, Math.max(-6, mod * 2));
     return simpleMod > 0

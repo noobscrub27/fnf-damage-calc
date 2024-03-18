@@ -4,12 +4,12 @@
     "\\calc",
     "\\calc\\src",
     "\\calc\\src\\data",
-    "\\calc\\src\\mechanics",
+    "\\smoketest",
+    "\\smoketest\\src",
     "\\src",
     "\\src\\js",
     "\\src\\js\\data",
     "\\src\\js\\data\\sets"
   ],
-  "SelectedNode": "\\calc\\src\\data\\moves.ts",
   "PreviewInSolutionExplorer": false
 }
