@@ -8580,6 +8580,12 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     abilities: { 0: 'Iron Barbs' },
     weightkg: 85.0,
   },
+  'Vikavolt-FnF': {
+    types: ['Ground', 'Electric'],
+    bs: { hp: 77, at: 145, df: 105, sa: 70, sd: 85, sp: 43 },
+    abilities: { 0: 'Battery' },
+    weightkg: 45.0,
+  },
   Butterno: {
     types: ['Bug', 'Psychic'],
     bs: { hp: 90, at: 82, df: 93, sa: 98, sd: 103, sp: 67 },
