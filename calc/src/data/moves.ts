@@ -26,6 +26,7 @@ export interface MoveData {
   readonly isZ?: boolean;
   readonly isMax?: boolean;
   readonly multihit?: number | number[];
+  readonly multiaccuracy?: boolean;
 
   readonly bp: number;
   readonly zp?: number;
@@ -276,7 +277,7 @@ const GSC_PATCH: {[name: string]: DeepPartial<MoveData>} = {
   'Sweet Scent': {bp: 0, category: 'Status', type: 'Normal'},
   Synthesis: {bp: 0, category: 'Status', type: 'Grass'},
   Thief: {bp: 40, type: 'Dark'},
-  'Triple Kick': {bp: 20, type: 'Fighting', multihit: [1, 3]},
+  'Triple Kick': { bp: 20, type: 'Fighting', multihit: 3, multiaccuracy: true},
   Twister: {bp: 40, type: 'Dragon'},
   'Ancient Power': {bp: 60, type: 'Rock'},
   'Bone Rush': {bp: 25, type: 'Ground', multihit: [2, 5]},
@@ -4663,6 +4664,7 @@ const SS_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     category: 'Physical',
     makesContact: true,
     multihit: 3,
+    multiaccuracy: true,
     zp: 120,
     maxPower: 140,
     isKick: true,
@@ -5775,6 +5777,7 @@ const SV_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     makesContact: true,
     isSlicing: true,
     multihit: 10,
+    multiaccuracy: true,
   },
   Pounce: {
     bp: 50,
@@ -6127,6 +6130,7 @@ class Move implements I.Move {
   readonly zp?: number;
   readonly maxPower?: number;
   readonly multihit?: number | number[];
+  readonly multiaccuracy?: boolean;
 
   private static readonly FLAGS = new Set([
     'bp',

@@ -89,7 +89,7 @@ export function calculateDPP(
     move.type = getItemBoostType(attacker.item)!;
   } else if (move.named('Primal Burst') && attacker.item && attacker.item.includes('Orb')) {
     move.type = getOrbType(attacker.item)!;
-  } else if (move.named('Natural Gift') && attacker.item && attacker.item.includes('Berry')) {
+  } else if (move.named('Natural Gift') && attacker.item && attacker.item.endsWith('Berry')) {
     const gift = getNaturalGift(gen, attacker.item)!;
     move.type = gift.t;
     move.bp = gift.p;

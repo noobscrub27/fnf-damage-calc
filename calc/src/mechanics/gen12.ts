@@ -98,6 +98,12 @@ export function calculateRBYGSC(
     desc.hits = move.hits;
   }
 
+  // Triple Kick's damage increases by 10 after each consecutive hit (20, 40, 60), this is a hack
+  if (move.name === 'Triple Kick') {
+    move.bp = move.hits === 2 ? 30 : move.hits === 3 ? 40 : 20;
+    desc.moveBP = move.bp;
+  }
+
   // Flail and Reversal are variable BP and never crit
   if (move.named('Flail', 'Reversal')) {
     move.isCrit = false;

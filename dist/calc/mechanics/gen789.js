@@ -33,6 +33,13 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     (0, util_2.checkDownload)(defender, attacker, field.isWonderRoom);
     (0, util_2.checkIntrepidSword)(attacker, gen);
     (0, util_2.checkIntrepidSword)(defender, gen);
+    if (move.named('Meteor Beam', 'Electro Shot')) {
+        attacker.boosts.spa +=
+            attacker.hasAbility('Simple') ? 2
+                : attacker.hasAbility('Contrary') ? -1
+                    : 1;
+        attacker.boosts.spa = Math.min(6, Math.max(-6, attacker.boosts.spa));
+    }
     (0, util_2.computeFinalStats)(gen, attacker, defender, field, 'atk', 'spa');
     (0, util_2.checkInfiltrator)(attacker, field.defenderSide);
     (0, util_2.checkInfiltrator)(defender, field.attackerSide);
@@ -100,7 +107,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     else if (move.named('Multi-Attack') && attacker.item && attacker.item.includes('Memory')) {
         type = (0, items_1.getMultiAttack)(attacker.item);
     }
-    else if (move.named('Natural Gift') && attacker.item && attacker.item.includes('Berry')) {
+    else if (move.named('Natural Gift') && attacker.item && attacker.item.endsWith('Berry')) {
         var gift = (0, items_1.getNaturalGift)(gen, attacker.item);
         type = gift.t;
         desc.moveType = type;
@@ -373,7 +380,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     }
     var attack = calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
     var attackSource = move.named('Foul Play') ? defender : attacker;
-    if (move.named('Photon Geyser', 'Light That Burns The Sky') ||
+    if (move.named('Photon Geyser', 'Light That Burns the Sky') ||
         (move.named('Tera Blast') && attackSource.teraType)) {
         move.category = attackSource.stats.atk > attackSource.stats.spa ? 'Physical' : 'Special';
     }
@@ -520,7 +527,7 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
             break;
         case 'Low Kick':
         case 'Grass Knot':
-            var w = defender.weightkg * (0, util_2.getWeightFactor)(defender);
+            var w = (0, util_2.getWeight)(defender, desc, 'defender');
             basePower = w >= 200 ? 120 : w >= 100 ? 100 : w >= 50 ? 80 : w >= 25 ? 60 : w >= 10 ? 40 : 20;
             desc.moveBP = basePower;
             break;
@@ -536,8 +543,8 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
             break;
         case 'Heavy Slam':
         case 'Heat Crash':
-            var wr = (attacker.weightkg * (0, util_2.getWeightFactor)(attacker)) /
-                (defender.weightkg * (0, util_2.getWeightFactor)(defender));
+            var wr = (0, util_2.getWeight)(attacker, desc, 'attacker') /
+                (0, util_2.getWeight)(defender, desc, 'defender');
             basePower = wr >= 5 ? 120 : wr >= 4 ? 100 : wr >= 3 ? 80 : wr >= 2 ? 60 : 40;
             desc.moveBP = basePower;
             break;
@@ -622,6 +629,12 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
         case 'Nature Power':
             move.category = 'Special';
             move.secondaries = true;
+            if (attacker.hasAbility('Prankster') && defender.types.includes('Dark')) {
+                basePower = 0;
+                desc.moveName = 'Nature Power';
+                desc.attackerAbility = 'Prankster';
+                break;
+            }
             switch (field.terrain) {
                 case 'Electric':
                     basePower = 90;
@@ -636,8 +649,14 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
                     desc.moveName = 'Moonblast';
                     break;
                 case 'Psychic':
-                    basePower = 90;
-                    desc.moveName = 'Psychic';
+                    if (attacker.hasAbility('Prankster') && (0, util_2.isGrounded)(defender, field)) {
+                        basePower = 0;
+                        desc.attackerAbility = 'Prankster';
+                    }
+                    else {
+                        basePower = 90;
+                        desc.moveName = 'Psychic';
+                    }
                     break;
                 default:
                     basePower = 80;
@@ -922,7 +941,7 @@ function calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCri
     if (isCritical === void 0) { isCritical = false; }
     var attack;
     var attackSource = move.named('Foul Play') ? defender : attacker;
-    if (move.named('Photon Geyser', 'Light That Burns The Sky') ||
+    if (move.named('Photon Geyser', 'Light That Burns the Sky') ||
         (move.named('Tera Blast') && attackSource.teraType)) {
         move.category = attackSource.stats.atk > attackSource.stats.spa ? 'Physical' : 'Special';
     }

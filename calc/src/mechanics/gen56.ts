@@ -34,7 +34,7 @@ import {
   getModifiedStat,
   getMoveEffectiveness,
   getStabMod,
-  getWeightFactor,
+  getWeight,
   handleFixedDamageMoves,
   isGrounded,
   OF16, OF32,
@@ -123,7 +123,7 @@ export function calculateBWXY(
     move.type = getOrbType(attacker.item)!;
   } else if (move.named('Techno Blast') && attacker.item && attacker.item.includes('Drive')) {
     move.type = getTechnoBlast(attacker.item)!;
-  } else if (move.named('Natural Gift') && attacker.item && attacker.item.includes('Berry')) {
+  } else if (move.named('Natural Gift') && attacker.item && attacker.item.endsWith('Berry')) {
     const gift = getNaturalGift(gen, attacker.item)!;
     move.type = gift.t;
     move.bp = gift.p;
@@ -527,7 +527,7 @@ export function calculateBasePowerBWXY(
     break;
   case 'Low Kick':
   case 'Grass Knot':
-    const w = defender.weightkg * getWeightFactor(defender);
+    const w = getWeight(defender, desc, 'defender');
     basePower = w >= 200 ? 120 : w >= 100 ? 100 : w >= 50 ? 80 : w >= 25 ? 60 : w >= 10 ? 40 : 20;
     desc.moveBP = basePower;
     break;
@@ -540,8 +540,8 @@ export function calculateBasePowerBWXY(
   case 'Heavy Slam':
   case 'Heat Crash':
     const wr =
-        (attacker.weightkg * getWeightFactor(attacker)) /
-        (defender.weightkg * getWeightFactor(defender));
+      getWeight(attacker, desc, 'attacker') /
+      getWeight(defender, desc, 'defender');
     basePower = wr >= 5 ? 120 : wr >= 4 ? 100 : wr >= 3 ? 80 : wr >= 2 ? 60 : 40;
     desc.moveBP = basePower;
     break;
@@ -634,6 +634,10 @@ export function calculateBasePowerBWXY(
     break;
   default:
     basePower = move.bp;
+  }
+
+  if (basePower === 0) {
+    return 0;
   }
 
   const bpMods = calculateBPModsBWXY(

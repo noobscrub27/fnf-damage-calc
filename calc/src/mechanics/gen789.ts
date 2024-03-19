@@ -41,7 +41,7 @@ import {
   getQPBoostedStat,
   getMoveEffectiveness,
   getShellSideArmCategory,
-  getWeightFactor,
+  getWeight,
   handleFixedDamageMoves,
   isGrounded,
   OF16, OF32,
@@ -89,6 +89,15 @@ export function calculateSMSSSV(
   checkDownload(defender, attacker, field.isWonderRoom);
   checkIntrepidSword(attacker, gen);
   checkIntrepidSword(defender, gen);
+
+  if (move.named('Meteor Beam', 'Electro Shot')) {
+    attacker.boosts.spa +=
+      attacker.hasAbility('Simple') ? 2
+        : attacker.hasAbility('Contrary') ? -1
+          : 1;
+    // restrict to +- 6
+    attacker.boosts.spa = Math.min(6, Math.max(-6, attacker.boosts.spa));
+  }
 
   computeFinalStats(gen, attacker, defender, field, 'atk', 'spa');
 
@@ -170,7 +179,7 @@ export function calculateSMSSSV(
     type = getTechnoBlast(attacker.item)!;
   } else if (move.named('Multi-Attack') && attacker.item && attacker.item.includes('Memory')) {
     type = getMultiAttack(attacker.item)!;
-  } else if (move.named('Natural Gift') && attacker.item && attacker.item.includes('Berry')) {
+  } else if (move.named('Natural Gift') && attacker.item && attacker.item.endsWith('Berry')) {
     const gift = getNaturalGift(gen, attacker.item)!;
     type = gift.t;
     desc.moveType = type;
@@ -508,7 +517,7 @@ export function calculateSMSSSV(
   // #region (Special) Attack
   const attack = calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
   const attackSource = move.named('Foul Play') ? defender : attacker;
-  if (move.named('Photon Geyser', 'Light That Burns The Sky') ||
+  if (move.named('Photon Geyser', 'Light That Burns the Sky') ||
       (move.named('Tera Blast') && attackSource.teraType)) {
     move.category = attackSource.stats.atk > attackSource.stats.spa ? 'Physical' : 'Special';
   }
@@ -753,7 +762,7 @@ export function calculateBasePowerSMSSSV(
       break;
     case 'Low Kick':
     case 'Grass Knot':
-      const w = defender.weightkg * getWeightFactor(defender);
+      const w = getWeight(defender, desc, 'defender');
       basePower = w >= 200 ? 120 : w >= 100 ? 100 : w >= 50 ? 80 : w >= 25 ? 60 : w >= 10 ? 40 : 20;
       desc.moveBP = basePower;
       break;
@@ -771,8 +780,8 @@ export function calculateBasePowerSMSSSV(
     case 'Heavy Slam':
     case 'Heat Crash':
       const wr =
-        (attacker.weightkg * getWeightFactor(attacker)) /
-        (defender.weightkg * getWeightFactor(defender));
+        getWeight(attacker, desc, 'attacker') /
+        getWeight(defender, desc, 'defender');
       basePower = wr >= 5 ? 120 : wr >= 4 ? 100 : wr >= 3 ? 80 : wr >= 2 ? 60 : 40;
       desc.moveBP = basePower;
       break;
@@ -857,6 +866,13 @@ export function calculateBasePowerSMSSSV(
     case 'Nature Power':
       move.category = 'Special';
       move.secondaries = true;
+      // Nature Power cannot affect Dark-types if it is affected by Prankster
+      if (attacker.hasAbility('Prankster') && defender.types.includes('Dark')) {
+        basePower = 0;
+        desc.moveName = 'Nature Power';
+        desc.attackerAbility = 'Prankster';
+        break;
+      }
       switch (field.terrain) {
         case 'Electric':
           basePower = 90;
@@ -871,8 +887,15 @@ export function calculateBasePowerSMSSSV(
           desc.moveName = 'Moonblast';
           break;
         case 'Psychic':
-          basePower = 90;
-          desc.moveName = 'Psychic';
+          // Nature Power does not affect grounded Pokemon if it is affected by
+          // Prankster and there is Psychic Terrain active
+          if (attacker.hasAbility('Prankster') && isGrounded(defender, field)) {
+            basePower = 0;
+            desc.attackerAbility = 'Prankster';
+          } else {
+            basePower = 90;
+            desc.moveName = 'Psychic';
+          }
           break;
         default:
           basePower = 80;
@@ -1251,7 +1274,7 @@ export function calculateAttackSMSSSV(
 ) {
   let attack: number;
   const attackSource = move.named('Foul Play') ? defender : attacker;
-  if (move.named('Photon Geyser', 'Light That Burns The Sky') ||
+  if (move.named('Photon Geyser', 'Light That Burns the Sky') ||
       (move.named('Tera Blast') && attackSource.teraType)) {
     move.category = attackSource.stats.atk > attackSource.stats.spa ? 'Physical' : 'Special';
   }

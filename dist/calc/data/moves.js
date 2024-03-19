@@ -271,7 +271,7 @@ var GSC_PATCH = {
     'Sweet Scent': { bp: 0, category: 'Status', type: 'Normal' },
     Synthesis: { bp: 0, category: 'Status', type: 'Grass' },
     Thief: { bp: 40, type: 'Dark' },
-    'Triple Kick': { bp: 20, type: 'Fighting', multihit: [1, 3] },
+    'Triple Kick': { bp: 20, type: 'Fighting', multihit: 3, multiaccuracy: true },
     Twister: { bp: 40, type: 'Dragon' },
     'Ancient Power': { bp: 60, type: 'Rock' },
     'Bone Rush': { bp: 25, type: 'Ground', multihit: [2, 5] },
@@ -4643,6 +4643,7 @@ var SS_PATCH = {
         category: 'Physical',
         makesContact: true,
         multihit: 3,
+        multiaccuracy: true,
         zp: 120,
         maxPower: 140,
         isKick: true
@@ -5759,7 +5760,8 @@ var SV_PATCH = {
         maxPower: 90,
         makesContact: true,
         isSlicing: true,
-        multihit: 10
+        multihit: 10,
+        multiaccuracy: true
     },
     Pounce: {
         bp: 50,
