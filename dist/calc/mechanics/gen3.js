@@ -396,10 +396,6 @@ exports.calculateDefenseADV = calculateDefenseADV;
 function calculateFinalModsADV(baseDamage, attacker, defender, move, field, desc, typeEffectiveness, firstHit, isCritical) {
     if (isCritical === void 0) { isCritical = false; }
     var isPhysical = move.category === 'Physical';
-    if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
-        move.overrideDefensiveStat = 'spd';
-    }
-    var defenseStat = move.overrideDefensiveStat || move.category === 'Physical' ? 'def' : 'spd';
     if (attacker.hasStatus('brn') && isPhysical && !attacker.hasAbility('Guts')) {
         baseDamage = Math.floor(baseDamage / 2);
         desc.isBurned = true;

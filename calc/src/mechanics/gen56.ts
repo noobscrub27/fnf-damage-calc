@@ -1009,7 +1009,7 @@ export function calculateDefenseBWXY(
   const hitsPhysical = defenseStat === 'def';
   desc.defenseEVs = getEVDescriptionText(gen, defender, defenseStat, defender.nature);
   if (defender.boosts[defenseStat] === 0 ||
-    (isCritical && defender.boosts[defenseStat] > 0) ||
+    ((isCritical || (attacker.hasAbility('Big Pecks') && hitsPhysical)) && defender.boosts[defenseStat] > 0) ||
     move.ignoreDefensive) {
     defense = defender.rawStats[defenseStat];
   } else if (attacker.hasAbility('Unaware')) {

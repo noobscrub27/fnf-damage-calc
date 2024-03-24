@@ -405,7 +405,7 @@ export function calculateSMSSSV(
   if ((defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
     (move.hasType('Grass') && defender.hasAbility('Sap Sipper')) ||
     (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb', 'Well-Baked Body', 'Shadow Convection')) ||
-    (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb', 'Shadow Hydraulics')) ||
+    (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb', 'Shadow Hydraulics', 'Water Compation')) ||
     (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
     (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
     (move.hasType('Ice') && defender.hasAbility('Tropical Current')) ||
@@ -537,9 +537,6 @@ export function calculateSMSSSV(
           : 'atk';
   // #endregion
   // #region (Special) Defense
-  if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
-    move.overrideDefensiveStat = 'spd';
-  }
   const defense = calculateDefenseSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
   const hitsPhysical = move.overrideDefensiveStat !== 'spd' &&
     (move.overrideDefensiveStat === 'def' || move.category === 'Physical' ||
@@ -1507,13 +1504,16 @@ export function calculateDefenseSMSSSV(
   isCritical = false
 ) {
   let defense: number;
+  if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
+    move.overrideDefensiveStat = 'spd';
+  }
   const hitsPhysical = move.overrideDefensiveStat !== 'spd' &&
     (move.overrideDefensiveStat === 'def' || move.category === 'Physical' ||
       (move.named('Shell Side Arm') && getShellSideArmCategory(attacker, defender) === 'Physical'));
   const defenseStat = hitsPhysical ? 'def' : 'spd';
   desc.defenseEVs = getEVDescriptionText(gen, defender, defenseStat, defender.nature);
   if (defender.boosts[defenseStat] === 0 ||
-      (isCritical && defender.boosts[defenseStat] > 0) ||
+      ((isCritical || (attacker.hasAbility('Big Pecks') && hitsPhysical)) && defender.boosts[defenseStat] > 0) ||
       move.ignoreDefensive) {
     defense = defender.rawStats[defenseStat];
   } else if (attacker.hasAbility('Unaware')) {

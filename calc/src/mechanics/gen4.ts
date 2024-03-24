@@ -753,11 +753,6 @@ function calculateFinalModsDPP(
   }
   const isPhysical = move.category === 'Physical';
 
-  if (move.named('Combardment') && (defender.stats.def > defender.stats.spd)) {
-    move.overrideDefensiveStat = 'spd';
-  }
-  const defenseStat = move.overrideDefensiveStat || move.category === 'Physical' ? 'def' : 'spd';
-
 
   if (!isCritical) {
     const screenMultiplier = field.gameType !== 'Singles' ? 2 / 3 : 1 / 2;

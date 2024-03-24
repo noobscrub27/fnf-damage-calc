@@ -799,7 +799,7 @@ function calculateDefenseBWXY(gen, attacker, defender, move, field, desc, isCrit
     var hitsPhysical = defenseStat === 'def';
     desc.defenseEVs = (0, util_2.getEVDescriptionText)(gen, defender, defenseStat, defender.nature);
     if (defender.boosts[defenseStat] === 0 ||
-        (isCritical && defender.boosts[defenseStat] > 0) ||
+        ((isCritical || (attacker.hasAbility('Big Pecks') && hitsPhysical)) && defender.boosts[defenseStat] > 0) ||
         move.ignoreDefensive) {
         defense = defender.rawStats[defenseStat];
     }
