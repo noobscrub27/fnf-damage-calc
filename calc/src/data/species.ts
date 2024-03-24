@@ -8580,6 +8580,12 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     abilities: { 0: 'Iron Barbs' },
     weightkg: 85.0,
   },
+  'Nuzleaf-Armored': {
+    types: ['Grass', 'Flying'],
+    bs: { hp: 70, at: 120, df: 60, sa: 110, sd: 60, sp: 149 },
+    abilities: { 0: 'Jetstream' },
+    weightkg: 28.0,
+  },
   'Vikavolt-FnF': {
     types: ['Ground', 'Electric'],
     bs: { hp: 77, at: 145, df: 105, sa: 70, sd: 85, sp: 43 },

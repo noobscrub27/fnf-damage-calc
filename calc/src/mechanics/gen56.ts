@@ -247,14 +247,16 @@ export function calculateBWXY(
   if ((defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
       (move.hasType('Grass') && defender.hasAbility('Sap Sipper')) ||
       (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Flame Absorb', 'Shadow Convection')) ||
+      (move.hasType('Ice') && defender.hasAbility('Tropical Current')) ||
       (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb', 'Shadow Hydraulics')) ||
       (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
       (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
       (move.hasType('Electric') &&
       defender.hasAbility('Lightning Rod', 'Motor Drive', 'Volt Absorb', 'Shadow Conduction')) ||
+      // bone master does not go break through abilities other than inflate and levitate
       (move.hasType('Ground') &&
       !field.isGravity && !move.named('Thousand Arrows') &&
-      !(defender.hasAbility('Bone Master') && move.flags.bone) &&
+      !(attacker.hasAbility('Bone Master') && move.flags.bone) &&
       !defender.hasItem('Iron Ball') &&
       (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn))) ||
       (move.flags.bullet && defender.hasAbility('Bulletproof')) ||
@@ -701,10 +703,8 @@ export function calculateBPModsBWXY(
   } else if (attacker.hasAbility('Analytic') && turnOrder !== 'first') {
     bpMods.push(5325);
     desc.attackerAbility = attacker.ability;
-  } else if (
-    attacker.hasAbility('Sand Force') &&
-    field.hasWeather('Sand') &&
-    move.hasType('Rock', 'Ground', 'Steel')
+  } else if ((attacker.hasAbility('Sand Force') && field.hasWeather('Sand') && move.hasType('Rock', 'Ground', 'Steel')) ||
+    (attacker.hasAbility('Squall') && move.hasType('Flying', 'Water', 'Electric') && field.hasWeather('Rain', 'Heavy Rain'))
   ) {
     bpMods.push(5325);
     desc.attackerAbility = attacker.ability;
@@ -804,6 +804,10 @@ export function calculateBPModsBWXY(
     desc.attackerAbility = attacker.ability;
   } else if (attacker.hasAbility('Tough Claws') && move.flags.contact) {
     bpMods.push(5325);
+    desc.attackerAbility = attacker.ability;
+  } else if ((attacker.hasAbility('Unsheathed') && move.flags.blade) ||
+    (attacker.hasAbility('Striker') && move.flags.kick)) {
+    bpMods.push(4915);
     desc.attackerAbility = attacker.ability;
   }
 
@@ -917,6 +921,10 @@ export function calculateAtModsBWXY(
   } else if (attacker.hasAbility('Flash Fire') && attacker.abilityOn && move.hasType('Fire')) {
     atMods.push(6144);
     desc.attackerAbility = 'Flash Fire';
+  } else if (attacker.hasAbility('Syzygy') && ((move.category == 'Special' && move.hasType('Fire')) ||
+    (move.category == 'Physical' && move.hasType('Ice')))) {
+    atMods.push(6144);
+    desc.attackerAbility = attacker.ability;
   } else if ((attacker.hasAbility('Corona') && move.hasType('Fire'))  ||
     (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)) {
     atMods.push(6144);

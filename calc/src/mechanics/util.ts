@@ -100,12 +100,14 @@ export function getFinalSpeed(gen: Generation, pokemon: Pokemon, field: Field, s
   // speedMods.push(1024);
 
   if ((pokemon.hasAbility('Unburden') && pokemon.abilityOn) ||
-      (pokemon.hasAbility('Chlorophyll') && weather.includes('Sun')) ||
+      (pokemon.hasAbility('Chlorophyll', 'Shadow Embers') && weather.includes('Sun')) ||
       (pokemon.hasAbility('Sand Rush') && weather === 'Sand') ||
       (pokemon.hasAbility('Swift Swim') && weather.includes('Rain')) ||
       (pokemon.hasAbility('Toxcceleration') && weather.includes('Miasma')) ||
-      (pokemon.hasAbility('Slush Rush') && ['Hail', 'Snow'].includes(weather)) ||
-      (pokemon.hasAbility('Surge Surfer') && terrain === 'Electric')
+      (pokemon.hasAbility('Slush Rush', 'Shadow Slush') && ['Hail', 'Snow'].includes(weather)) ||
+      (pokemon.hasAbility('Surge Surfer', 'Shadow Sparks') && terrain === 'Electric') ||
+      (pokemon.hasAbility('Shadow Birch') && terrain === 'Grassy') ||
+      (pokemon.hasAbility('Shadow Ribbons') && terrain === 'Misty')
   ) {
     speedMods.push(8192);
   } else if (pokemon.hasAbility('Quick Feet') && pokemon.status) {
@@ -595,12 +597,31 @@ export function getWeight(pokemon: Pokemon, desc: RawDesc, role: 'defender' | 'a
       : 1;
   if (abilityFactor !== 1) {
     weightHG = Math.max(Math.trunc(weightHG * abilityFactor), 1);
-    desc[`${role}Ability`] = pokemon.ability;
+    // I keep getting TS7053 here and I'm a TS noob so here's a dumb workaround that I shouldnt have to resort to
+    switch (role) {
+      case 'defender': 
+        desc['defenderAbility'] = pokemon.ability;
+        break;
+      case 'attacker': 
+        desc['attackerAbility'] = pokemon.ability;
+        break;
+      default: 
+        break;
+    }
   }
 
   if (pokemon.hasItem('Float Stone')) {
     weightHG = Math.max(Math.trunc(weightHG * 0.5), 1);
-    desc[`${role}Item`] = pokemon.item;
+    switch (role) {
+      case 'defender':
+        desc['defenderItem'] = pokemon.item;
+        break;
+      case 'attacker':
+        desc['attackerItem'] = pokemon.item;
+        break;
+      default:
+        break;
+    }
   }
 
   // convert back to kg

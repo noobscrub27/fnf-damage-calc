@@ -4,12 +4,13 @@
     "\\calc",
     "\\calc\\src",
     "\\calc\\src\\data",
-    "\\smoketest",
-    "\\smoketest\\src",
+    "\\dist",
+    "\\dist\\js",
     "\\src",
     "\\src\\js",
     "\\src\\js\\data",
     "\\src\\js\\data\\sets"
   ],
+  "SelectedNode": "\\dist\\js\\shared_controls.js",
   "PreviewInSolutionExplorer": false
 }

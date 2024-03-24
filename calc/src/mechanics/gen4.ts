@@ -183,8 +183,9 @@ export function calculateDPP(
       (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
       (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
       (move.hasType('Electric') && defender.hasAbility('Motor Drive', 'Volt Absorb', 'Shadow Conduction')) ||
+      // bone master does not go break through abilities other than inflate and levitate
       (move.hasType('Ground') && !field.isGravity &&
-      !(defender.hasAbility('Bone Master') && move.flags.bone) &&
+      !(attacker.hasAbility('Bone Master') && move.flags.bone) &&
       !defender.hasItem('Iron Ball') &&
     (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn))) ||
     (move.flags.sound && defender.hasAbility('Soundproof')) ||
@@ -559,6 +560,9 @@ export function calculateBPModsDPP(
   if (attacker.hasAbility('High Caliber') && move.flags.bullet) {
     basePower = Math.floor(basePower * 1.3);
     desc.defenderAbility = defender.ability;
+  } else if (attacker.hasAbility('Striker') && move.flags.kick) {
+    basePower = Math.floor(basePower * 1.2);
+    desc.attackerAbility = attacker.ability;
   }
   return basePower;
 }

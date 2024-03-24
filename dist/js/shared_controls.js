@@ -385,6 +385,10 @@ function autosetRoom(ability, i) {
 		currentAutoRooms[i] = "Arcana";
 		$("#mysteryroom").prop("checked", true);
 		break;
+	case "Terraforming":
+		currentAutoRooms[i] = "Terraforming";
+		$("#gravity").prop("checked", true);
+		break;
 	default:
 		currentAutoRooms[i] = "";
 		// if this pokemon's ability changing caused no more abilities to set this terrain
@@ -394,6 +398,9 @@ function autosetRoom(ability, i) {
 		}
 		if (lastAutoRooms.indexOf("Arcana") !== -1 && currentAutoRooms.indexOf("Arcana") === -1) {
 			$("#mysteryroom").prop("checked", false);
+			}
+		if (lastAutoRooms.indexOf("Terraforming") !== -1 && currentAutoRooms.indexOf("Terraforming") === -1) {
+			$("#gravity").prop("checked", false);
 		}
 		break;
 	}

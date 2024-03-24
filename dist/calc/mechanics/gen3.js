@@ -125,7 +125,7 @@ function calculateADV(gen, attacker, defender, move, field) {
     if ((defender.hasAbility('Flash Fire', 'Flame Absorb', 'Shadow Convection') && move.hasType('Fire')) ||
         (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
         (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
-        (!(defender.hasAbility('Bone Master') && move.flags.bone) &&
+        (!(attacker.hasAbility('Bone Master') && move.flags.bone) &&
             (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn)) && move.hasType('Ground')) ||
         (defender.hasAbility('Volt Absorb', 'Shadow Conduction') && move.hasType('Electric')) ||
         (defender.hasAbility('Water Absorb', 'Shadow Hydraulics') && move.hasType('Water')) ||
