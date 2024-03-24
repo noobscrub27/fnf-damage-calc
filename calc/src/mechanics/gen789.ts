@@ -294,11 +294,14 @@ export function calculateSMSSSV(
 
   // FIXME: this is incorrect, should be move.flags.heal, not move.drain
   if ((attacker.hasAbility('Triage') && move.drain) ||
-      (attacker.hasAbility('Gale Wings') &&
-       move.hasType('Flying') &&
-      attacker.curHP() === attacker.maxHP()) ||
+    (attacker.hasAbility('Gale Wings') &&
+      move.hasType('Flying') &&
+      attacker.curHP() > attacker.maxHP()) ||
     (attacker.hasAbility('Melody Allegretto') && move.flags.sound)) {
     move.priority = 1;
+    desc.attackerAbility = attacker.ability;
+  } else if (attacker.hasAbility('Stall')) {
+    move.priority = -1;
     desc.attackerAbility = attacker.ability;
   }
 
@@ -453,12 +456,7 @@ export function calculateSMSSSV(
 
   const fixedDamage = handleFixedDamageMoves(attacker, move);
   if (fixedDamage) {
-    if (attacker.hasAbility('Parental Bond')) {
-      result.damage = [fixedDamage, fixedDamage];
-      desc.attackerAbility = attacker.ability;
-    } else {
-      result.damage = fixedDamage;
-    }
+    result.damage = fixedDamage;
     return result;
   }
 
@@ -646,7 +644,7 @@ export function calculateSMSSSV(
       // Check if lost -ate ability. Typing stays the same, only boost is lost
       // Cannot be regained during multihit move and no Normal moves with stat drawbacks
       hasAteAbilityTypeChange = hasAteAbilityTypeChange &&
-        attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate', 'Normalize');
+        attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate', 'Normalize', 'Toxicate');
 
       if ((move.dropsStats && move.timesUsed! > 1)) {
         // Adaptability does not change between hits of a multihit, only between turns
@@ -1184,13 +1182,11 @@ export function calculateBPModsSMSSSV(
     desc.isPowerSpot = true;
   }
 
-  if (attacker.hasAbility('Rivalry') && ![attacker.gender, defender.gender].includes('N')) {
+  if (attacker.hasAbility('Rivalry') && ((defender.hasType(attacker.types[0]) || (attacker.types[1] && defender.hasType(attacker.types[1]))))) {
     if (attacker.gender === defender.gender) {
-      bpMods.push(5120);
-      desc.rivalry = 'buffed';
-    } else {
-      bpMods.push(3072);
-      desc.rivalry = 'nerfed';
+      bpMods.push(4915);
+      // desc.rivalry can prob go unused
+      // desc.rivalry = 'buffed';
     }
     desc.attackerAbility = attacker.ability;
   }
@@ -1198,7 +1194,11 @@ export function calculateBPModsSMSSSV(
   // The -ate abilities already changed move typing earlier, so most checks are done and desc is set
   // However, Max Moves also don't boost -ate Abilities
   if (!move.isMax && hasAteAbilityTypeChange) {
-    bpMods.push(4915);
+    if (attacker.hasAbility('Normalize')) {
+      bpMods.push(5325);
+    } else {
+      bpMods.push(4915);
+    }
   }
 
   if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
@@ -1416,7 +1416,8 @@ export function calculateAtModsSMSSSV(
   ) {
     atMods.push(8192);
     desc.attackerAbility = attacker.ability;
-  } else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+  } else if ((attacker.hasAbility('Seismography') && move.hasType('Ground')) ||
+    (attacker.hasAbility('Stench') && move.hasType('Poison'))) {
     atMods.push(5325);
     desc.attackerAbility = attacker.ability;
   } else if (attacker.hasAbility('Shadow Adaptation') && move.hasType('Shadow')) {
@@ -1583,7 +1584,7 @@ export function calculateDfModsSMSSSV(
     field.hasTerrain('Grassy') &&
     hitsPhysical
   ) {
-    dfMods.push(6144);
+    dfMods.push(8192);
     desc.defenderAbility = defender.ability;
   } else if (
       defender.hasAbility('Misty Cover') &&
@@ -1594,6 +1595,9 @@ export function calculateDfModsSMSSSV(
       desc.defenderAbility = defender.ability;
   } else if (defender.hasAbility('Fur Coat') && hitsPhysical) {
     dfMods.push(8192);
+    desc.defenderAbility = defender.ability;
+  } else if (defender.hasAbility('Stall')) {
+    dfMods.push(5325);
     desc.defenderAbility = defender.ability;
   }
   // Pokemon with "-of Ruin" Ability are immune to the opposing "-of Ruin" ability

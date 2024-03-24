@@ -91,9 +91,17 @@ function calculateDPP(gen, attacker, defender, move, field) {
         desc.moveBP = move.bp;
         desc.moveType = move.type;
     }
-    if (attacker.hasAbility('Normalize') && !move.named('Struggle')) {
-        move.type = 'Normal';
-        desc.attackerAbility = attacker.ability;
+    var hasAteAbilityTypeChange = false;
+    var isNormalize = false;
+    var noTypeChange = move.named('Struggle');
+    if (!noTypeChange) {
+        if ((isNormalize = attacker.hasAbility('Normalize'))) {
+            move.type = 'Normal';
+        }
+        if (isNormalize) {
+            desc.attackerAbility = attacker.ability;
+            hasAteAbilityTypeChange = true;
+        }
     }
     if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
         move.category = 'Special';
@@ -101,6 +109,10 @@ function calculateDPP(gen, attacker, defender, move, field) {
     }
     if (attacker.hasAbility('Melody Allegretto') && move.flags.sound) {
         move.priority = 1;
+        desc.attackerAbility = attacker.ability;
+    }
+    else if (attacker.hasAbility('Stall')) {
+        move.priority = -1;
         desc.attackerAbility = attacker.ability;
     }
     var isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
@@ -204,11 +216,11 @@ function calculateDPP(gen, attacker, defender, move, field) {
         desc.hits = move.hits;
     }
     var isPhysical = move.category === 'Physical';
-    var basePower = calculateBasePowerDPP(gen, attacker, defender, move, field, desc);
+    var basePower = calculateBasePowerDPP(gen, attacker, defender, move, field, hasAteAbilityTypeChange, desc);
     if (basePower === 0) {
         return result;
     }
-    basePower = calculateBPModsDPP(attacker, defender, move, field, desc, basePower);
+    basePower = calculateBPModsDPP(attacker, defender, move, field, desc, basePower, hasAteAbilityTypeChange);
     var attack = calculateAttackDPP(gen, attacker, defender, move, field, desc, isCritical);
     var defense = calculateDefenseDPP(gen, attacker, defender, move, field, desc, isCritical);
     var baseDamage = Math.floor(Math.floor((Math.floor((2 * attacker.level) / 5 + 2) * basePower * attack) / 50) / defense);
@@ -305,10 +317,12 @@ function calculateDPP(gen, attacker, defender, move, field) {
         var usedItems = [false, false];
         var _loop_1 = function (times) {
             usedItems = (0, util_1.checkMultihitBoost)(gen, attacker, defender, move, field, desc, usedItems[0], usedItems[1]);
-            var newBasePower = calculateBasePowerDPP(gen, attacker, defender, move, field, desc);
-            newBasePower = calculateBPModsDPP(attacker, defender, move, field, desc, newBasePower);
+            var newBasePower = calculateBasePowerDPP(gen, attacker, defender, move, field, hasAteAbilityTypeChange, desc);
+            newBasePower = calculateBPModsDPP(attacker, defender, move, field, desc, newBasePower, hasAteAbilityTypeChange);
             var newAtk = calculateAttackDPP(gen, attacker, defender, move, field, desc, isCritical);
-            var baseDamage_1 = Math.floor(Math.floor((Math.floor((2 * attacker.level) / 5 + 2) * newBasePower * newAtk) / 50) / defense);
+            var newDef = calculateDefenseDPP(gen, attacker, defender, move, field, desc, isCritical);
+            hasAteAbilityTypeChange = hasAteAbilityTypeChange && attacker.hasAbility('Normalize');
+            var baseDamage_1 = Math.floor(Math.floor((Math.floor((2 * attacker.level) / 5 + 2) * newBasePower * newAtk) / 50) / newDef);
             if (attacker.hasStatus('brn') && isPhysical && !attacker.hasAbility('Guts')) {
                 baseDamage_1 = Math.floor(baseDamage_1 * 0.5);
                 desc.isBurned = true;
@@ -341,7 +355,7 @@ function calculateDPP(gen, attacker, defender, move, field) {
     return result;
 }
 exports.calculateDPP = calculateDPP;
-function calculateBasePowerDPP(gen, attacker, defender, move, field, desc, hit) {
+function calculateBasePowerDPP(gen, attacker, defender, move, field, hasAteAbilityTypeChange, desc, hit) {
     if (hit === void 0) { hit = 1; }
     var basePower = move.bp;
     var turnOrder = attacker.stats.spe > defender.stats.spe ? 'first' : 'last';
@@ -440,7 +454,7 @@ function calculateBasePowerDPP(gen, attacker, defender, move, field, desc, hit) 
     return basePower;
 }
 exports.calculateBasePowerDPP = calculateBasePowerDPP;
-function calculateBPModsDPP(attacker, defender, move, field, desc, basePower) {
+function calculateBPModsDPP(attacker, defender, move, field, desc, basePower, hasAteAbilityTypeChange) {
     if (field.attackerSide.isHelpingHand) {
         basePower = Math.floor(basePower * 1.5);
         desc.isHelpingHand = true;
@@ -468,7 +482,17 @@ function calculateBPModsDPP(attacker, defender, move, field, desc, basePower) {
         basePower = Math.floor(basePower * 1.2);
         desc.attackerItem = attacker.item;
     }
-    if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
+    if (attacker.hasAbility('Rivalry') && ((defender.hasType(attacker.types[0]) || (attacker.types[1] && defender.hasType(attacker.types[1]))))) {
+        if (attacker.gender === defender.gender) {
+            basePower = Math.floor(basePower * 1.2);
+        }
+        desc.attackerAbility = attacker.ability;
+    }
+    else if (hasAteAbilityTypeChange) {
+        basePower = Math.floor(basePower * 1.3);
+        desc.attackerAbility = attacker.ability;
+    }
+    else if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
         (attacker.hasAbility('Iron Fist') && move.flags.punch) ||
         (attacker.hasAbility('Cunning Blade') && move.flags.blade)) {
         basePower = Math.floor(basePower * 1.2);
@@ -575,7 +599,8 @@ function calculateAttackDPP(gen, attacker, defender, move, field, desc, isCritic
         attack = Math.floor(attack / 2);
         desc.attackerAbility = attacker.ability;
     }
-    else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+    else if ((attacker.hasAbility('Seismography') && move.hasType('Ground')) ||
+        (attacker.hasAbility('Stench') && move.hasType('Poison'))) {
         attack = Math.floor(attack * 1.3);
         desc.attackerAbility = attacker.ability;
     }
@@ -632,7 +657,11 @@ function calculateDefenseDPP(gen, attacker, defender, move, field, desc, isCriti
         defense = Math.floor(defense * 1.5);
         desc.defenderAbility = defender.ability;
     }
-    else if (defender.hasAbility('Flower Gift') && field.hasWeather('Sun') && !isPhysical) {
+    else if (defender.hasAbility('Stall')) {
+        defense = Math.floor(defense * 1.3);
+        desc.defenderAbility = defender.ability;
+    }
+    if (defender.hasAbility('Flower Gift') && field.hasWeather('Sun') && !isPhysical) {
         defense = Math.floor(defense * 1.5);
         desc.defenderAbility = defender.ability;
         desc.weather = field.weather;

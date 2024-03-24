@@ -98,9 +98,19 @@ export function calculateDPP(
     desc.moveType = move.type;
   }
 
-  if (attacker.hasAbility('Normalize') && !move.named('Struggle')) {
-    move.type = 'Normal';
-    desc.attackerAbility = attacker.ability;
+  // so far there are no plans to backport other ate abilities but it doesnt hurt to do things this way just in case
+  let hasAteAbilityTypeChange = false;
+  let isNormalize = false;
+  const noTypeChange = move.named('Struggle');
+
+  if (!noTypeChange) {
+    if ((isNormalize = attacker.hasAbility('Normalize'))) {
+      move.type = 'Normal';
+    }
+    if (isNormalize) {
+      desc.attackerAbility = attacker.ability;
+      hasAteAbilityTypeChange = true;
+    }
   }
 
   if (attacker.hasAbility('Cunning Blade') && move.flags.blade) {
@@ -110,6 +120,9 @@ export function calculateDPP(
 
   if (attacker.hasAbility('Melody Allegretto') && move.flags.sound) {
     move.priority = 1;
+    desc.attackerAbility = attacker.ability;
+  } else if (attacker.hasAbility('Stall')) {
+    move.priority = -1;
     desc.attackerAbility = attacker.ability;
   }
 
@@ -227,11 +240,11 @@ export function calculateDPP(
     desc.hits = move.hits;
   }
   const isPhysical = move.category === 'Physical';
-  let basePower = calculateBasePowerDPP(gen, attacker, defender, move, field, desc);
+  let basePower = calculateBasePowerDPP(gen, attacker, defender, move, field, hasAteAbilityTypeChange, desc);
   if (basePower === 0) {
     return result;
   }
-  basePower = calculateBPModsDPP(attacker, defender, move, field, desc, basePower);
+  basePower = calculateBPModsDPP(attacker, defender, move, field, desc, basePower, hasAteAbilityTypeChange);
 
   // #endregion
   // #region (Special) Attack
@@ -346,13 +359,17 @@ export function calculateDPP(
     for (let times = 1; times < numAttacks; times++) {
       usedItems = checkMultihitBoost(gen, attacker, defender, move,
         field, desc, usedItems[0], usedItems[1]);
-      let newBasePower = calculateBasePowerDPP(gen, attacker, defender, move, field, desc);
-      newBasePower = calculateBPModsDPP(attacker, defender, move, field, desc, newBasePower);
+      let newBasePower = calculateBasePowerDPP(gen, attacker, defender, move, field, hasAteAbilityTypeChange, desc);
+      newBasePower = calculateBPModsDPP(attacker, defender, move, field, desc, newBasePower, hasAteAbilityTypeChange);
       const newAtk = calculateAttackDPP(gen, attacker, defender, move, field, desc, isCritical);
+      const newDef = calculateDefenseDPP(gen, attacker, defender, move, field, desc, isCritical);
+      // Check if lost -ate ability. Typing stays the same, only boost is lost
+      // Cannot be regained during multihit move and no Normal moves with stat drawbacks
+      hasAteAbilityTypeChange = hasAteAbilityTypeChange && attacker.hasAbility('Normalize');
       let baseDamage = Math.floor(
         Math.floor(
           (Math.floor((2 * attacker.level) / 5 + 2) * newBasePower * newAtk) / 50
-        ) / defense
+        ) / newDef
       );
       if (attacker.hasStatus('brn') && isPhysical && !attacker.hasAbility('Guts')) {
         baseDamage = Math.floor(baseDamage * 0.5);
@@ -391,6 +408,7 @@ export function calculateBasePowerDPP(
   defender: Pokemon,
   move: Move,
   field: Field,
+  hasAteAbilityTypeChange: boolean,
   desc: RawDesc,
   hit = 1,
 ) {
@@ -501,6 +519,7 @@ export function calculateBPModsDPP(
   field: Field,
   desc: RawDesc,
   basePower: number,
+  hasAteAbilityTypeChange: boolean,
 ) {
 
   if (field.attackerSide.isHelpingHand) {
@@ -530,8 +549,17 @@ export function calculateBPModsDPP(
     basePower = Math.floor(basePower * 1.2);
     desc.attackerItem = attacker.item;
   }
-
-  if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
+  if (attacker.hasAbility('Rivalry') && ((defender.hasType(attacker.types[0]) || (attacker.types[1] && defender.hasType(attacker.types[1]))))) {
+    if (attacker.gender === defender.gender) {
+      basePower = Math.floor(basePower * 1.2);
+      // desc.rivalry can prob go unused
+      // desc.rivalry = 'buffed';
+    }
+    desc.attackerAbility = attacker.ability;
+  } else if (hasAteAbilityTypeChange) {
+    basePower = Math.floor(basePower * 1.3);
+    desc.attackerAbility = attacker.ability;
+  } else if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
     (attacker.hasAbility('Iron Fist') && move.flags.punch) ||
     (attacker.hasAbility('Cunning Blade') && move.flags.blade)) {
     basePower = Math.floor(basePower * 1.2);
@@ -636,7 +664,8 @@ export function calculateAttackDPP(
   } else if (isPhysical && attacker.hasAbility('Slow Start') && attacker.abilityOn) {
     attack = Math.floor(attack / 2);
     desc.attackerAbility = attacker.ability;
-  } else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+  } else if ((attacker.hasAbility('Seismography') && move.hasType('Ground')) ||
+    (attacker.hasAbility('Stench') && move.hasType('Poison'))) {
     attack = Math.floor(attack * 1.3);
     desc.attackerAbility = attacker.ability;
   }
@@ -698,7 +727,11 @@ export function calculateDefenseDPP(
   if (defender.hasAbility('Marvel Scale') && defender.status && isPhysical) {
     defense = Math.floor(defense * 1.5);
     desc.defenderAbility = defender.ability;
-  } else if (defender.hasAbility('Flower Gift') && field.hasWeather('Sun') && !isPhysical) {
+  } else if (defender.hasAbility('Stall')) {
+    defense = Math.floor(defense * 1.3);
+    desc.defenderAbility = defender.ability;
+  }
+  if (defender.hasAbility('Flower Gift') && field.hasWeather('Sun') && !isPhysical) {
     defense = Math.floor(defense * 1.5);
     desc.defenderAbility = defender.ability;
     desc.weather = field.weather;

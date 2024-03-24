@@ -78,6 +78,10 @@ function calculateADV(gen, attacker, defender, move, field) {
         move.priority = 1;
         desc.attackerAbility = attacker.ability;
     }
+    else if (attacker.hasAbility('Stall')) {
+        move.priority = -1;
+        desc.attackerAbility = attacker.ability;
+    }
     var typeEffectivenessPrecedenceRules = [
         'Normal',
         'Fire',
@@ -314,7 +318,8 @@ function calculateAttackADV(gen, attacker, defender, move, desc, isCritical) {
         at = Math.floor(at * 2);
         desc.attackerAbility = attacker.ability;
     }
-    else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+    else if ((attacker.hasAbility('Seismography') && move.hasType('Ground')) ||
+        (attacker.hasAbility('Stench') && move.hasType('Poison'))) {
         at = Math.floor(at * 1.3);
         desc.attackerAbility = attacker.ability;
     }
@@ -377,6 +382,10 @@ function calculateDefenseADV(gen, defender, move, desc, isCritical) {
     }
     else if (defenseStat === 'def' && defender.hasAbility('Marvel Scale') && defender.status) {
         df = Math.floor(df * 1.5);
+        desc.defenderAbility = defender.ability;
+    }
+    else if (defender.hasAbility('Stall')) {
+        df = Math.floor(df * 1.3);
         desc.defenderAbility = defender.ability;
     }
     if (move.named('Explosion', 'Self-Destruct')) {

@@ -227,9 +227,13 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     if ((attacker.hasAbility('Triage') && move.drain) ||
         (attacker.hasAbility('Gale Wings') &&
             move.hasType('Flying') &&
-            attacker.curHP() === attacker.maxHP()) ||
+            attacker.curHP() > attacker.maxHP()) ||
         (attacker.hasAbility('Melody Allegretto') && move.flags.sound)) {
         move.priority = 1;
+        desc.attackerAbility = attacker.ability;
+    }
+    else if (attacker.hasAbility('Stall')) {
+        move.priority = -1;
         desc.attackerAbility = attacker.ability;
     }
     var isGhostRevealed = attacker.hasAbility('Scrappy') || attacker.hasAbility('Mind\'s Eye') ||
@@ -333,13 +337,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     desc.HPEVs = "".concat(defender.evs.hp, " HP");
     var fixedDamage = (0, util_2.handleFixedDamageMoves)(attacker, move);
     if (fixedDamage) {
-        if (attacker.hasAbility('Parental Bond')) {
-            result.damage = [fixedDamage, fixedDamage];
-            desc.attackerAbility = attacker.ability;
-        }
-        else {
-            result.damage = fixedDamage;
-        }
+        result.damage = fixedDamage;
         return result;
     }
     if (move.named('Final Gambit')) {
@@ -461,7 +459,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
             var newAttack = calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
             var newDefense = calculateDefenseSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
             hasAteAbilityTypeChange = hasAteAbilityTypeChange &&
-                attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate', 'Normalize');
+                attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate', 'Normalize', 'Toxicate');
             if ((move.dropsStats && move.timesUsed > 1)) {
                 preStellarStabMod = (0, util_2.getStabMod)(attacker, move, desc);
                 typeEffectiveness = turn2typeEffectiveness;
@@ -870,19 +868,19 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         bpMods.push(5325);
         desc.isPowerSpot = true;
     }
-    if (attacker.hasAbility('Rivalry') && ![attacker.gender, defender.gender].includes('N')) {
+    if (attacker.hasAbility('Rivalry') && ((defender.hasType(attacker.types[0]) || (attacker.types[1] && defender.hasType(attacker.types[1]))))) {
         if (attacker.gender === defender.gender) {
-            bpMods.push(5120);
-            desc.rivalry = 'buffed';
-        }
-        else {
-            bpMods.push(3072);
-            desc.rivalry = 'nerfed';
+            bpMods.push(4915);
         }
         desc.attackerAbility = attacker.ability;
     }
     if (!move.isMax && hasAteAbilityTypeChange) {
-        bpMods.push(4915);
+        if (attacker.hasAbility('Normalize')) {
+            bpMods.push(5325);
+        }
+        else {
+            bpMods.push(4915);
+        }
     }
     if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
         (attacker.hasAbility('Iron Fist') && move.flags.punch) ||
@@ -1075,7 +1073,8 @@ function calculateAtModsSMSSSV(gen, attacker, defender, move, field, desc) {
         atMods.push(8192);
         desc.attackerAbility = attacker.ability;
     }
-    else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+    else if ((attacker.hasAbility('Seismography') && move.hasType('Ground')) ||
+        (attacker.hasAbility('Stench') && move.hasType('Poison'))) {
         atMods.push(5325);
         desc.attackerAbility = attacker.ability;
     }
@@ -1204,7 +1203,7 @@ function calculateDfModsSMSSSV(gen, attacker, defender, move, field, desc, isCri
     else if (defender.hasAbility('Grass Pelt') &&
         field.hasTerrain('Grassy') &&
         hitsPhysical) {
-        dfMods.push(6144);
+        dfMods.push(8192);
         desc.defenderAbility = defender.ability;
     }
     else if (defender.hasAbility('Misty Cover') &&
@@ -1215,6 +1214,10 @@ function calculateDfModsSMSSSV(gen, attacker, defender, move, field, desc, isCri
     }
     else if (defender.hasAbility('Fur Coat') && hitsPhysical) {
         dfMods.push(8192);
+        desc.defenderAbility = defender.ability;
+    }
+    else if (defender.hasAbility('Stall')) {
+        dfMods.push(5325);
         desc.defenderAbility = defender.ability;
     }
     var isSwordOfRuinActive = (attacker.hasAbility('Sword of Ruin') || field.isSwordOfRuin) &&

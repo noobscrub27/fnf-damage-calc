@@ -78,6 +78,9 @@ export function calculateADV(
   if (attacker.hasAbility('Melody Allegretto') && move.flags.sound) {
     move.priority = 1;
     desc.attackerAbility = attacker.ability;
+  } else if (attacker.hasAbility('Stall')) {
+    move.priority = -1;
+    desc.attackerAbility = attacker.ability;
   }
 
   const typeEffectivenessPrecedenceRules = [
@@ -360,7 +363,8 @@ export function calculateAttackADV(
   } else if (attacker.hasAbility('Shadow Adaptation') && move.hasType('Shadow')) {
     at = Math.floor(at * 2);
     desc.attackerAbility = attacker.ability;
-  } else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+  } else if ((attacker.hasAbility('Seismography') && move.hasType('Ground')) ||
+    (attacker.hasAbility('Stench') && move.hasType('Poison'))) {
     at = Math.floor(at * 1.3);
     desc.attackerAbility = attacker.ability;
   } if (!attacker.hasItem('Sea Incense') && move.hasType(getItemBoostType(attacker.item))) {
@@ -432,6 +436,9 @@ export function calculateDefenseADV(
     desc.defenderItem = defender.item;
   } else if (defenseStat === 'def' && defender.hasAbility('Marvel Scale') && defender.status) {
     df = Math.floor(df * 1.5);
+    desc.defenderAbility = defender.ability;
+  } else if (defender.hasAbility('Stall')) {
+    df = Math.floor(df * 1.3);
     desc.defenderAbility = defender.ability;
   }
   if (move.named('Explosion', 'Self-Destruct')) {

@@ -134,14 +134,16 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         }
         if (isPixilate || isRefrigerate || isAerilate || isNormalize) {
             desc.attackerAbility = attacker.ability;
-        }
-        if (isPixilate || isRefrigerate || isAerilate) {
             hasAteAbilityTypeChange = true;
         }
     }
     if (attacker.hasAbility('Gale Wings') && move.hasType('Flying') ||
         (attacker.hasAbility('Melody Allegretto') && move.flags.sound)) {
         move.priority = 1;
+        desc.attackerAbility = attacker.ability;
+    }
+    else if (attacker.hasAbility('Stall')) {
+        move.priority = -1;
         desc.attackerAbility = attacker.ability;
     }
     var isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
@@ -313,7 +315,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
             var newAtk = calculateAttackBWXY(gen, attacker, defender, move, field, desc, isCritical);
             var newDef = calculateDefenseBWXY(gen, attacker, defender, move, field, desc, isCritical);
             hasAteAbilityTypeChange = hasAteAbilityTypeChange &&
-                attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate');
+                attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate', 'Normalize');
             if ((move.dropsStats && move.timesUsed > 1)) {
                 stabMod = (0, util_2.getStabMod)(attacker, move, desc);
             }
@@ -549,14 +551,9 @@ function calculateBPModsBWXY(gen, attacker, defender, move, field, desc, basePow
         bpMods.push(5325);
         desc.attackerAbility = attacker.ability;
     }
-    if (attacker.hasAbility('Rivalry') && ![attacker.gender, defender.gender].includes('N')) {
+    if (attacker.hasAbility('Rivalry') && ((defender.hasType(attacker.types[0]) || (attacker.types[1] && defender.hasType(attacker.types[1]))))) {
         if (attacker.gender === defender.gender) {
-            bpMods.push(5120);
-            desc.rivalry = 'buffed';
-        }
-        else {
-            bpMods.push(3072);
-            desc.rivalry = 'nerfed';
+            bpMods.push(4915);
         }
         desc.attackerAbility = attacker.ability;
     }
@@ -764,7 +761,8 @@ function calculateAtModsBWXY(attacker, defender, move, field, desc) {
         atMods.push(8192);
         desc.attackerAbility = attacker.ability;
     }
-    else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+    else if ((attacker.hasAbility('Seismography') && move.hasType('Ground')) ||
+        (attacker.hasAbility('Stench') && move.hasType('Poison'))) {
         atMods.push(5325);
         desc.attackerAbility = attacker.ability;
     }
@@ -848,7 +846,7 @@ function calculateDfModsBWXY(gen, defender, field, desc, hitsPhysical) {
         desc.isFlowerGiftDefender = true;
     }
     if (field.hasTerrain('Grassy') && defender.hasAbility('Grass Pelt') && hitsPhysical) {
-        dfMods.push(6144);
+        dfMods.push(8192);
         desc.defenderAbility = defender.ability;
     }
     if ((!hitsPhysical && defender.hasItem('Soul Dew') &&
@@ -865,6 +863,10 @@ function calculateDfModsBWXY(gen, defender, field, desc, hitsPhysical) {
     }
     if (defender.hasAbility('Fur Coat') && hitsPhysical) {
         dfMods.push(8192);
+        desc.defenderAbility = defender.ability;
+    }
+    else if (defender.hasAbility('Stall')) {
+        dfMods.push(5325);
         desc.defenderAbility = defender.ability;
     }
     return dfMods;

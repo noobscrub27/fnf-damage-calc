@@ -185,10 +185,10 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
         attacker.ability = '';
     }
     if (field.hasWeather('Miasma')) {
-        if (defender.hasAbility('Poison Heal')) {
+        if (defender.hasAbility('Poison Heal', 'Toxic Boost')) {
             defender.ability = '';
         }
-        if (attacker.hasAbility('Poison Heal')) {
+        if (attacker.hasAbility('Poison Heal', 'Toxic Boost')) {
             attacker.ability = '';
         }
     }
@@ -201,7 +201,7 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
     }
     var hazards = getHazards(gen, defender, field.defenderSide);
     var eot = getEndOfTurn(gen, attacker, defender, move, field);
-    var toxicCounter = defender.hasStatus('tox') && !defender.hasAbility('Magic Guard', 'Poison Heal') ? defender.toxicCounter : 0;
+    var toxicCounter = defender.hasStatus('tox') && !defender.hasAbility('Magic Guard', 'Poison Heal', 'Toxic Boost') ? defender.toxicCounter : 0;
     var qualifier = move.hits > 1 ? 'approx. ' : '';
     var hazardsText = hazards.texts.length > 0
         ? ' after ' + serializeText(hazards.texts)
@@ -347,7 +347,7 @@ var TRAPPING = [
 function getHazards(gen, defender, defenderSide) {
     var damage = 0;
     var texts = [];
-    if (defender.hasItem('Heavy-Duty Boots')) {
+    if (defender.hasItem('Heavy-Duty Boots') || defender.hasAbility('Wonder Guard')) {
         return { damage: damage, texts: texts };
     }
     if (defenderSide.isSR && !defender.hasAbility('Magic Guard', 'Mountaineer')) {
@@ -427,7 +427,7 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
             texts.push(defender.ability + ' recovery');
         }
         else if (!defender.hasType('Ice') &&
-            !defender.hasAbility('Magic Guard', 'Overcoat', 'Snow Cloak') &&
+            !defender.hasAbility('Magic Guard', 'Overcoat', 'Snow Cloak', 'Slush Rush') &&
             !defender.hasItem('Safety Goggles') &&
             field.hasWeather('Hail')) {
             damage -= Math.floor(defender.maxHP() / 16);
@@ -513,7 +513,7 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
             damage += Math.floor(defender.maxHP() / 16);
             texts.push('Poison Heal');
         }
-        else if (!defender.hasAbility('Magic Guard')) {
+        else if (!defender.hasAbility('Magic Guard', 'Toxic Boost') || field.hasWeather('Miasma')) {
             damage -= Math.floor(defender.maxHP() / (gen.num === 1 ? 16 : 8));
             texts.push('poison damage');
         }
@@ -523,7 +523,7 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
             damage += Math.floor(defender.maxHP() / 16);
             texts.push('Poison Heal');
         }
-        else if (!defender.hasAbility('Magic Guard')) {
+        else if (!defender.hasAbility('Magic Guard', 'Toxic Boost') || field.hasWeather('Miasma')) {
             texts.push('toxic damage');
         }
     }

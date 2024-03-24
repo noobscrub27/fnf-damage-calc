@@ -179,8 +179,6 @@ export function calculateBWXY(
     }
     if (isPixilate || isRefrigerate || isAerilate || isNormalize) {
       desc.attackerAbility = attacker.ability;
-    }
-    if (isPixilate || isRefrigerate || isAerilate) {
       hasAteAbilityTypeChange = true;
     }
   }
@@ -188,6 +186,9 @@ export function calculateBWXY(
   if (attacker.hasAbility('Gale Wings') && move.hasType('Flying') ||
      (attacker.hasAbility('Melody Allegretto') && move.flags.sound)) {
     move.priority = 1;
+    desc.attackerAbility = attacker.ability;
+  } else if (attacker.hasAbility('Stall')) {
+    move.priority = -1;
     desc.attackerAbility = attacker.ability;
   }
 
@@ -429,7 +430,7 @@ export function calculateBWXY(
       // Check if lost -ate ability. Typing stays the same, only boost is lost
       // Cannot be regained during multihit move and no Normal moves with stat drawbacks
       hasAteAbilityTypeChange = hasAteAbilityTypeChange &&
-        attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate');
+        attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate', 'Normalize');
 
       if ((move.dropsStats && move.timesUsed! > 1)) {
         // Adaptability does not change between hits of a multihit, only between turns
@@ -735,13 +736,11 @@ export function calculateBPModsBWXY(
     desc.attackerAbility = attacker.ability;
   }
 
-  if (attacker.hasAbility('Rivalry') && ![attacker.gender, defender.gender].includes('N')) {
+  if (attacker.hasAbility('Rivalry') && ((defender.hasType(attacker.types[0]) || (attacker.types[1] && defender.hasType(attacker.types[1]))))) {
     if (attacker.gender === defender.gender) {
-      bpMods.push(5120);
-      desc.rivalry = 'buffed';
-    } else {
-      bpMods.push(3072);
-      desc.rivalry = 'nerfed';
+      bpMods.push(4915);
+      // desc.rivalry can prob go unused
+      // desc.rivalry = 'buffed';
     }
     desc.attackerAbility = attacker.ability;
   }
@@ -964,7 +963,8 @@ export function calculateAtModsBWXY(
     (attacker.hasAbility('Mystic Power') && move.category === 'Special')) {
     atMods.push(8192);
     desc.attackerAbility = attacker.ability;
-  } else if (attacker.hasAbility('Seismography') && move.hasType('Ground')) {
+  } else if ((attacker.hasAbility('Seismography') && move.hasType('Ground')) ||
+    (attacker.hasAbility('Stench') && move.hasType('Poison'))) {
     atMods.push(5325);
     desc.attackerAbility = attacker.ability;
   }
@@ -1071,7 +1071,7 @@ export function calculateDfModsBWXY(
   }
 
   if (field.hasTerrain('Grassy') && defender.hasAbility('Grass Pelt') && hitsPhysical) {
-    dfMods.push(6144);
+    dfMods.push(8192);
     desc.defenderAbility = defender.ability;
   }
 
@@ -1091,6 +1091,9 @@ export function calculateDfModsBWXY(
 
   if (defender.hasAbility('Fur Coat') && hitsPhysical) {
     dfMods.push(8192);
+    desc.defenderAbility = defender.ability;
+  } else if (defender.hasAbility('Stall')) {
+    dfMods.push(5325);
     desc.defenderAbility = defender.ability;
   }
   return dfMods;

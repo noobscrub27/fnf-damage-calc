@@ -267,10 +267,10 @@ export function getKOChance(
     attacker.ability = '' as AbilityName;
   }
   if (field.hasWeather('Miasma')) {
-    if (defender.hasAbility('Poison Heal')) {
+    if (defender.hasAbility('Poison Heal', 'Toxic Boost')) {
       defender.ability = '' as AbilityName;
     }
-    if (attacker.hasAbility('Poison Heal')) {
+    if (attacker.hasAbility('Poison Heal', 'Toxic Boost')) {
       attacker.ability = '' as AbilityName;
     }
   }
@@ -285,7 +285,7 @@ export function getKOChance(
   const hazards = getHazards(gen, defender, field.defenderSide);
   const eot = getEndOfTurn(gen, attacker, defender, move, field);
   const toxicCounter =
-    defender.hasStatus('tox') && !defender.hasAbility('Magic Guard', 'Poison Heal') ? defender.toxicCounter : 0;
+    defender.hasStatus('tox') && !defender.hasAbility('Magic Guard', 'Poison Heal', 'Toxic Boost') ? defender.toxicCounter : 0;
 
   // multi-hit moves have too many possibilities for brute-forcing to work, so reduce it
   // to an approximate distribution
@@ -481,7 +481,7 @@ function getHazards(gen: Generation, defender: Pokemon, defenderSide: Side) {
   let damage = 0;
   const texts: string[] = [];
 
-  if (defender.hasItem('Heavy-Duty Boots')) {
+  if (defender.hasItem('Heavy-Duty Boots') || defender.hasAbility('Wonder Guard')) {
     return {damage, texts};
   }
   if (defenderSide.isSR && !defender.hasAbility('Magic Guard', 'Mountaineer')) {
@@ -569,7 +569,7 @@ function getEndOfTurn(
       texts.push(defender.ability + ' recovery');
     } else if (
       !defender.hasType('Ice') &&
-      !defender.hasAbility('Magic Guard', 'Overcoat', 'Snow Cloak') &&
+      !defender.hasAbility('Magic Guard', 'Overcoat', 'Snow Cloak', 'Slush Rush') &&
       !defender.hasItem('Safety Goggles') &&
       field.hasWeather('Hail')
     ) {
@@ -654,7 +654,7 @@ function getEndOfTurn(
     if (defender.hasAbility('Poison Heal')) {
       damage += Math.floor(defender.maxHP() / 16);
       texts.push('Poison Heal');
-    } else if (!defender.hasAbility('Magic Guard')) {
+    } else if (!defender.hasAbility('Magic Guard', 'Toxic Boost') || field.hasWeather('Miasma')) {
       damage -= Math.floor(defender.maxHP() / (gen.num === 1 ? 16 : 8));
       texts.push('poison damage');
     }
@@ -662,7 +662,7 @@ function getEndOfTurn(
     if (defender.hasAbility('Poison Heal')) {
       damage += Math.floor(defender.maxHP() / 16);
       texts.push('Poison Heal');
-    } else if (!defender.hasAbility('Magic Guard')) {
+    } else if (!defender.hasAbility('Magic Guard', 'Toxic Boost') || field.hasWeather('Miasma')) {
       texts.push('toxic damage');
     }
   } else if (defender.hasStatus('brn')) {
