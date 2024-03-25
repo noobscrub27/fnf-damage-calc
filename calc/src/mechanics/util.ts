@@ -290,6 +290,13 @@ export function checkDauntlessShield(source: Pokemon, gen: Generation) {
   }
 }
 
+// soder
+export function checkSillySoda(source: Pokemon, gen: Generation) {
+  if (source.hasItem('Silly Soda') && source.named('Spinda')) {
+    source.boosts.atk = Math.min(6, source.boosts.def + 2);
+  }
+}
+
 export function checkEmbody(source: Pokemon, gen: Generation) {
   if (gen.num < 9) return;
   switch (source.ability) {

@@ -16,6 +16,7 @@ import {
   checkIntimidate,
   checkMultihitBoost,
   checkSearchEngine,
+  checkSillySoda,
   checkInflate,
   countBoosts,
   handleFixedDamageMoves,
@@ -40,6 +41,8 @@ export function calculateADV(
   checkSearchEngine(attacker, defender);
   checkInflate(attacker);
   checkInflate(defender);
+  checkSillySoda(attacker, gen);
+  checkSillySoda(defender, gen);
   attacker.stats.spe = getFinalSpeed(gen, attacker, field, field.attackerSide);
   defender.stats.spe = getFinalSpeed(gen, defender, field, field.defenderSide);
 
@@ -197,7 +200,7 @@ export function calculateADV(
   }
   bp = calculateBPModsADV(attacker, move, desc, bp, field);
 
-  const isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor') && (!defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'));
+  const isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor') && !(defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'));
   const at = calculateAttackADV(gen, attacker, defender, move, desc, isCritical);
   const df = calculateDefenseADV(gen, defender, move, desc, isCritical);
 
@@ -375,6 +378,7 @@ export function calculateAttackADV(
     desc.attackerItem = attacker.item;
   } else if (
     (isPhysical && attacker.hasItem('Choice Band')) ||
+    (isPhysical && attacker.hasItem('Bone Baton') && attacker.named('Osteokhan')) ||
     (!isPhysical && attacker.hasItem('Soul Dew') && attacker.named('Latios', 'Latias'))
   ) {
     at = Math.floor(at * 1.5);
@@ -382,6 +386,8 @@ export function calculateAttackADV(
   } else if (
     (!isPhysical && attacker.hasItem('Deep Sea Tooth') && attacker.named('Clamperl')) ||
     (!isPhysical && attacker.hasItem('Light Ball') && attacker.named('Pikachu')) ||
+    (isPhysical && attacker.hasItem('Amulet Coin') && attacker.name.includes('Meowth')) ||
+    (isPhysical && attacker.hasItem('Lucky Punch') && attacker.named('Chansey')) ||
     (isPhysical && attacker.hasItem('Thick Club') && attacker.named('Cubone', 'Marowak'))
   ) {
     at *= 2;

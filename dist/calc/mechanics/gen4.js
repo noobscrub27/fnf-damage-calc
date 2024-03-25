@@ -47,6 +47,8 @@ function calculateDPP(gen, attacker, defender, move, field) {
     (0, util_1.checkSearchEngine)(attacker, defender);
     (0, util_1.checkInflate)(attacker);
     (0, util_1.checkInflate)(defender);
+    (0, util_1.checkSillySoda)(attacker, gen);
+    (0, util_1.checkSillySoda)(defender, gen);
     attacker.stats.spe = (0, util_1.getFinalSpeed)(gen, attacker, field, field.attackerSide);
     defender.stats.spe = (0, util_1.getFinalSpeed)(gen, defender, field, field.defenderSide);
     var desc = {
@@ -66,7 +68,7 @@ function calculateDPP(gen, attacker, defender, move, field) {
         defender.ability = '';
         desc.attackerAbility = attacker.ability;
     }
-    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart', 'Shadow Armor');
+    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor') && !(defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'));
     if (move.named('Weather Ball')) {
         move.type =
             field.hasWeather('Sun') ? 'Fire'
@@ -176,10 +178,10 @@ function calculateDPP(gen, attacker, defender, move, field) {
         (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
         (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
         (move.hasType('Electric') && defender.hasAbility('Motor Drive', 'Volt Absorb', 'Shadow Conduction')) ||
-        (move.hasType('Ground') && !field.isGravity &&
-            !(attacker.hasAbility('Bone Master') && move.flags.bone) &&
-            !defender.hasItem('Iron Ball') &&
-            (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn))) ||
+        (move.hasType('Ground') && !field.isGravity && !defender.hasItem('Iron Ball') &&
+            ((!(attacker.hasAbility('Bone Master') && move.flags.bone) &&
+                (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn))) ||
+                (defender.named('Probopass') && defender.hasItem('Magnetic Stone')))) ||
         (move.flags.sound && defender.hasAbility('Soundproof')) ||
         (move.flags.blade && defender.hasAbility('Bladeproof')) ||
         (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
@@ -526,6 +528,11 @@ function calculateBPModsDPP(attacker, defender, move, field, desc, basePower, ha
         basePower = Math.floor(basePower * 1.2);
         desc.attackerAbility = attacker.ability;
     }
+    if ((attacker.hasItem('Electirizer') && attacker.named('Electivire') && move.hasType('Electric')) ||
+        (attacker.hasItem('Magmarizer') && attacker.named('Magmortar') && move.hasType('Fire'))) {
+        basePower = Math.floor(basePower * 1.5);
+        desc.attackerItem = attacker.item;
+    }
     return basePower;
 }
 exports.calculateBPModsDPP = calculateBPModsDPP;
@@ -609,11 +616,15 @@ function calculateAttackDPP(gen, attacker, defender, move, field, desc, isCritic
         desc.defenderAbility = defender.ability;
     }
     if ((isPhysical ? attacker.hasItem('Choice Band') : attacker.hasItem('Choice Specs')) ||
-        (!isPhysical && attacker.hasItem('Soul Dew') && attacker.named('Latios', 'Latias'))) {
+        (!isPhysical && attacker.hasItem('Soul Dew') && attacker.named('Latios', 'Latias')) ||
+        (isPhysical && attacker.hasItem('Bone Baton') && attacker.named('Osteokhan'))) {
         attack = Math.floor(attack * 1.5);
         desc.attackerItem = attacker.item;
     }
     else if ((attacker.hasItem('Light Ball') && attacker.named('Pikachu')) ||
+        (attacker.hasItem('Oval Stone') && attacker.named('Happiny')) ||
+        (isPhysical && attacker.hasItem('Lucky Punch') && attacker.named('Chansey')) ||
+        (attacker.hasItem('Amulet Coin') && attacker.name.includes('Meowth')) ||
         (attacker.hasItem('Thick Club') && attacker.named('Cubone', 'Marowak') && isPhysical) ||
         (attacker.hasItem('Deep Sea Tooth') && attacker.named('Clamperl') && !isPhysical)) {
         attack *= 2;

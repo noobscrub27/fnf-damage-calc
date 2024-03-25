@@ -19,6 +19,7 @@ import {
   checkDownload,
   checkSearchEngine,
   checkInflate,
+  checkSillySoda,
   checkForecast,
   checkInfiltrator,
   checkIntimidate,
@@ -71,6 +72,8 @@ export function calculateBWXY(
   checkIntimidate(gen, defender, attacker);
   checkDownload(attacker, defender, field.isWonderRoom);
   checkDownload(defender, attacker, field.isWonderRoom);
+  checkSillySoda(attacker, gen);
+  checkSillySoda(defender, gen);
   computeFinalStats(gen, attacker, defender, field, 'atk', 'spa');
 
   checkInfiltrator(attacker, field.defenderSide);
@@ -105,7 +108,9 @@ export function calculateBWXY(
   }
 
   const isCritical =
-    move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor', 'Pure Heart', 'Shadow Armor') && move.timesUsed === 1;
+    (move.isCrit || (attacker.named('Chansey') && attacker.hasItem('Lucky Punch') && gen.num >= 6))
+    && !defender.hasAbility('Battle Armor', 'Shell Armor') && !(defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'))
+    && move.timesUsed === 1;
 
   if (move.named('Weather Ball')) {
     move.type =
@@ -254,12 +259,11 @@ export function calculateBWXY(
       (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
       (move.hasType('Electric') &&
       defender.hasAbility('Lightning Rod', 'Motor Drive', 'Volt Absorb', 'Shadow Conduction')) ||
+      (move.hasType('Ground') && !field.isGravity && !move.named('Thousand Arrows') && !defender.hasItem('Iron Ball') &&
       // bone master does not go break through abilities other than inflate and levitate
-      (move.hasType('Ground') &&
-      !field.isGravity && !move.named('Thousand Arrows') &&
-      !(attacker.hasAbility('Bone Master') && move.flags.bone) &&
-      !defender.hasItem('Iron Ball') &&
-      (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn))) ||
+      ((!(attacker.hasAbility('Bone Master') && move.flags.bone) &&
+        (defender.hasAbility('Levitate') || (defender.hasAbility('Inflate') && defender.abilityOn))) ||
+        (defender.named('Probopass') && defender.hasItem('Magnetic Stone')))) ||
       (move.flags.bullet && defender.hasAbility('Bulletproof')) ||
     (move.flags.sound && defender.hasAbility('Soundproof')) ||
     (move.flags.blade && defender.hasAbility('Bladeproof')) ||
@@ -682,15 +686,29 @@ export function calculateBPModsBWXY(
     (defender.named('Kyogre', 'Kyogre-Primal') && defender.hasItem('Blue Orb')) ||
     (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get(toID(defender.item))!.isBerry) ||
     (defender.named('Meganium') && defender.hasItem('Fragrent Herb')) ||
-    (defender.named('Pyukumuku') && defender.hasItem('Strange Mucus')) ||
+    (defender.named('Tropius') && defender.hasItem('Banana Bunch')) ||
+    (defender.named('Shedinja') && defender.hasItem('Cursed Crown')) ||
+    (defender.named('Happiny') && defender.hasItem('Oval Stone')) ||
+    (defender.named('Probopass') && defender.hasItem('Magnetic Stone')) ||
+    (defender.named('Osteokhan') && defender.hasItem('Bone Baton')) ||
+    (defender.named('Darmanitan', 'Darmanizen') && defender.hasItem('Calm Candy Bar')) ||
+    (defender.named('Chansey') && defender.hasItem('Lucky Punch')) ||
+    (defender.named('Gallade') && defender.hasItem('Knight\'s Edge')) ||
+    (defender.named('Absol') && defender.hasItem('Night\'s Edge')) ||
+    (defender.name.includes('Vespiquen') && defender.hasItem('Royal Jelly')) ||
+    (defender.name.includes('Meowth') && defender.hasItem('Amulet Coin')) ||
+    (defender.named('Magmortar') && defender.hasItem('Magmarizer')) ||
+    (defender.named('Electivire') && defender.hasItem('Electirizer')) ||
     (defender.name.includes('Cherrim') && defender.hasItem('Cerise Orb')) ||
     (defender.name.includes('Phione') && defender.hasItem('Teal Orb'));
 
   // The last case only applies when the Pokemon is holding the Mega Stone that matches its species
   // (or when it's already a Mega-Evolution)
+  // Alarix breaks naming conventions so it's hardcoded
   if (!resistedKnockOffDamage && defender.item) {
     const item = gen.items.get(toID(defender.item))!;
-    resistedKnockOffDamage = !!(item.megaEvolves && defender.name.includes(item.megaEvolves));
+    resistedKnockOffDamage = !!(item.megaEvolves && defender.name.includes(item.megaEvolves)) ||
+      (defender.named('Gyarados-Alarix', 'Gyarados-Mega-Alarix') && defender.hasItem('Alarixite'));
   }
   // Use BasePower after moves with custom BP to determine if Technician should boost
   if ((attacker.hasAbility('Technician') && basePower <= 60) ||
@@ -745,7 +763,8 @@ export function calculateBPModsBWXY(
     desc.attackerAbility = attacker.ability;
   }
 
-  if (attacker.item && getItemBoostType(attacker.item) === move.type) {
+  if ((attacker.item && getItemBoostType(attacker.item) === move.type) ||
+    (attacker.named('Darmanitan', 'Darmanizen') && attacker.hasItem('Calm Candy Bar') && move.category === 'Special')) {
     bpMods.push(4915);
     desc.attackerItem = attacker.item;
   } else if (
@@ -769,6 +788,10 @@ export function calculateBPModsBWXY(
     desc.attackerItem = attacker.item;
   } else if (attacker.hasItem(`${move.type} Gem`)) {
     bpMods.push(gen.num > 5 ? 5325 : 6144);
+    desc.attackerItem = attacker.item;
+  } else if ((attacker.hasItem('Electirizer') && attacker.named('Electivire') && move.hasType('Electric')) ||
+    (attacker.hasItem('Magmarizer') && attacker.named('Magmortar') && move.hasType('Fire'))) {
+    bpMods.push(6144);
     desc.attackerItem = attacker.item;
   }
 
@@ -873,7 +896,7 @@ export function calculateAttackBWXY(
   if (attackSource.boosts[attackStat] === 0 ||
       (isCritical && attackSource.boosts[attackStat] < 0)) {
     attack = attackSource.rawStats[attackStat];
-  } else if (defender.hasAbility('Unaware')) {
+  } else if ((defender.hasAbility('Unaware')) || (defender.named('Meganium') && defender.hasItem('Fragrent Herb'))) {
     attack = attackSource.rawStats[attackStat];
     desc.defenderAbility = defender.ability;
   } else {
@@ -886,12 +909,13 @@ export function calculateAttackBWXY(
     attack = pokeRound((attack * 3) / 2);
     desc.attackerAbility = attacker.ability;
   }
-  const atMods = calculateAtModsBWXY(attacker, defender, move, field, desc);
+  const atMods = calculateAtModsBWXY(gen, attacker, defender, move, field, desc);
   attack = OF16(Math.max(1, pokeRound((attack * chainMods(atMods, 410, 131072)) / 4096)));
   return attack;
 }
 
 export function calculateAtModsBWXY(
+  gen: Generation,
   attacker: Pokemon,
   defender: Pokemon,
   move: Move,
@@ -975,7 +999,10 @@ export function calculateAtModsBWXY(
       (attacker.hasItem('Deep Sea Tooth') &&
        attacker.named('Clamperl') &&
        move.category === 'Special') ||
-      (attacker.hasItem('Light Ball') && attacker.name.startsWith('Pikachu') && !move.isZ)
+    (attacker.hasItem('Light Ball') && attacker.name.startsWith('Pikachu')) ||
+    (attacker.hasItem('Oval Stone') && attacker.name.startsWith('Happiny')) ||
+    (move.category == 'Physical' && attacker.hasItem('Lucky Punch') && attacker.named('Chansey')) ||
+    (attacker.hasItem('Amulet Coin') && attacker.name.includes('Meowth'))
   ) {
     atMods.push(8192);
     desc.attackerItem = attacker.item;
@@ -984,7 +1011,9 @@ export function calculateAtModsBWXY(
       attacker.named('Latios', 'Latias', 'Latios-Mega', 'Latias-Mega') &&
       move.category === 'Special') ||
     (attacker.hasItem('Choice Band') && move.category === 'Physical') ||
-    (attacker.hasItem('Choice Specs') && move.category === 'Special')
+    (attacker.hasItem('Choice Specs') && move.category === 'Special') ||
+    (move.category === 'Physical' && attacker.hasItem('Bone Baton') && attacker.named('Osteokhan')) ||
+    (defender.hasItem('Eviomight') && (gen.species.get(toID(defender.name))?.nfe))
   ) {
     atMods.push(6144);
     desc.attackerItem = attacker.item;
@@ -1012,7 +1041,7 @@ export function calculateDefenseBWXY(
     ((isCritical || (attacker.hasAbility('Big Pecks') && hitsPhysical)) && defender.boosts[defenseStat] > 0) ||
     move.ignoreDefensive) {
     defense = defender.rawStats[defenseStat];
-  } else if (attacker.hasAbility('Unaware')) {
+  } else if ((attacker.hasAbility('Unaware')) || (attacker.named('Meganium') && attacker.hasItem('Fragrent Herb'))) {
     defense = defender.rawStats[defenseStat];
     desc.attackerAbility = attacker.ability;
   } else {

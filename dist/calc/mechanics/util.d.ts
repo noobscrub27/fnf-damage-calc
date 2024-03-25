@@ -19,6 +19,7 @@ export declare function checkSearchEngine(source: Pokemon, attacker: Pokemon): v
 export declare function checkInflate(source: Pokemon): void;
 export declare function checkIntrepidSword(source: Pokemon, gen: Generation): void;
 export declare function checkDauntlessShield(source: Pokemon, gen: Generation): void;
+export declare function checkSillySoda(source: Pokemon, gen: Generation): void;
 export declare function checkEmbody(source: Pokemon, gen: Generation): void;
 export declare function checkInfiltrator(pokemon: Pokemon, affectedSide: Side): void;
 export declare function checkSeedBoost(pokemon: Pokemon, field: Field): void;

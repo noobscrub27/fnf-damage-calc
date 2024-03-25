@@ -1893,14 +1893,14 @@ const ADV_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 90, at: 90, df: 90, sa: 90, sd: 90, sp: 90 },
     weightkg: 0.8,
     abilities: { 0: 'Forecast' },
-    baseSpecies: '"Castform"',
+    baseSpecies: 'Castform',
   },
   'Castform-Smoggy': {
     types: ['Poison'],
     bs: { hp: 90, at: 90, df: 90, sa: 90, sd: 90, sp: 90 },
     weightkg: 0.8,
     abilities: { 0: 'Forecast' },
-    baseSpecies: '"Castform"',
+    baseSpecies: 'Castform',
   },
   'Castform-Snowy': {
     types: ['Ice'],
@@ -4684,21 +4684,21 @@ const BW_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 80, at: 100, df: 70, sa: 60, sd: 70, sp: 95 },
     weightkg: 92.5,
     abilities: { 0: 'Chlorophyll' },
-    baseSpecies: '"Sawsbuck"',
+    baseSpecies: 'Sawsbuck',
   },
   'Sawsbuck-Autumn': {
     types: ['Normal', 'Grass'],
     bs: { hp: 80, at: 100, df: 70, sa: 60, sd: 70, sp: 95 },
     weightkg: 92.5,
     abilities: { 0: 'Harvest' },
-    baseSpecies: '"Sawsbuck"',
+    baseSpecies: 'Sawsbuck',
   },
   'Sawsbuck-Winter': {
     types: ['Normal', 'Grass'],
     bs: { hp: 80, at: 100, df: 70, sa: 60, sd: 70, sp: 95 },
     weightkg: 92.5,
     abilities: { 0: 'Slush Rush' },
-    baseSpecies: '"Sawsbuck"',
+    baseSpecies: 'Sawsbuck',
   },
   Scolipede: {
     types: ['Bug', 'Poison'],
@@ -4936,7 +4936,7 @@ const BW_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 115, at: 105, df: 85, sa: 65, sd: 75, sp: 93 },
     weightkg: 29.0,
     abilities: { 0: 'Big Pecks' },
-    baseSpecies: '"Unfezant"',
+    baseSpecies: 'Unfezant',
   },
   Vanillish: {
     types: ['Ice'],
@@ -6066,7 +6066,7 @@ const XY_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 86, at: 124, df: 72, sa: 68, sd: 71, sp: 106 },
     weightkg: 81.5,
     abilities: { 0: 'Rivalry' },
-    baseSpecies: '"Pyroar"',
+    baseSpecies: 'Pyroar',
   },
   Quilladin: {
     types: ['Grass'],
@@ -7648,7 +7648,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 75, at: 135, df: 85, sa: 100, sd: 95, sp: 160 },
     weightkg: 115.0,
     abilities: { 0: 'Aerilate' },
-    baseSpecies: '"Rapidash"',
+    baseSpecies: 'Rapidash',
   },
   Warcass: {
     types: ['Fighting', 'Ground'],
@@ -7674,7 +7674,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 95, at: 140, df: 120, sa: 115, sd: 140, sp: 77 },
     weightkg: 75.6,
     abilities: { 0: 'Baku Shield' },
-    baseSpecies: '"Hypno"',
+    baseSpecies: 'Hypno',
   },
   'Voltorb-FnF': {
     types: ['Ice', 'Fire'],
@@ -7697,7 +7697,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     weightkg: 5.0,
     abilities: { 0: 'Cursed Body' },
     nfe: true,
-    baseSpecies: '"Cubone"',
+    baseSpecies: 'Cubone',
   },
   Osteoskhan: {
     types: ['Ground', 'Normal'],
@@ -7725,7 +7725,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     weightkg: 80.0,
     abilities: { 0: 'Terraforming' },
     gender: 'N',
-    baseSpecies: '"Starmie"',
+    baseSpecies: 'Starmie',
   },
   'Gyarados-Alarix': {
     types: ['Water', 'Flying'],
@@ -7739,7 +7739,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 95, at: 185, df: 119, sa: 70, sd: 130, sp: 91 },
     weightkg: 305.0,
     abilities: { 0: 'Rampage' },
-    baseSpecies: '"Gyarados-Alarix"',
+    baseSpecies: 'Gyarados-Alarix',
   },
   'Eevee-Durum': {
     types: ['Normal'],
@@ -7795,7 +7795,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 95, at: 126, df: 89, sa: 80, sd: 100, sp: 141 },
     weightkg: 72.5,
     abilities: { 0: 'Speed Boost' },
-    baseSpecies: '"Furret"',
+    baseSpecies: 'Furret',
   },
   Bunmochi: {
     types: ['Ice', 'Fairy'],
@@ -7815,7 +7815,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 70, at: 115, df: 115, sa: 30, sd: 65, sp: 55 },
     weightkg: 38.0,
     abilities: { 0: 'Mimictree' },
-    baseSpecies: '"Sudowoodo"',
+    baseSpecies: 'Sudowoodo',
   },
   Medipom: {
     types: ['Normal', 'Fighting'],
@@ -7829,7 +7829,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 90, at: 95, df: 105, sa: 150, sd: 115, sp: 40 },
     weightkg: 90.0,
     abilities: { 0: 'Solar Power' },
-    baseSpecies: '"Sunflora"',
+    baseSpecies: 'Sunflora',
   },
   'Wooper-Wooperoth': {
     types: ['Water', 'Ground'],
@@ -8069,7 +8069,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 48, at: 135, df: 115, sa: 65, sd: 125, sp: 45 },
     weightkg: 50.0,
     abilities: { 0: 'Arachnid\'s Grace' },
-    baseSpecies: '"Kirlia-Armored"',
+    baseSpecies: 'Kirlia-Armored',
   },
   Gravking: {
     types: ['Normal', 'Rock'],
@@ -8096,7 +8096,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 60, at: 45, df: 125, sa: 125, sd: 115, sp: 10 },
     weightkg: 161.0,
     abilities: { 0: 'Mega Launcher' },
-    baseSpecies: '"Sableye-FnF"',
+    baseSpecies: 'Sableye-FnF',
   },
   Sablechamp: {
     types: ['Ghost', 'Fighting'],
@@ -8205,7 +8205,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 70, at: 150, df: 85, sa: 115, sd: 100, sp: 105 },
     weightkg: 15.0,
     abilities: { 0: 'Primal Warmth' },
-    baseSpecies: '"Cherrim"',
+    baseSpecies: 'Cherrim',
   },
   'Honchkrow-Godfather': {
     types: ['Dark', 'Flying'],
@@ -8257,7 +8257,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     weightkg: 8.1,
     abilities: { 0: 'Primal Tide' },
     gender: 'N',
-    baseSpecies: '"Phione"',
+    baseSpecies: 'Phione',
   },
   Kiwuit: {
     types: ['Grass', 'Flying'],
@@ -8346,7 +8346,7 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 58, at: 80, df: 120, sa: 160, sd: 125, sp: 40 },
     weightkg: 76.5,
     abilities: { 0: 'Arcana' },
-    baseSpecies: '"Cofagrigus"',
+    baseSpecies: 'Cofagrigus',
   },
   Archebot: {
     types: ['Electric', 'Flying'],
@@ -8504,14 +8504,14 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 90, at: 135, df: 110, sa: 135, sd: 150, sp: 80 },
     weightkg: 200.0,
     abilities: { 0: 'Toxicate' },
-    baseSpecies: '"Goodra"',
+    baseSpecies: 'Goodra',
   },
   'Trevenant-Mega': {
     types: ['Ghost', 'Grass'],
     bs: { hp: 95, at: 155, df: 109, sa: 96, sd: 113, sp: 69 },
     weightkg: 93.0,
     abilities: { 0: 'Evergreen Touch' },
-    baseSpecies: '"Trevenant"',
+    baseSpecies: 'Trevenant',
   },
   'Decidueye-Apollo': {
     types: ['Grass', 'Ghost'],
@@ -8591,6 +8591,32 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 77, at: 145, df: 105, sa: 70, sd: 85, sp: 43 },
     abilities: { 0: 'Battery' },
     weightkg: 45.0,
+  },
+  Huojara: {
+    types: ['Rock'],
+    bs: { hp: 55, at: 74, df: 56, sa: 66, sd: 54, sp: 92 },
+    abilities: { 0: 'Flash Fire' },
+    weightkg: 12.0,
+    nfe: true,
+  },
+  Ignajara: {
+    types: ['Rock', 'Fire'],
+    bs: { hp: 75, at: 106, df: 76, sa: 94, sd: 72, sp: 114 },
+    abilities: { 0: 'Aftermath' },
+    weightkg: 100.0,
+  },
+  Rudoodle: {
+    types: ['Rock', 'Fairy'],
+    bs: { hp: 72, at: 56, df: 54, sa: 65, sd: 80, sp: 70 },
+    abilities: { 0: 'Keen Eye' },
+    weightkg: 10.0,
+    nfe: true,
+  },
+  Rutherium: {
+    types: ['Rock', 'Fairy'],
+    bs: { hp: 113, at: 72, df: 82, sa: 109, sd: 101, sp: 60 },
+    abilities: { 0: 'Sedimentary' },
+    weightkg: 600.0,
   },
   Butterno: {
     types: ['Bug', 'Psychic'],

@@ -112,6 +112,7 @@ var GSC = [
     'Pink Bow',
     'Poison Barb',
     'Poke Ball',
+    'Poke Doll',
     'Polkadot Bow',
     'PRZ Cure Berry',
     'PSN Cure Berry',
@@ -214,6 +215,7 @@ var ADV = GSC.filter(function (i) { return !GSC_ONLY.includes(i); }).concat([
     'Wepear Berry',
     'White Herb',
     'Wiki Berry',
+    'Night\'s Edge',
 ]);
 var DPP = ADV.concat([
     'Adamant Orb',
@@ -313,6 +315,11 @@ var DPP = ADV.concat([
     'Yache Berry',
     'Zap Plate',
     'Zoom Lens',
+    'Frost Orb',
+    'Knight\'s Edge',
+    'Magnetic Stone',
+    'Mordant Rock',
+    'Royal Jelly',
 ]);
 var BW = DPP.concat([
     'Absorb Bulb',
@@ -351,6 +358,10 @@ var BW = DPP.concat([
     'Shock Drive',
     'Steel Gem',
     'Water Gem',
+    'Eviomight',
+    'Fragrant Herb',
+    'Cursed Crown',
+    'Calm Candy Bar',
 ]);
 exports.MEGA_STONES = {
     Absolite: 'Absol',
@@ -383,7 +394,6 @@ exports.MEGA_STONES = {
     Latiosite: 'Latios',
     Lopunnite: 'Lopunny',
     Lucarionite: 'Lucario',
-    Magnezite: 'Magnezone',
     Manectite: 'Manectric',
     Mawilite: 'Mawile',
     Medichamite: 'Medicham',
@@ -402,7 +412,17 @@ exports.MEGA_STONES = {
     Swampertite: 'Swampert',
     Tyranitarite: 'Tyranitar',
     Venusaurite: 'Venusaur',
-    Hypnoite: 'Hypno'
+    Sunflorite: 'Sunflora',
+    Furretite: 'Furret',
+    Cofagrigite: 'Cofagrigus',
+    Starmite: 'Starmie',
+    Alarixite: 'Gyarados-Alarix',
+    Goodrite: 'Goodra',
+    Magnezite: 'Magnezone',
+    Trevenantite: 'Trevenant',
+    FnFSablenite: 'Sableye-FnF',
+    Rapidashite: 'Rapidash',
+    Hypnite: 'Hypno'
 };
 var XY = BW.concat(__spreadArray(__spreadArray([], __read(Object.keys(exports.MEGA_STONES)), false), [
     'Assault Vest',
@@ -421,6 +441,8 @@ var XY = BW.concat(__spreadArray(__spreadArray([], __read(Object.keys(exports.ME
     'Snowball',
     'Weakness Policy',
     'Whipped Dream',
+    'Teal Orb',
+    'Cerise Orb',
 ], false).sort());
 var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Adrenaline Orb',
@@ -486,6 +508,26 @@ var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Ultranecrozium Z',
     'Water Memory',
     'Waterium Z',
+    'Electrodium Z',
+    'FnFLickium Z',
+    'Poliwrathium Z',
+    'Gorochunium Z',
+    'Vespiquen Armor',
+    'Granbull Armor',
+    'Toxicroak Armor',
+    'Nobunaga Armor',
+    'Precious Scale',
+    'Roserade Armor',
+    'Strange Mucus',
+    'Magcargo Armor',
+    'Ivysaur Armor',
+    'Goomy Armor',
+    'Kirlia Armor',
+    'Typhlosion Armor',
+    'Teddiursa Armor',
+    'Nuzleaf Armor',
+    'Spark Fossil',
+    'Brush Fossil',
 ]);
 var SS = SM.concat([
     'Berry Sweet',

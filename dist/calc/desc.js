@@ -459,6 +459,10 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
         damage -= Math.floor(defender.maxHP() / 8);
         texts.push('Sticky Barb damage');
     }
+    else if (defender.hasItem('Banana Bunch') && defender.named('Tropius') && !loseItem) {
+        damage += Math.floor(defender.maxHP() / 8);
+        texts.push('Banana Bunch recovery');
+    }
     if (defender.hasAbility('Dream Feast') && (attacker.hasStatus('slp') || attacker.hasAbility('Comatose'))) {
         damage += Math.floor(defender.maxHP() / 8);
         texts.push('Dream Feast recovery');

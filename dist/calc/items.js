@@ -11,59 +11,76 @@ exports.SEED_BOOSTED_STAT = {
 function getItemBoostType(item) {
     switch (item) {
         case 'Draco Plate':
+        case 'Dragon Memory':
         case 'Dragon Fang':
             return 'Dragon';
         case 'Dread Plate':
+        case 'Dark Memory':
         case 'Black Glasses':
             return 'Dark';
         case 'Earth Plate':
+        case 'Ground Memory':
         case 'Soft Sand':
             return 'Ground';
         case 'Fist Plate':
+        case 'Fighting Memory':
         case 'Black Belt':
             return 'Fighting';
         case 'Flame Plate':
+        case 'Fire Memory':
         case 'Charcoal':
             return 'Fire';
+        case 'Ice Memory':
         case 'Icicle Plate':
         case 'Never-Melt Ice':
             return 'Ice';
         case 'Insect Plate':
+        case 'Bug Memory':
         case 'Silver Powder':
             return 'Bug';
         case 'Iron Plate':
+        case 'Steel Memory':
         case 'Metal Coat':
             return 'Steel';
         case 'Meadow Plate':
+        case 'Grass Memory':
         case 'Rose Incense':
         case 'Miracle Seed':
             return 'Grass';
         case 'Mind Plate':
+        case 'Psychic Memory':
         case 'Odd Incense':
         case 'Twisted Spoon':
             return 'Psychic';
         case 'Fairy Feather':
+        case 'Fairy Memory':
         case 'Pixie Plate':
             return 'Fairy';
         case 'Sky Plate':
+        case 'Flying Memory':
         case 'Sharp Beak':
             return 'Flying';
         case 'Splash Plate':
+        case 'Water Memory':
         case 'Sea Incense':
         case 'Wave Incense':
         case 'Mystic Water':
             return 'Water';
         case 'Spooky Plate':
+        case 'Ghost Memory':
         case 'Spell Tag':
             return 'Ghost';
         case 'Stone Plate':
+        case 'Rock Memory':
         case 'Rock Incense':
         case 'Hard Stone':
             return 'Rock';
         case 'Toxic Plate':
+        case 'Poison Memory':
         case 'Poison Barb':
             return 'Poison';
         case 'Zap Plate':
+        case 'Electric Memory':
         case 'Magnet':
             return 'Electric';
         case 'Silk Scarf':
@@ -153,6 +170,8 @@ var FLING_100 = new Set([
     'TR10',
     'TR31',
     'TR75',
+    'Spark Fossil',
+    'Brush Fossil',
 ]);
 var FLING_90 = new Set([
     'Deep Sea Tooth',
@@ -236,6 +255,14 @@ var FLING_60 = new Set([
     'Stick',
     'Utility Umbrella',
     'Terrain Extender',
+    'Banana Bunch',
+    'Cursed Crown',
+    'Knight\'s Edge',
+    'Magnetic Stone',
+    'Calm Candy Bar',
+    'Mordant Rock',
+    'Night\'s Edge',
+    'Royal Jelly',
 ]);
 var FLING_30 = new Set([
     'Absorb Bulb',
@@ -282,6 +309,9 @@ var FLING_30 = new Set([
     'Eject Button',
     'Snowball',
     'Bottle Cap',
+    'Poke Doll',
+    'Frost Orb',
+    'Precious Scale',
 ]);
 var FLING_10 = new Set([
     'Air Balloon',
@@ -392,7 +422,7 @@ function getFlingPower(item) {
         return 60;
     if (['Eject Pack', 'Sharp Beak', 'Dubious Disc'].includes(item))
         return 50;
-    if (['Icy Rock', 'Eviolite', 'Lucky Punch'].includes(item))
+    if (['Icy Rock', 'Eviolite', 'Fragrant Herb', 'Lucky Punch', 'Eviomight'].includes(item))
         return 40;
     if (FLING_30.has(item))
         return 30;

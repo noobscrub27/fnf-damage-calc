@@ -43,6 +43,8 @@ function calculateADV(gen, attacker, defender, move, field) {
     (0, util_1.checkSearchEngine)(attacker, defender);
     (0, util_1.checkInflate)(attacker);
     (0, util_1.checkInflate)(defender);
+    (0, util_1.checkSillySoda)(attacker, gen);
+    (0, util_1.checkSillySoda)(defender, gen);
     attacker.stats.spe = (0, util_1.getFinalSpeed)(gen, attacker, field, field.attackerSide);
     defender.stats.spe = (0, util_1.getFinalSpeed)(gen, defender, field, field.defenderSide);
     var desc = {
@@ -174,7 +176,7 @@ function calculateADV(gen, attacker, defender, move, field) {
         return result;
     }
     bp = calculateBPModsADV(attacker, move, desc, bp, field);
-    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor') && (!defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'));
+    var isCritical = move.isCrit && !defender.hasAbility('Battle Armor', 'Shell Armor') && !(defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'));
     var at = calculateAttackADV(gen, attacker, defender, move, desc, isCritical);
     var df = calculateDefenseADV(gen, defender, move, desc, isCritical);
     var lv = attacker.level;
@@ -332,12 +334,15 @@ function calculateAttackADV(gen, attacker, defender, move, desc, isCritical) {
         desc.attackerItem = attacker.item;
     }
     else if ((isPhysical && attacker.hasItem('Choice Band')) ||
+        (isPhysical && attacker.hasItem('Bone Baton') && attacker.named('Osteokhan')) ||
         (!isPhysical && attacker.hasItem('Soul Dew') && attacker.named('Latios', 'Latias'))) {
         at = Math.floor(at * 1.5);
         desc.attackerItem = attacker.item;
     }
     else if ((!isPhysical && attacker.hasItem('Deep Sea Tooth') && attacker.named('Clamperl')) ||
         (!isPhysical && attacker.hasItem('Light Ball') && attacker.named('Pikachu')) ||
+        (isPhysical && attacker.hasItem('Amulet Coin') && attacker.name.includes('Meowth')) ||
+        (isPhysical && attacker.hasItem('Lucky Punch') && attacker.named('Chansey')) ||
         (isPhysical && attacker.hasItem('Thick Club') && attacker.named('Cubone', 'Marowak'))) {
         at *= 2;
         desc.attackerItem = attacker.item;

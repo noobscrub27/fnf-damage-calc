@@ -155,6 +155,7 @@ function calculateRBYGSC(gen, attacker, defender, move, field) {
         }
     }
     if ((attacker.named('Pikachu') && attacker.hasItem('Light Ball') && !isPhysical) ||
+        (attacker.hasItem('Amulet Coin') && attacker.name.includes('Meowth') && isPhysical) ||
         (attacker.named('Cubone', 'Marowak') && attacker.hasItem('Thick Club') && isPhysical)) {
         at *= 2;
         desc.attackerItem = attacker.item;

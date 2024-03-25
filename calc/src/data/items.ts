@@ -48,6 +48,7 @@ const GSC = [
   'Pink Bow',
   'Poison Barb',
   'Poke Ball',
+  'Poke Doll',
   'Polkadot Bow',
   'PRZ Cure Berry',
   'PSN Cure Berry',
@@ -152,6 +153,8 @@ const ADV = GSC.filter(i => !GSC_ONLY.includes(i)).concat([
   'Wepear Berry',
   'White Herb',
   'Wiki Berry',
+  // FnF changes (gen 3)
+  'Night\'s Edge',
 ]);
 
 const DPP = ADV.concat([
@@ -252,6 +255,12 @@ const DPP = ADV.concat([
   'Yache Berry',
   'Zap Plate',
   'Zoom Lens',
+  // fnf changes
+  'Frost Orb',
+  'Knight\'s Edge',
+  'Magnetic Stone',
+  'Mordant Rock',
+  'Royal Jelly',
 ]);
 
 const BW = DPP.concat([
@@ -291,6 +300,11 @@ const BW = DPP.concat([
   'Shock Drive',
   'Steel Gem',
   'Water Gem',
+  // FnF changes (gen 5)
+  'Eviomight',
+  'Fragrant Herb',
+  'Cursed Crown',
+  'Calm Candy Bar',
 ]);
 
 export const MEGA_STONES: {[species: string]: string} = {
@@ -324,7 +338,6 @@ export const MEGA_STONES: {[species: string]: string} = {
   Latiosite: 'Latios',
   Lopunnite: 'Lopunny',
   Lucarionite: 'Lucario',
-  Magnezite: 'Magnezone',
   Manectite: 'Manectric',
   Mawilite: 'Mawile',
   Medichamite: 'Medicham',
@@ -344,7 +357,17 @@ export const MEGA_STONES: {[species: string]: string} = {
   Tyranitarite: 'Tyranitar',
   Venusaurite: 'Venusaur',
   // FnF changes start here
-  Hypnoite: 'Hypno',
+  Sunflorite: 'Sunflora',
+  Furretite: 'Furret',
+  Cofagrigite: 'Cofagrigus',
+  Starmite: 'Starmie',
+  Alarixite: 'Gyarados-Alarix',
+  Goodrite: 'Goodra',
+  Magnezite: 'Magnezone',
+  Trevenantite: 'Trevenant',
+  FnFSablenite: 'Sableye-FnF',
+  Rapidashite: 'Rapidash',
+  Hypnite: 'Hypno',
 };
 
 const XY = BW.concat(
@@ -366,6 +389,8 @@ const XY = BW.concat(
     'Snowball',
     'Weakness Policy',
     'Whipped Dream',
+    'Teal Orb',
+    'Cerise Orb',
   ].sort()
 );
 
@@ -433,6 +458,27 @@ const SM = XY.filter(i => i !== 'Old Amber').concat([
   'Ultranecrozium Z',
   'Water Memory',
   'Waterium Z',
+  // Fnf changes (gen 7)
+  'Electrodium Z',
+  'FnFLickium Z',
+  'Poliwrathium Z',
+  'Gorochunium Z',
+  'Vespiquen Armor',
+  'Granbull Armor',
+  'Toxicroak Armor',
+  'Nobunaga Armor',
+  'Precious Scale',
+  'Roserade Armor',
+  'Strange Mucus',
+  'Magcargo Armor',
+  'Ivysaur Armor',
+  'Goomy Armor',
+  'Kirlia Armor',
+  'Typhlosion Armor',
+  'Teddiursa Armor',
+  'Nuzleaf Armor',
+  'Spark Fossil',
+  'Brush Fossil',
 ]);
 
 const SS = SM.concat([

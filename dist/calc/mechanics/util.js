@@ -329,6 +329,12 @@ function checkDauntlessShield(source, gen) {
     }
 }
 exports.checkDauntlessShield = checkDauntlessShield;
+function checkSillySoda(source, gen) {
+    if (source.hasItem('Silly Soda') && source.named('Spinda')) {
+        source.boosts.atk = Math.min(6, source.boosts.def + 2);
+    }
+}
+exports.checkSillySoda = checkSillySoda;
 function checkEmbody(source, gen) {
     if (gen.num < 9)
         return;

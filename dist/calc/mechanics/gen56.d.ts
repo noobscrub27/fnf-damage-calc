@@ -8,6 +8,6 @@ export declare function calculateBWXY(gen: Generation, attacker: Pokemon, defend
 export declare function calculateBasePowerBWXY(gen: Generation, attacker: Pokemon, defender: Pokemon, move: Move, field: Field, hasAteAbilityTypeChange: boolean, desc: RawDesc, hit?: number): number;
 export declare function calculateBPModsBWXY(gen: Generation, attacker: Pokemon, defender: Pokemon, move: Move, field: Field, desc: RawDesc, basePower: number, hasAteAbilityTypeChange: boolean, turnOrder: string): number[];
 export declare function calculateAttackBWXY(gen: Generation, attacker: Pokemon, defender: Pokemon, move: Move, field: Field, desc: RawDesc, isCritical?: boolean): number;
-export declare function calculateAtModsBWXY(attacker: Pokemon, defender: Pokemon, move: Move, field: Field, desc: RawDesc): number[];
+export declare function calculateAtModsBWXY(gen: Generation, attacker: Pokemon, defender: Pokemon, move: Move, field: Field, desc: RawDesc): number[];
 export declare function calculateDefenseBWXY(gen: Generation, attacker: Pokemon, defender: Pokemon, move: Move, field: Field, desc: RawDesc, isCritical?: boolean): number;
 export declare function calculateDfModsBWXY(gen: Generation, defender: Pokemon, field: Field, desc: RawDesc, hitsPhysical?: boolean): number[];
