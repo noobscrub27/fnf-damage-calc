@@ -1453,7 +1453,8 @@ export function calculateAtModsSMSSSV(
     atMods.push(8192);
     desc.attackerAbility = attacker.ability;
   } else if ((attacker.hasAbility('Seismography') && move.hasType('Ground')) ||
-    (attacker.hasAbility('Stench') && move.hasType('Poison'))) {
+    (attacker.hasAbility('Stench') && move.hasType('Poison')) ||
+    (attacker.hasAbility('Cursed Energy') && move.hasType('Ghost'))) {
     atMods.push(5325);
     desc.attackerAbility = attacker.ability;
   } else if (attacker.hasAbility('Shadow Adaptation') && move.hasType('Shadow')) {

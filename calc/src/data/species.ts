@@ -1804,7 +1804,7 @@ const ADV_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
   },
   Banette: {
     types: ['Ghost'],
-    bs: { hp: 64, at: 125, df: 70, sa: 63, sd: 103, sp: 70 },
+    bs: { hp: 64, at: 125, df: 75, sa: 43, sd: 103, sp: 85 },
     weightkg: 12.5,
     abilities: { 0: 'Retribution' },
   },
@@ -2464,7 +2464,7 @@ const ADV_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
   },
   Shuppet: {
     types: ['Ghost'],
-    bs: { hp: 44, at: 95, df: 35, sa: 63, sd: 83, sp: 55 },
+    bs: { hp: 44, at: 95, df: 40, sa: 43, sd: 83, sp: 70 },
     weightkg: 2.3,
     nfe: true,
     abilities: { 0: 'Retribution' },
