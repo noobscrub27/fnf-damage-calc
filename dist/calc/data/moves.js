@@ -3154,6 +3154,12 @@ var SM_PATCH = {
         zp: 175,
         isPulse: true
     },
+    'Primal Burst': {
+        bp: 100,
+        type: 'Normal',
+        category: 'Physical',
+        zp: 180
+    },
     'Prophetic Asteroid': {
         bp: 140,
         type: 'Rock',
@@ -5208,6 +5214,7 @@ var SS_PATCH = {
     'Plasmic Spin': { maxPower: 130 },
     'Power Outage': { maxPower: 130 },
     'Prehistoric Pulse': { maxPower: 130 },
+    'Primal Burst': { maxPower: 130 },
     'Prophetic Asteroid': { maxPower: 140 },
     'Propulsion Shot': { maxPower: 110 },
     Psycleaner: { maxPower: 130 },
