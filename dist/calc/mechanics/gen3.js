@@ -334,7 +334,7 @@ function calculateAttackADV(gen, attacker, defender, move, desc, isCritical) {
         desc.attackerItem = attacker.item;
     }
     else if ((isPhysical && attacker.hasItem('Choice Band')) ||
-        (isPhysical && attacker.hasItem('Bone Baton') && attacker.named('Osteokhan')) ||
+        (isPhysical && attacker.hasItem('Bone Baton') && attacker.named('Osteoskhan')) ||
         (!isPhysical && attacker.hasItem('Soul Dew') && attacker.named('Latios', 'Latias'))) {
         at = Math.floor(at * 1.5);
         desc.attackerItem = attacker.item;

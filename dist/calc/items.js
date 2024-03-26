@@ -192,6 +192,7 @@ var FLING_90 = new Set([
     'TR86',
     'TR90',
     'TR96',
+    'Bone Baton',
 ]);
 var FLING_85 = new Set(['TR01', 'TR41', 'TR62', 'TR93', 'TR97', 'TR98']);
 var FLING_80 = new Set([
@@ -263,6 +264,8 @@ var FLING_60 = new Set([
     'Mordant Rock',
     'Night\'s Edge',
     'Royal Jelly',
+    'Amulet Coin',
+    'Silly Soda',
 ]);
 var FLING_30 = new Set([
     'Absorb Bulb',

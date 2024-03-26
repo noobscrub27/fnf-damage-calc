@@ -55,7 +55,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         defender.ability = '';
         desc.attackerAbility = attacker.ability;
     }
-    var isCritical = (move.isCrit || (attacker.named('Chansey') && attacker.hasItem('Lucky Punch') && gen.num >= 6))
+    var isCritical = (move.isCrit || (attacker.named('Chansey') && attacker.hasItem('Lucky Punch') && move.flags.punch === 1 && gen.num >= 6))
         && !defender.hasAbility('Battle Armor', 'Shell Armor') && !(defender.hasAbility('Pure Heart', 'Shadow Armor') && move.hasType('Shadow'))
         && move.timesUsed === 1;
     if (move.named('Weather Ball')) {
@@ -505,13 +505,14 @@ function calculateBPModsBWXY(gen, attacker, defender, move, field, desc, basePow
         (defender.named('Groudon', 'Groudon-Primal') && defender.hasItem('Red Orb')) ||
         (defender.named('Kyogre', 'Kyogre-Primal') && defender.hasItem('Blue Orb')) ||
         (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get((0, util_1.toID)(defender.item)).isBerry) ||
-        (defender.named('Meganium') && defender.hasItem('Fragrent Herb')) ||
+        (defender.named('Meganium') && defender.hasItem('Fragrant Herb')) ||
         (defender.named('Tropius') && defender.hasItem('Banana Bunch')) ||
         (defender.named('Shedinja') && defender.hasItem('Cursed Crown')) ||
         (defender.named('Happiny') && defender.hasItem('Oval Stone')) ||
         (defender.named('Probopass') && defender.hasItem('Magnetic Stone')) ||
-        (defender.named('Osteokhan') && defender.hasItem('Bone Baton')) ||
-        (defender.named('Darmanitan', 'Darmanizen') && defender.hasItem('Calm Candy Bar')) ||
+        (defender.named('Osteoskhan') && defender.hasItem('Bone Baton')) ||
+        (defender.named('Spinda') && defender.hasItem('Silly Soda')) ||
+        (defender.named('Darmanitan', 'Darmanizen', 'Darmanitan-Zen') && defender.hasItem('Calm Candy Bar')) ||
         (defender.named('Chansey') && defender.hasItem('Lucky Punch')) ||
         (defender.named('Gallade') && defender.hasItem('Knight\'s Edge')) ||
         (defender.named('Absol') && defender.hasItem('Night\'s Edge')) ||
@@ -574,7 +575,7 @@ function calculateBPModsBWXY(gen, attacker, defender, move, field, desc, basePow
         desc.attackerAbility = attacker.ability;
     }
     if ((attacker.item && (0, items_1.getItemBoostType)(attacker.item) === move.type) ||
-        (attacker.named('Darmanitan', 'Darmanizen') && attacker.hasItem('Calm Candy Bar') && move.category === 'Special')) {
+        (attacker.named('Darmanitan', 'Darmanizen', 'Darmanitan-Zen') && attacker.hasItem('Calm Candy Bar') && move.category === 'Special')) {
         bpMods.push(4915);
         desc.attackerItem = attacker.item;
     }
@@ -695,7 +696,7 @@ function calculateAttackBWXY(gen, attacker, defender, move, field, desc, isCriti
         (isCritical && attackSource.boosts[attackStat] < 0)) {
         attack = attackSource.rawStats[attackStat];
     }
-    else if ((defender.hasAbility('Unaware')) || (defender.named('Meganium') && defender.hasItem('Fragrent Herb'))) {
+    else if ((defender.hasAbility('Unaware')) || (defender.named('Meganium') && defender.hasItem('Fragrant Herb'))) {
         attack = attackSource.rawStats[attackStat];
         desc.defenderAbility = defender.ability;
     }
@@ -807,8 +808,8 @@ function calculateAtModsBWXY(gen, attacker, defender, move, field, desc) {
         move.category === 'Special') ||
         (attacker.hasItem('Choice Band') && move.category === 'Physical') ||
         (attacker.hasItem('Choice Specs') && move.category === 'Special') ||
-        (move.category === 'Physical' && attacker.hasItem('Bone Baton') && attacker.named('Osteokhan')) ||
-        (defender.hasItem('Eviomight') && ((_a = gen.species.get((0, util_1.toID)(defender.name))) === null || _a === void 0 ? void 0 : _a.nfe))) {
+        (move.category === 'Physical' && attacker.hasItem('Bone Baton') && attacker.named('Osteoskhan')) ||
+        (attacker.hasItem('Eviomight') && ((_a = gen.species.get((0, util_1.toID)(attacker.name))) === null || _a === void 0 ? void 0 : _a.nfe))) {
         atMods.push(6144);
         desc.attackerItem = attacker.item;
     }
@@ -829,7 +830,7 @@ function calculateDefenseBWXY(gen, attacker, defender, move, field, desc, isCrit
         move.ignoreDefensive) {
         defense = defender.rawStats[defenseStat];
     }
-    else if ((attacker.hasAbility('Unaware')) || (attacker.named('Meganium') && attacker.hasItem('Fragrent Herb'))) {
+    else if ((attacker.hasAbility('Unaware')) || (attacker.named('Meganium') && attacker.hasItem('Fragrant Herb'))) {
         defense = defender.rawStats[defenseStat];
         desc.attackerAbility = attacker.ability;
     }

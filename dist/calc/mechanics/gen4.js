@@ -617,7 +617,7 @@ function calculateAttackDPP(gen, attacker, defender, move, field, desc, isCritic
     }
     if ((isPhysical ? attacker.hasItem('Choice Band') : attacker.hasItem('Choice Specs')) ||
         (!isPhysical && attacker.hasItem('Soul Dew') && attacker.named('Latios', 'Latias')) ||
-        (isPhysical && attacker.hasItem('Bone Baton') && attacker.named('Osteokhan'))) {
+        (isPhysical && attacker.hasItem('Bone Baton') && attacker.named('Osteoskhan'))) {
         attack = Math.floor(attack * 1.5);
         desc.attackerItem = attacker.item;
     }

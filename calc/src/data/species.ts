@@ -5166,6 +5166,8 @@ const XY_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
   Vileplume: { bs: { at: 90, df: 90, sa: 115 } },
   Whimsicott: { types: ['Grass', 'Fairy'] },
   Wigglytuff: { types: ['Normal', 'Fairy'], bs: { at: 90, df: 100, sa: 105 } },
+  Phione: { otherFormes: ['Phione-Primal'] },
+  Cherrim: {otherFormes: ['Cherrim-Primal']},
   'Aegislash-Blade': {
     types: ['Steel', 'Ghost'],
     bs: { hp: 60, at: 150, df: 50, sa: 150, sd: 50, sp: 60 },
@@ -6229,6 +6231,22 @@ const XY_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     weightkg: 305,
     abilities: { 0: 'Aura Break' },
     gender: 'N',
+  },
+  // fnf changes
+  'Phione-Primal': {
+    types: ['Water'],
+    bs: { hp: 90, at: 85, df: 100, sa: 150, sd: 100, sp: 100 },
+    weightkg: 8.1,
+    abilities: { 0: 'Primal Tide' },
+    gender: 'N',
+    baseSpecies: 'Phione',
+  },
+  'Cherrim-Primal': {
+    types: ['Grass', 'Fire'],
+    bs: { hp: 70, at: 150, df: 85, sa: 115, sd: 100, sp: 105 },
+    weightkg: 15.0,
+    abilities: { 0: 'Primal Warmth' },
+    baseSpecies: 'Cherrim',
   },
 };
 
@@ -8200,13 +8218,6 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     weightkg: 88.4,
     abilities: { 0: 'Royal Guard' },
   },
-  'Cherrim-Primal': {
-    types: ['Grass', 'Fire'],
-    bs: { hp: 70, at: 150, df: 85, sa: 115, sd: 100, sp: 105 },
-    weightkg: 15.0,
-    abilities: { 0: 'Primal Warmth' },
-    baseSpecies: 'Cherrim',
-  },
   'Honchkrow-Godfather': {
     types: ['Dark', 'Flying'],
     bs: { hp: 100, at: 135, df: 88, sa: 105, sd: 88, sp: 98 },
@@ -8250,14 +8261,6 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     bs: { hp: 65, at: 65, df: 95, sa: 140, sd: 110, sp: 95 },
     weightkg: 25.9,
     abilities: { 0: 'Slush Rush' },
-  },
-  'Phione-Primal': {
-    types: ['Water'],
-    bs: { hp: 90, at: 85, df: 100, sa: 150, sd: 100, sp: 100 },
-    weightkg: 8.1,
-    abilities: { 0: 'Primal Tide' },
-    gender: 'N',
-    baseSpecies: 'Phione',
   },
   Kiwuit: {
     types: ['Grass', 'Flying'],

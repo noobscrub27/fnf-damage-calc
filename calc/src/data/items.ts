@@ -68,6 +68,8 @@ const GSC = [
   'Ultra Ball',
   'Up-Grade',
   'Water Stone',
+  // fnf changes
+  'Amulet Coin',
 ];
 
 const GSC_ONLY = [
@@ -155,6 +157,9 @@ const ADV = GSC.filter(i => !GSC_ONLY.includes(i)).concat([
   'Wiki Berry',
   // FnF changes (gen 3)
   'Night\'s Edge',
+  'Banana Bunch',
+  'Silly Soda',
+  'Bone Baton',
 ]);
 
 const DPP = ADV.concat([

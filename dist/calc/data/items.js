@@ -132,6 +132,7 @@ var GSC = [
     'Ultra Ball',
     'Up-Grade',
     'Water Stone',
+    'Amulet Coin',
 ];
 var GSC_ONLY = [
     'Berry',
@@ -216,6 +217,9 @@ var ADV = GSC.filter(function (i) { return !GSC_ONLY.includes(i); }).concat([
     'White Herb',
     'Wiki Berry',
     'Night\'s Edge',
+    'Banana Bunch',
+    'Silly Soda',
+    'Bone Baton',
 ]);
 var DPP = ADV.concat([
     'Adamant Orb',
