@@ -2743,7 +2743,7 @@ var DPP_PATCH = {
     Piloswine: { nfe: true },
     Pichu: { otherFormes: ['Pichu-Spiky-eared'] },
     Porygon2: { nfe: true },
-    Quilfish: { abilities: { 0: 'Inflate' } },
+    Qwilfish: { abilities: { 0: 'Inflate' } },
     Rhydon: { nfe: true },
     Roselia: { nfe: true },
     Sneasel: { nfe: true },
