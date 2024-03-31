@@ -6276,8 +6276,9 @@ const XY: { [name: string]: SpeciesData } = extend(true, {}, BW, XY_PATCH);
 XY['Arceus'].otherFormes!.push('Arceus-Fairy');
 XY['Arceus'].otherFormes!.sort();
 
-// SAURBOT START GEN 7
+
 const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
+  // SAURBOT START GEN 7
   'Alakazam-Mega': { bs: { sd: 105 } },
   Arbok: { bs: { hp: 65, at: 115, df: 89, sp: 90 } },
   Ariados: { bs: { hp: 95, at: 115, df: 85, sa: 90, sd: 85, sp: 60 } },
