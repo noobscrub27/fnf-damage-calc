@@ -892,7 +892,7 @@ var GSC_PATCH = {
         bs: { hp: 90, at: 96, df: 88, sa: 101, sd: 90, sp: 95 }
     },
     Golem: { bs: { sa: 55, sd: 65 } },
-    Graveler: { bs: { hp: 65, at: 110, df: 120, sa: 45, sd: 65 } },
+    Graveler: { bs: { hp: 65, at: 110, df: 120, sa: 45, sd: 55 } },
     Grimer: { bs: { hp: 90, df: 55, sa: 20, sd: 60, sp: 20 } },
     Growlithe: { bs: { hp: 80, at: 85, df: 65, sa: 80, sd: 65, sp: 75 } },
     Gyarados: { bs: { sa: 60, sd: 100 } },
@@ -1732,7 +1732,7 @@ var ADV_PATCH = {
     Miltank: { abilities: { 0: 'Thick Fat' } },
     Misdreavus: { abilities: { 0: 'Levitate' } },
     Murkrow: { abilities: { 0: 'Insomnia' } },
-    Natu: { abilities: { 0: 'Forewarn' } },
+    Natu: { abilities: { 0: 'Synchronize' } },
     Noctowl: { abilities: { 0: 'Insomnia' } },
     Octillery: { abilities: { 0: 'Suction Cups' } },
     Phanpy: { abilities: { 0: 'Sturdy' } },
@@ -1778,7 +1778,7 @@ var ADV_PATCH = {
     Ursaring: { abilities: { 0: 'Guts' } },
     Wobbuffet: { abilities: { 0: 'Shadow Tag' } },
     Wooper: { abilities: { 0: 'Damp' } },
-    Xatu: { abilities: { 0: 'Forewarn' } },
+    Xatu: { abilities: { 0: 'Synchronize' } },
     Yanma: { abilities: { 0: 'Speed Boost' } },
     Absol: {
         types: ['Dark'],
@@ -2273,9 +2273,9 @@ var ADV_PATCH = {
     },
     Mawile: {
         types: ['Steel'],
-        bs: { hp: 50, at: 85, df: 85, sa: 55, sd: 55, sp: 50 },
+        bs: { hp: 50, at: 105, df: 105, sa: 75, sd: 75, sp: 50 },
         weightkg: 11.5,
-        abilities: { 0: 'Huge Power' }
+        abilities: { 0: 'Intimidate' }
     },
     Medicham: {
         types: ['Fighting', 'Psychic'],
@@ -2729,7 +2729,9 @@ var ADV_PATCH = {
 };
 var ADV = (0, util_1.extend)(true, {}, GSC, ADV_PATCH);
 var DPP_PATCH = {
-    Aipom: { nfe: true },
+    Aipom: {
+        nfe: true, abilities: { 0: 'Technician' }
+    },
     Dusclops: { nfe: true },
     Electabuzz: { nfe: true },
     Gligar: { nfe: true },
@@ -2738,7 +2740,7 @@ var DPP_PATCH = {
     Magneton: { nfe: true },
     Misdreavus: { nfe: true },
     Murkrow: { nfe: true },
-    Natu: { abilities: { 0: 'Synchronize' } },
+    Natu: { abilities: { 0: 'Forewarn' } },
     Nosepass: { nfe: true },
     Piloswine: { nfe: true },
     Pichu: { otherFormes: ['Pichu-Spiky-eared'] },
@@ -2750,7 +2752,7 @@ var DPP_PATCH = {
     Steelix: { abilities: { 0: 'Heatproof' } },
     Tangela: { nfe: true },
     Togetic: { nfe: true },
-    Xatu: { abilities: { 0: 'Synchronize' } },
+    Xatu: { abilities: { 0: 'Forewarn' } },
     Yanma: { nfe: true },
     Abomasnow: {
         types: ['Grass', 'Ice'],
@@ -3130,7 +3132,7 @@ var DPP_PATCH = {
         bs: { hp: 90, at: 60, df: 39, sa: 70, sd: 54, sp: 70 },
         weightkg: 1.2,
         nfe: true,
-        abilities: { 0: 'Aftermath' }
+        abilities: { 0: 'Inflate' }
     },
     Duohm: {
         types: ['Electric', 'Dragon'],
@@ -4519,7 +4521,7 @@ var BW_PATCH = {
         types: ['Grass'],
         bs: { hp: 75, at: 112, df: 77, sa: 131, sd: 77, sp: 80 },
         weightkg: 28,
-        abilities: { 0: 'Water Absorb' }
+        abilities: { 0: 'Sand Rush' }
     },
     Meloetta: {
         types: ['Normal', 'Psychic'],
@@ -4640,7 +4642,7 @@ var BW_PATCH = {
     },
     Petilil: {
         types: ['Grass'],
-        bs: { hp: 45, at: 35, df: 50, sa: 75, sd: 65, sp: 30 },
+        bs: { hp: 45, at: 35, df: 50, sa: 75, sd: 50, sp: 65 },
         weightkg: 6.6,
         nfe: true,
         abilities: { 0: 'Chlorophyll' }
@@ -5742,7 +5744,7 @@ var XY_PATCH = {
     },
     'Glalie-Mega': {
         types: ['Ice'],
-        bs: { hp: 80, at: 120, df: 80, sa: 120, sd: 80, sp: 100 },
+        bs: { hp: 80, at: 135, df: 90, sa: 135, sd: 90, sp: 115 },
         weightkg: 350.2,
         abilities: { 0: 'Refrigerate' },
         baseSpecies: 'Glalie'
@@ -5812,9 +5814,9 @@ var XY_PATCH = {
     },
     'Mawile-Mega': {
         types: ['Steel', 'Fairy'],
-        bs: { hp: 50, at: 125, df: 145, sa: 75, sd: 75, sp: 115 },
+        bs: { hp: 50, at: 125, df: 145, sa: 75, sd: 115, sp: 50 },
         weightkg: 23.5,
-        abilities: { 0: 'Intimidate' },
+        abilities: { 0: 'Huge Power' },
         baseSpecies: 'Mawile'
     },
     'Medicham-Mega': {
@@ -6560,7 +6562,7 @@ var SM_PATCH = {
     },
     'Exeggutor-Alola': {
         types: ['Grass', 'Dragon'],
-        bs: { hp: 95, at: 105, df: 85, sa: 125, sd: 75, sp: 45 },
+        bs: { hp: 95, at: 105, df: 95, sa: 135, sd: 85, sp: 45 },
         weightkg: 415.6,
         baseSpecies: 'Exeggutor',
         abilities: { 0: 'Frisk' }
