@@ -3816,11 +3816,11 @@ const DPP_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     weightkg: 51.5,
     abilities: { 0: 'Speed Boost' },
   },
+  // SAURBOT END
 };
 
 const DPP: { [name: string]: SpeciesData } = extend(true, {}, ADV, DPP_PATCH);
 
-// GEN 5
 const BW_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
 // SAURBOT START GEN 5
   'Rotom-Fan': { types: ['Electric', 'Flying'] },
@@ -5073,6 +5073,7 @@ const BW_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     abilities: { 0: 'Hustle' },
     nfe: true,
   },
+  // SAURBOT END
 };
 
 const BW: { [name: string]: SpeciesData } = extend(true, {}, DPP, BW_PATCH);
