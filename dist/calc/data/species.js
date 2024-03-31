@@ -7538,7 +7538,7 @@ var SM_PATCH = {
     },
     'Vikavolt-Totem': {
         types: ['Bug', 'Electric'],
-        bs: { hp: 77, at: 70, df: 90, sa: 145, sd: 75, sp: 43 },
+        bs: { hp: 77, at: 70, df: 105, sa: 145, sd: 85, sp: 43 },
         weightkg: 147.5,
         abilities: { 0: 'Levitate' },
         baseSpecies: 'Vikavolt'
