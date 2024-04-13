@@ -424,7 +424,8 @@ exports.MEGA_STONES = {
     Goodrite: 'Goodra',
     Magnezite: 'Magnezone',
     Trevenantite: 'Trevenant',
-    FnFSablenite: 'Sableye-FnF',
+    'FnFSablenite X': 'Sableye-FnF',
+    'FnFSablenite Y': 'Sableye-FnF',
     Rapidashite: 'Rapidash',
     Hypnite: 'Hypno'
 };
@@ -530,6 +531,7 @@ var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Typhlosion Armor',
     'Teddiursa Armor',
     'Nuzleaf Armor',
+    'Steenee-Delta Armor',
     'Spark Fossil',
     'Brush Fossil',
 ]);

@@ -370,7 +370,8 @@ export const MEGA_STONES: {[species: string]: string} = {
   Goodrite: 'Goodra',
   Magnezite: 'Magnezone',
   Trevenantite: 'Trevenant',
-  FnFSablenite: 'Sableye-FnF',
+  'FnFSablenite X': 'Sableye-FnF',
+  'FnFSablenite Y': 'Sableye-FnF',
   Rapidashite: 'Rapidash',
   Hypnite: 'Hypno',
 };
@@ -482,6 +483,7 @@ const SM = XY.filter(i => i !== 'Old Amber').concat([
   'Typhlosion Armor',
   'Teddiursa Armor',
   'Nuzleaf Armor',
+  'Steenee-Delta Armor',
   'Spark Fossil',
   'Brush Fossil',
 ]);

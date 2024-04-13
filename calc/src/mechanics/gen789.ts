@@ -1040,6 +1040,7 @@ export function calculateBPModsSMSSSV(
     (defender.named('Teddiursa-Armored') && defender.hasItem('Teddiursa Armor')) ||
     (defender.named('Typhlosion-Armored') && defender.hasItem('Typhlosion Armor')) ||
     (defender.named('Nuzleaf-Armored') && defender.hasItem('Nuzleaf Armor')) ||
+    (defender.named('Steenee-Delta-Armored') && defender.hasItem('Steenee-Delta Armor')) ||
     (defender.named('Kirlia-Armored', 'Kirlia-Armored-Weaver') && defender.hasItem('Kirlia Armor')) ||
     (defender.named('Granbull-Armored') && defender.hasItem('Granbull Armor')) ||
     (defender.named('Granbull-Nobunaga') && defender.hasItem('Nobunaga Armor'));

@@ -3,7 +3,7 @@
     "",
     "\\calc",
     "\\calc\\src",
-    "\\calc\\src\\data",
+    "\\calc\\src\\mechanics",
     "\\dist",
     "\\dist\\js",
     "\\src",
@@ -11,6 +11,6 @@
     "\\src\\js\\data",
     "\\src\\js\\data\\sets"
   ],
-  "SelectedNode": "\\dist\\js\\shared_controls.js",
+  "SelectedNode": "\\build",
   "PreviewInSolutionExplorer": false
 }

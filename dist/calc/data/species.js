@@ -8147,9 +8147,16 @@ var SM_PATCH = {
         bs: { hp: 60, at: 65, df: 75, sa: 85, sd: 85, sp: 10 },
         weightkg: 11.0,
         abilities: { 0: 'Dry Skin' },
-        otherFormes: ['Sableye-FnF-Mega']
+        otherFormes: ['Sableye-FnF-Mega-X', 'Sableye-FnF-Mega-Y']
     },
-    'Sableye-FnF-Mega': {
+    'Sableye-FnF-Mega-X': {
+        types: ['Dragon', 'Ghost'],
+        bs: { hp: 60, at: 125, df: 80, sa: 10, sd: 80, sp: 125 },
+        weightkg: 21.0,
+        abilities: { 0: 'Levitate' },
+        baseSpecies: 'Sableye-FnF'
+    },
+    'Sableye-FnF-Mega-Y': {
         types: ['Rock', 'Ghost'],
         bs: { hp: 60, at: 45, df: 125, sa: 125, sd: 115, sp: 10 },
         weightkg: 161.0,
@@ -8634,6 +8641,18 @@ var SM_PATCH = {
         bs: { hp: 77, at: 145, df: 105, sa: 70, sd: 85, sp: 43 },
         abilities: { 0: 'Battery' },
         weightkg: 45.0
+    },
+    'Steenee-Delta-Armored': {
+        types: ['Ground', 'Ghost'],
+        bs: { hp: 62, at: 88, df: 88, sa: 118, sd: 138, sp: 62 },
+        abilities: { 0: 'Healer' },
+        weightkg: 10.2
+    },
+    'Torkoal-FnF': {
+        types: ['Fighting'],
+        bs: { hp: 70, at: 80, df: 95, sa: 110, sd: 135, sp: 35 },
+        abilities: { 0: 'Inner Focus' },
+        weightkg: 80.4
     },
     Huojara: {
         types: ['Rock'],
