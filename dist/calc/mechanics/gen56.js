@@ -213,9 +213,8 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         (move.flags.bullet && defender.hasAbility('Bulletproof')) ||
         (move.flags.sound && defender.hasAbility('Soundproof')) ||
         (move.flags.blade && defender.hasAbility('Bladeproof')) ||
-        (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
         (move.hasType('Poison') && defender.hasAbility('Acid Absorb')) ||
-        (move.hasType('Dark') && defender.hasAbility('Karma')) ||
+        (move.hasType('Dark') && defender.hasAbility('Karma', 'Baku Shield')) ||
         (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get((0, util_1.toID)(defender.item)).isBerry &&
             (0, items_1.getNaturalGift)(gen, defender.item).t === move.type)) {
         desc.defenderAbility = defender.ability;
@@ -529,13 +528,12 @@ function calculateBPModsBWXY(gen, attacker, defender, move, field, desc, basePow
     }
     if ((attacker.hasAbility('Technician') && basePower <= 60) ||
         (attacker.hasAbility('Flare Boost') &&
-            attacker.hasStatus('brn') && move.category === 'Special') ||
-        (attacker.hasAbility('Toxic Boost') &&
-            attacker.hasStatus('psn', 'tox') && move.category === 'Physical')) {
+            attacker.hasStatus('brn') && move.category === 'Special')) {
         bpMods.push(6144);
         desc.attackerAbility = attacker.ability;
     }
-    else if (attacker.hasAbility('Analytic') && turnOrder !== 'first') {
+    else if ((attacker.hasAbility('Analytic') && turnOrder !== 'first') ||
+        (attacker.hasAbility('Toxic Boost') && attacker.hasStatus('psn', 'tox') && move.category === 'Physical')) {
         bpMods.push(5325);
         desc.attackerAbility = attacker.ability;
     }

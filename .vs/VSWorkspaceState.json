@@ -3,7 +3,7 @@
     "",
     "\\calc",
     "\\calc\\src",
-    "\\calc\\src\\mechanics",
+    "\\calc\\src\\data",
     "\\dist",
     "\\dist\\js",
     "\\src",
@@ -11,6 +11,5 @@
     "\\src\\js\\data",
     "\\src\\js\\data\\sets"
   ],
-  "SelectedNode": "\\build",
   "PreviewInSolutionExplorer": false
 }

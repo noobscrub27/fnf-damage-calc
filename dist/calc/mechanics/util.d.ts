@@ -33,6 +33,7 @@ export declare function getShellSideArmCategory(source: Pokemon, target: Pokemon
 export declare function getWeight(pokemon: Pokemon, desc: RawDesc, role: 'defender' | 'attacker'): number;
 export declare function getStabMod(pokemon: Pokemon, move: Move, desc: RawDesc): number;
 export declare function getStellarStabMod(pokemon: Pokemon, move: Move, stabMod?: number, turns?: number): number;
+export declare function checkForLoweredStat(gen: Generation, boosts: StatsTable): boolean;
 export declare function countBoosts(gen: Generation, boosts: StatsTable): number;
 export declare function getEVDescriptionText(gen: Generation, pokemon: Pokemon, stat: 'atk' | 'def' | 'spd' | 'spa', natureName: NatureName): string;
 export declare function handleFixedDamageMoves(attacker: Pokemon, move: Move): number;

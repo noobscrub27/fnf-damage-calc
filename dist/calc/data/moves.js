@@ -2940,7 +2940,7 @@ var SM_PATCH = {
         zp: 140
     },
     'Creeping Despair': {
-        bp: 80,
+        bp: 85,
         type: 'Dark',
         category: 'Special',
         secondaries: true,

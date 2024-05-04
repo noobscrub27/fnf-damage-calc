@@ -2053,7 +2053,7 @@ var ADV_PATCH = {
     },
     Dustox: {
         types: ['Bug', 'Poison'],
-        bs: { hp: 65, at: 50, df: 110, sa: 90, sd: 130, sp: 90 },
+        bs: { hp: 65, at: 50, df: 100, sa: 90, sd: 130, sp: 90 },
         weightkg: 31.6,
         abilities: { 0: 'Shield Dust' }
     },
@@ -5116,7 +5116,7 @@ var XY_PATCH = {
     Azumarill: { types: ['Water', 'Fairy'], bs: { sa: 60 } },
     Azurill: { types: ['Normal', 'Fairy'] },
     Banette: { otherFormes: ['Banette-Mega'] },
-    Beautifly: { bs: { hp: 65, at: 110, sa: 130, sd: 90, sp: 90 } },
+    Beautifly: { bs: { hp: 65, at: 100, sa: 130, sd: 90, sp: 90 } },
     Beedrill: { bs: { at: 120, sa: 15, sp: 114 }, otherFormes: ['Beedrill-Mega'] },
     Bellossom: { bs: { at: 70, df: 95, sa: 105, sp: 65 } },
     Blastoise: { otherFormes: ['Blastoise-Mega'] },
@@ -5902,9 +5902,9 @@ var XY_PATCH = {
     },
     'Sharpedo-Mega': {
         types: ['Water', 'Dark'],
-        bs: { hp: 70, at: 160, df: 65, sa: 120, sd: 55, sp: 110 },
+        bs: { hp: 70, at: 160, df: 60, sa: 130, sd: 50, sp: 110 },
         weightkg: 130.3,
-        abilities: { 0: 'Strong Jaw' },
+        abilities: { 0: 'Tenacity' },
         baseSpecies: 'Sharpedo'
     },
     'Slowbro-Mega': {
@@ -6284,7 +6284,7 @@ var XY_PATCH = {
     },
     'Cherrim-Primal': {
         types: ['Grass', 'Fire'],
-        bs: { hp: 70, at: 150, df: 85, sa: 115, sd: 100, sp: 105 },
+        bs: { hp: 70, at: 145, df: 85, sa: 125, sd: 100, sp: 100 },
         weightkg: 15.0,
         abilities: { 0: 'Primal Warmth' },
         baseSpecies: 'Cherrim'
@@ -8455,6 +8455,12 @@ var SM_PATCH = {
         abilities: { 0: 'Levitate' },
         gender: 'N'
     },
+    Hitmonwu: {
+        types: ['Fighting'],
+        bs: { hp: 50, at: 56, df: 50, sa: 117, sd: 110, sp: 97 },
+        weightkg: 49.0,
+        abilities: { 0: 'Steadfast' }
+    },
     'Fraxure-Frenzy': {
         types: ['Dragon'],
         bs: { hp: 76, at: 186, df: 100, sa: 91, sd: 80, sp: 97 },
@@ -8558,7 +8564,7 @@ var SM_PATCH = {
     },
     'Trevenant-Mega': {
         types: ['Ghost', 'Grass'],
-        bs: { hp: 95, at: 155, df: 109, sa: 96, sd: 113, sp: 69 },
+        bs: { hp: 95, at: 155, df: 101, sa: 112, sd: 105, sp: 69 },
         weightkg: 93.0,
         abilities: { 0: 'Evergreen Touch' },
         baseSpecies: 'Trevenant'

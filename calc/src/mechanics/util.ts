@@ -669,7 +669,17 @@ export function getStellarStabMod(pokemon: Pokemon, move: Move, stabMod = 1, tur
   return stabMod;
 }
 
+export function checkForLoweredStat(gen: Generation, boosts: StatsTable) {
+  const STATS: StatID[] = gen.num === 1
+    ? ['atk', 'def', 'spa', 'spe']
+    : ['atk', 'def', 'spa', 'spd', 'spe'];
 
+  for (const stat of STATS) {
+    const boost = boosts[stat];
+    if (boost && boost < 0) return true;
+  }
+  return false;
+}
 
 export function countBoosts(gen: Generation, boosts: StatsTable) {
   let sum = 0;

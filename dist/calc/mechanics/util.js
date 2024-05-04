@@ -666,9 +666,8 @@ function getStellarStabMod(pokemon, move, stabMod, turns) {
     return stabMod;
 }
 exports.getStellarStabMod = getStellarStabMod;
-function countBoosts(gen, boosts) {
+function checkForLoweredStat(gen, boosts) {
     var e_5, _a;
-    var sum = 0;
     var STATS = gen.num === 1
         ? ['atk', 'def', 'spa', 'spe']
         : ['atk', 'def', 'spa', 'spd', 'spe'];
@@ -676,8 +675,8 @@ function countBoosts(gen, boosts) {
         for (var STATS_1 = __values(STATS), STATS_1_1 = STATS_1.next(); !STATS_1_1.done; STATS_1_1 = STATS_1.next()) {
             var stat = STATS_1_1.value;
             var boost = boosts[stat];
-            if (boost && boost > 0)
-                sum += boost;
+            if (boost && boost < 0)
+                return true;
         }
     }
     catch (e_5_1) { e_5 = { error: e_5_1 }; }
@@ -686,6 +685,30 @@ function countBoosts(gen, boosts) {
             if (STATS_1_1 && !STATS_1_1.done && (_a = STATS_1["return"])) _a.call(STATS_1);
         }
         finally { if (e_5) throw e_5.error; }
+    }
+    return false;
+}
+exports.checkForLoweredStat = checkForLoweredStat;
+function countBoosts(gen, boosts) {
+    var e_6, _a;
+    var sum = 0;
+    var STATS = gen.num === 1
+        ? ['atk', 'def', 'spa', 'spe']
+        : ['atk', 'def', 'spa', 'spd', 'spe'];
+    try {
+        for (var STATS_2 = __values(STATS), STATS_2_1 = STATS_2.next(); !STATS_2_1.done; STATS_2_1 = STATS_2.next()) {
+            var stat = STATS_2_1.value;
+            var boost = boosts[stat];
+            if (boost && boost > 0)
+                sum += boost;
+        }
+    }
+    catch (e_6_1) { e_6 = { error: e_6_1 }; }
+    finally {
+        try {
+            if (STATS_2_1 && !STATS_2_1.done && (_a = STATS_2["return"])) _a.call(STATS_2);
+        }
+        finally { if (e_6) throw e_6.error; }
     }
     return sum;
 }

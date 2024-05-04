@@ -34,6 +34,7 @@ import {
   checkTeraformZero,
   checkWonderRoom,
   computeFinalStats,
+  checkForLoweredStat,
   countBoosts,
   getBaseDamage,
   getEVDescriptionText,
@@ -428,9 +429,8 @@ export function calculateSMSSSV(
       (move.priority > 0 && defender.hasAbility('Queenly Majesty', 'Dazzling', 'Armor Tail')) ||
       (move.hasType('Ground') && defender.hasAbility('Earth Eater')) ||
       (move.flags.wind && defender.hasAbility('Wind Rider', 'Jetstream')) ||
-      (move.hasType('Ghost', 'Dark') && defender.hasAbility('Baku Shield')) ||
       (move.hasType('Poison') && defender.hasAbility('Acid Absorb')) ||
-      (move.hasType('Dark') && defender.hasAbility('Karma')) ||
+      (move.hasType('Dark') && defender.hasAbility('Karma', 'Baku Shield')) ||
       (defender.named('Kiwuit') && defender.hasAbility('Ambrosia') && defender.item && gen.items.get(toID(defender.item))!.isBerry &&
       getNaturalGift(gen, defender.item)!.t === move.type)
   ) {
@@ -760,6 +760,10 @@ export function calculateBasePowerSMSSSV(
       break;
     case 'Punishment':
       basePower = Math.min(200, 60 + 20 * countBoosts(gen, defender.boosts));
+      desc.moveBP = basePower;
+      break;
+    case 'Creeping Despair':
+      basePower = Math.floor(move.bp * (checkForLoweredStat(gen, defender.boosts) ? 1.5 : 1));
       desc.moveBP = basePower;
       break;
     case 'Low Kick':
@@ -1147,8 +1151,6 @@ export function calculateBPModsSMSSSV(
   if ((attacker.hasAbility('Technician') && basePower <= 60) ||
     (attacker.hasAbility('Flare Boost') &&
       attacker.hasStatus('brn') && move.category === 'Special') ||
-    (attacker.hasAbility('Toxic Boost') &&
-      attacker.hasStatus('psn', 'tox') && move.category === 'Physical') ||
     (attacker.hasAbility('Mega Launcher') && move.flags.pulse) ||
     (attacker.hasAbility('Strong Jaw') && move.flags.bite) ||
     (attacker.hasAbility('Steely Spirit') && move.hasType('Steel')) ||
@@ -1192,7 +1194,9 @@ export function calculateBPModsSMSSSV(
     (attacker.hasAbility('Analytic') &&
       (turnOrder !== 'first' || field.defenderSide.isSwitching === 'out')) ||
     (attacker.hasAbility('Tough Claws') && move.flags.contact) ||
-    (attacker.hasAbility('Punk Rock') && move.flags.sound)
+    (attacker.hasAbility('Punk Rock') && move.flags.sound) ||
+    (attacker.hasAbility('Toxic Boost') &&
+      attacker.hasStatus('psn', 'tox') && move.category === 'Physical')
   ) {
     bpMods.push(5325);
     desc.attackerAbility = attacker.ability;
