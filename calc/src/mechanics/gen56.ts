@@ -944,6 +944,9 @@ export function calculateAtModsBWXY(
   } else if (attacker.hasAbility('Flash Fire') && attacker.abilityOn && move.hasType('Fire')) {
     atMods.push(6144);
     desc.attackerAbility = 'Flash Fire';
+  } else if (attacker.hasAbility('Luminesce') && attacker.abilityOn && move.category === 'Special') {
+    atMods.push(6144);
+    desc.attackerAbility = 'Luminesce';
   } else if (attacker.hasAbility('Syzygy') && ((move.category == 'Special' && move.hasType('Fire')) ||
     (move.category == 'Physical' && move.hasType('Ice')))) {
     atMods.push(6144);
@@ -1124,6 +1127,9 @@ export function calculateDfModsBWXY(
   } else if (defender.hasAbility('Stall')) {
     dfMods.push(5325);
     desc.defenderAbility = defender.ability;
+  } else if (defender.hasAbility('Luminesce') && defender.abilityOn && !hitsPhysical) {
+    dfMods.push(6144);
+    desc.defenderAbility = 'Luminesce';
   }
   return dfMods;
 }

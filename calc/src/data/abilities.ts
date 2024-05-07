@@ -231,6 +231,7 @@ const BW = DPP.concat([
   'Galaxian',
   'Ignition',
   'Karma',
+  'Luminesce',
   'Mountaineer',
   'Neutralizing Gas',
   'Psyche Control',

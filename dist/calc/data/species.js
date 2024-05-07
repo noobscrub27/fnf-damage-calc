@@ -3857,6 +3857,8 @@ var BW_PATCH = {
     'Rotom-Wash': { types: ['Electric', 'Water'] },
     Houndoom: { abilities: { 0: 'Infiltrator' } },
     Houndour: { abilities: { 0: 'Infiltrator' } },
+    Finneon: { abilities: { 0: 'Luminesce' } },
+    Lumineon: { abilities: { 0: 'Luminesce' } },
     Accelgor: {
         types: ['Bug'],
         bs: { hp: 80, at: 90, df: 40, sa: 105, sd: 60, sp: 145 },
@@ -8442,11 +8444,25 @@ var SM_PATCH = {
         weightkg: 14.3,
         abilities: { 0: 'Gooey' }
     },
-    'Eelektross-Mr.Lamprey': {
-        types: ['Electric'],
-        bs: { hp: 90, at: 145, df: 100, sa: 115, sd: 100, sp: 85 },
-        weightkg: 80.5,
-        abilities: { 0: 'Levitate' }
+    'Roggenrola-FnF': {
+        types: ['Rock', 'Psychic'],
+        bs: { hp: 55, at: 20, df: 75, sa: 85, sd: 65, sp: 10 },
+        weightkg: 18,
+        nfe: true,
+        abilities: { 0: 'Luminesce' }
+    },
+    'Boldore-FnF': {
+        types: ['Rock', 'Psychic'],
+        bs: { hp: 70, at: 40, df: 95, sa: 105, sd: 85, sp: 15 },
+        weightkg: 102,
+        nfe: true,
+        abilities: { 0: 'Luminesce' }
+    },
+    'Gigalith-FnF': {
+        types: ['Rock', 'Psychic'],
+        bs: { hp: 85, at: 50, df: 120, sa: 135, sd: 105, sp: 20 },
+        weightkg: 260,
+        abilities: { 0: 'Luminesce' }
     },
     Roboheeyem: {
         types: ['Steel', 'Dark'],
@@ -8460,6 +8476,12 @@ var SM_PATCH = {
         bs: { hp: 50, at: 56, df: 50, sa: 117, sd: 110, sp: 97 },
         weightkg: 49.0,
         abilities: { 0: 'Steadfast' }
+    },
+    'Eelektross-Mr.Lamprey': {
+        types: ['Electric'],
+        bs: { hp: 90, at: 145, df: 100, sa: 115, sd: 100, sp: 85 },
+        weightkg: 80.5,
+        abilities: { 0: 'Levitate' }
     },
     'Fraxure-Frenzy': {
         types: ['Dragon'],

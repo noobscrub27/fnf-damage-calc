@@ -3,7 +3,7 @@
     "",
     "\\calc",
     "\\calc\\src",
-    "\\calc\\src\\data",
+    "\\calc\\src\\mechanics",
     "\\dist",
     "\\dist\\js",
     "\\src",
@@ -11,5 +11,6 @@
     "\\src\\js\\data",
     "\\src\\js\\data\\sets"
   ],
+  "SelectedNode": "\\calc\\src\\mechanics\\gen789.ts",
   "PreviewInSolutionExplorer": false
 }

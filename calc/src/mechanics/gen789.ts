@@ -1383,9 +1383,9 @@ export function calculateAtModsSMSSSV(
     atMods.push(2048);
     desc.attackerAbility = attacker.ability;
   } else if ((field.hasWeather('Sun', 'Harsh Sunshine') && ((attacker.hasAbility('Solar Power') && move.category === 'Special') ||
-                                                            (attacker.hasAbility('Solar Boost') && move.category === 'Physical') ||
-                                                            ((attacker.named('Cherrim') && attacker.hasAbility('Flower Gift')) && move.category === 'Physical'))) ||
-            (field.hasWeather('Hail', 'Snow') && attacker.hasAbility('Ice Breaker') &&  move.category === 'Physical')) {
+    (attacker.hasAbility('Solar Boost') && move.category === 'Physical') ||
+    ((attacker.named('Cherrim') && attacker.hasAbility('Flower Gift')) && move.category === 'Physical'))) ||
+    (field.hasWeather('Hail', 'Snow') && attacker.hasAbility('Ice Breaker') && move.category === 'Physical')) {
     atMods.push(6144);
     desc.attackerAbility = attacker.ability;
     desc.weather = field.weather;
@@ -1420,6 +1420,9 @@ export function calculateAtModsSMSSSV(
   } else if (attacker.hasAbility('Flash Fire') && attacker.abilityOn && move.hasType('Fire')) {
     atMods.push(6144);
     desc.attackerAbility = 'Flash Fire';
+  } else if (attacker.hasAbility('Luminesce') && attacker.abilityOn && move.category === 'Special') {
+    atMods.push(6144);
+    desc.attackerAbility = 'Luminesce';
   } else if (attacker.hasAbility('Syzygy') && ((move.category == 'Special' && move.hasType('Fire')) ||
                                                (move.category == 'Physical' && move.hasType('Ice'))))
   {
@@ -1647,6 +1650,9 @@ export function calculateDfModsSMSSSV(
   } else if (defender.hasAbility('Stall')) {
     dfMods.push(5325);
     desc.defenderAbility = defender.ability;
+  } else if (defender.hasAbility('Luminesce') && defender.abilityOn && !hitsPhysical) {
+    dfMods.push(6144);
+    desc.defenderAbility = 'Luminesce';
   }
   // Pokemon with "-of Ruin" Ability are immune to the opposing "-of Ruin" ability
   const isSwordOfRuinActive = (attacker.hasAbility('Sword of Ruin') || field.isSwordOfRuin) &&
