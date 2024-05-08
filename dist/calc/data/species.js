@@ -7632,11 +7632,24 @@ var SM_PATCH = {
         weightkg: 23.0,
         abilities: { 0: 'Supercharged' }
     },
+    'Chingling-Armored': {
+        types: ['Psychic', 'Dragon'],
+        bs: { hp: 60, at: 50, df: 110, sa: 105, sd: 135, sp: 35 },
+        weightkg: 70.0,
+        abilities: { 0: 'Intimidate' }
+    },
     Venustoise: {
         types: ['Water', 'Grass'],
         bs: { hp: 80, at: 85, df: 92, sa: 95, sd: 102, sp: 79 },
         weightkg: 92.5,
         abilities: { 0: 'Torrent' },
+        gender: 'N'
+    },
+    Aromacosta: {
+        types: ['Rock', 'Dark'],
+        bs: { hp: 88, at: 86, df: 119, sa: 115, sd: 85, sp: 17 },
+        weightkg: 71.0,
+        abilities: { 0: 'Aroma Veil' },
         gender: 'N'
     },
     Crocky: {

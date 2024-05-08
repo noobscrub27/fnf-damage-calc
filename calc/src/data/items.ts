@@ -484,6 +484,7 @@ const SM = XY.filter(i => i !== 'Old Amber').concat([
   'Teddiursa Armor',
   'Nuzleaf Armor',
   'Steenee-Delta Armor',
+  'Chingling Armor',
   'Spark Fossil',
   'Brush Fossil',
 ]);

@@ -532,6 +532,7 @@ var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Teddiursa Armor',
     'Nuzleaf Armor',
     'Steenee-Delta Armor',
+    'Chingling Armor',
     'Spark Fossil',
     'Brush Fossil',
 ]);
