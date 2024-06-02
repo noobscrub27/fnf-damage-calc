@@ -1301,6 +1301,7 @@ const GSC_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     types: ['Water', 'Poison'],
     bs: {hp: 65, at: 95, df: 75, sa: 55, sd: 55, sp: 85},
     weightkg: 3.9,
+    nfe: true,
   },
   Raikou: {
     types: ['Electric'],
@@ -10599,7 +10600,6 @@ const PLA_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     weightkg: 3.9,
     abilities: {0: 'Poison Point'},
     baseSpecies: 'Qwilfish',
-    nfe: true,
   },
   'Samurott-Hisui': {
     types: ['Water', 'Dark'],

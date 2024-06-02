@@ -1339,7 +1339,8 @@ var GSC_PATCH = {
     Qwilfish: {
         types: ['Water', 'Poison'],
         bs: { hp: 65, at: 95, df: 75, sa: 55, sd: 55, sp: 85 },
-        weightkg: 3.9
+        weightkg: 3.9,
+        nfe: true
     },
     Raikou: {
         types: ['Electric'],
@@ -10603,8 +10604,7 @@ var PLA_PATCH = {
         bs: { hp: 65, at: 95, df: 85, sa: 55, sd: 55, sp: 85 },
         weightkg: 3.9,
         abilities: { 0: 'Poison Point' },
-        baseSpecies: 'Qwilfish',
-        nfe: true
+        baseSpecies: 'Qwilfish'
     },
     'Samurott-Hisui': {
         types: ['Water', 'Dark'],
