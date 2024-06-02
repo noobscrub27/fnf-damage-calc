@@ -7773,6 +7773,26 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
     abilities: { 0: 'Unaware' },
     nfe: true,
   },
+  'Chespin-Delta': {
+    types: ['Poison'],
+    bs: { hp: 60, at: 65, df: 70, sa: 48, sd: 55, sp: 38 },
+    weightkg: 9.0,
+    abilities: { 0: 'Poison Touch' },
+    nfe: true,
+  },
+  'Quilladin-Delta': {
+    types: ['Poison'],
+    bs: { hp: 68, at: 88, df: 100, sa: 56, sd: 68, sp: 57 },
+    weightkg: 29.0,
+    abilities: { 0: 'Poison Touch' },
+    nfe: true,
+  },
+  'Chesnaught-Delta': {
+    types: ['Poison', 'Steel'],
+    bs: { hp: 88, at: 107, df: 122, sa: 74, sd: 75, sp: 64 },
+    weightkg: 90.0,
+    abilities: { 0: 'Poison Touch' },
+  },
   Rooskhan: {
     types: ['Normal'],
     bs: { hp: 55, at: 75, df: 50, sa: 25, sd: 50, sp: 45 },
