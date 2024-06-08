@@ -161,6 +161,8 @@ export function getMoveEffectiveness(
     return 2;
   } else if (move.named('Vaporize') && type === 'Water') {
     return 2;
+  } else if (move.named('Boisterous Blackout') && type === 'Electric') {
+    return 2;
   } else if (move.named('Venus Chomp') && type === 'Bug') {
     return 2;
   } else if (move.named('Flying Press')) {
