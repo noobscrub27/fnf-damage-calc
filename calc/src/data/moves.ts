@@ -2551,7 +2551,7 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     zp: 200,
   },
   'Multi-Attack': {
-    bp: 90,
+    bp: 120,
     type: 'Normal',
     makesContact: true,
     category: 'Physical',

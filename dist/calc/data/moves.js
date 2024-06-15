@@ -2534,7 +2534,7 @@ var SM_PATCH = {
         zp: 200
     },
     'Multi-Attack': {
-        bp: 90,
+        bp: 120,
         type: 'Normal',
         makesContact: true,
         category: 'Physical',
