@@ -301,6 +301,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb', 'Shadow Hydraulics', 'Water Compation')) ||
         (move.hasType('Bug') && defender.hasAbility('Bugcatcher')) ||
         (move.hasType('Ground') && defender.hasAbility('Clay Construction')) ||
+        (move.hasType('Ghost') && defender.hasAbility('Soul Lantern')) ||
         (move.hasType('Ice') && defender.hasAbility('Tropical Current')) ||
         (move.hasType('Electric') &&
             defender.hasAbility('Lightning Rod', 'Motor Drive', 'Volt Absorb', 'Shadow Conduction')) ||

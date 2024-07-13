@@ -345,6 +345,7 @@ const SM = XY.concat([
   'Team Spirit',
   'Toxicate',
   'Cursed Energy',
+  'Soul Lantern'
 ]);
 
 const SS = SM.concat([

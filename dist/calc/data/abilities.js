@@ -373,6 +373,7 @@ var SM = XY.concat([
     'Team Spirit',
     'Toxicate',
     'Cursed Energy',
+    'Soul Lantern'
 ]);
 var SS = SM.concat([
     'As One (Glastrier)',

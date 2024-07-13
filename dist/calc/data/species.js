@@ -1042,7 +1042,7 @@ var GSC_PATCH = {
     },
     Chinchou: {
         types: ['Water', 'Electric'],
-        bs: { hp: 97, at: 38, df: 48, sa: 70, sd: 70, sp: 77 },
+        bs: { hp: 97, at: 43, df: 48, sa: 70, sd: 70, sp: 77 },
         weightkg: 12,
         nfe: true
     },
@@ -1195,7 +1195,7 @@ var GSC_PATCH = {
     },
     Lanturn: {
         types: ['Water', 'Electric'],
-        bs: { hp: 125, at: 58, df: 84, sa: 92, sd: 97, sp: 72 },
+        bs: { hp: 125, at: 78, df: 84, sa: 92, sd: 97, sp: 72 },
         weightkg: 22.5
     },
     Larvitar: {
@@ -8741,6 +8741,19 @@ var SM_PATCH = {
         bs: { hp: 113, at: 72, df: 82, sa: 109, sd: 101, sp: 60 },
         abilities: { 0: 'Sedimentary' },
         weightkg: 600.0
+    },
+    'Chinchou-FnF': {
+        types: ['Ghost', 'Electric'],
+        bs: { hp: 102, at: 33, df: 43, sa: 95, sd: 65, sp: 67 },
+        abilities: { 0: 'Soul Lantern' },
+        weightkg: 12.0,
+        nfe: true
+    },
+    Lureturn: {
+        types: ['Ghost', 'Electric'],
+        bs: { hp: 135, at: 63, df: 79, sa: 117, sd: 92, sp: 62 },
+        abilities: { 0: 'Soul Lantern' },
+        weightkg: 22.5
     },
     Butterno: {
         types: ['Bug', 'Psychic'],
