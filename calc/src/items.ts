@@ -13,6 +13,7 @@ export function getItemBoostType(item: string | undefined) {
   case 'Draco Plate':
   case 'Dragon Memory':
   case 'Dragon Fang':
+  case 'Myth Incense':
     return 'Dragon';
   case 'Dread Plate':
   case 'Dark Memory':
@@ -408,6 +409,8 @@ const FLING_10 = new Set([
   'TR85',
   'TR88',
   'TR91',
+  // fnf changes
+  'Myth Incense',
 ]);
 
 // TODO: move this data to the data files instead.

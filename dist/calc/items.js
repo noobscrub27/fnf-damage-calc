@@ -13,6 +13,7 @@ function getItemBoostType(item) {
         case 'Draco Plate':
         case 'Dragon Memory':
         case 'Dragon Fang':
+        case 'Myth Incense':
             return 'Dragon';
         case 'Dread Plate':
         case 'Dark Memory':
@@ -399,6 +400,7 @@ var FLING_10 = new Set([
     'TR85',
     'TR88',
     'TR91',
+    'Myth Incense',
 ]);
 function getFlingPower(item) {
     if (!item)

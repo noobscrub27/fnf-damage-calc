@@ -900,7 +900,7 @@ var GSC_PATCH = {
     Hitmonchan: { bs: { at: 115, df: 100, sa: 20, sd: 110, sp: 85 } },
     Hitmonlee: { bs: { at: 125, df: 68, sa: 35, sd: 110, sp: 92 } },
     Horsea: { bs: { hp: 40, sa: 70, sd: 45, sp: 65 } },
-    Hypno: { bs: { hp: 95, at: 115, df: 95, sa: 100, sd: 115 } },
+    Hypno: { bs: { hp: 95, at: 110, df: 95, sa: 90, sd: 115 } },
     Ivysaur: { bs: { sa: 80, sd: 80 } },
     Jigglypuff: { bs: { at: 70, df: 60, sa: 75, sd: 35 } },
     Jolteon: { bs: { sa: 110, sd: 95 } },
@@ -924,7 +924,7 @@ var GSC_PATCH = {
     Magneton: { types: ['Electric', 'Steel'], bs: { sa: 120, sd: 70 }, gender: 'N' },
     Mankey: { bs: { at: 95, sa: 35, sd: 45, sp: 80 } },
     Marowak: { bs: { hp: 80, sa: 50, sd: 80 } },
-    Meowth: { bs: { at: 50, df: 45, sa: 55, sd: 50 } },
+    Meowth: { bs: { at: 50, df: 35, sa: 40, sd: 50 } },
     Metapod: { bs: { hp: 65, at: 30, df: 115, sa: 55, sd: 75 } },
     Mew: { bs: { sa: 100, sd: 100 }, gender: 'N' },
     Mewtwo: { bs: { sa: 154, sd: 90 }, gender: 'N' },
@@ -944,7 +944,7 @@ var GSC_PATCH = {
     Onix: { bs: { hp: 55, at: 90, df: 180, sa: 45, sd: 55, sp: 95 }, nfe: true },
     Paras: { bs: { at: 75, df: 85, sa: 45, sd: 85, sp: 10 } },
     Parasect: { bs: { df: 115, sa: 60, sd: 115, sp: 10 } },
-    Persian: { bs: { at: 95, df: 70, sa: 115, sd: 70 } },
+    Persian: { bs: { at: 95, df: 60, sa: 115, sd: 60 } },
     Pidgeot: { bs: { sa: 70, sd: 70 } },
     Pidgeotto: { bs: { sa: 70, sd: 50, sp: 81 } },
     Pidgey: { bs: { sa: 55, sd: 35, sp: 66 } },
@@ -1519,7 +1519,7 @@ var GSC_PATCH = {
     },
     Xatu: {
         types: ['Psychic', 'Flying'],
-        bs: { hp: 70, at: 75, df: 80, sa: 135, sd: 115, sp: 95 },
+        bs: { hp: 70, at: 75, df: 80, sa: 125, sd: 105, sp: 95 },
         weightkg: 15
     },
     Yanma: {
@@ -4235,7 +4235,7 @@ var BW_PATCH = {
     },
     Garbodor: {
         types: ['Poison'],
-        bs: { hp: 125, at: 90, df: 82, sa: 90, sd: 82, sp: 75 },
+        bs: { hp: 105, at: 90, df: 82, sa: 90, sd: 82, sp: 75 },
         weightkg: 107.3,
         abilities: { 0: 'Stench' }
     },
@@ -4950,7 +4950,7 @@ var BW_PATCH = {
     },
     Trubbish: {
         types: ['Poison'],
-        bs: { hp: 80, at: 65, df: 62, sa: 65, sd: 62, sp: 65 },
+        bs: { hp: 75, at: 65, df: 62, sa: 65, sd: 62, sp: 65 },
         weightkg: 31,
         nfe: true,
         abilities: { 0: 'Stench' }
@@ -5993,7 +5993,7 @@ var XY_PATCH = {
     },
     Phantump: {
         types: ['Ghost', 'Grass'],
-        bs: { hp: 67, at: 98, df: 58, sa: 50, sd: 72, sp: 42 },
+        bs: { hp: 67, at: 93, df: 58, sa: 50, sd: 72, sp: 42 },
         weightkg: 7,
         nfe: true,
         abilities: { 0: 'Natural Cure' }
@@ -6198,7 +6198,7 @@ var XY_PATCH = {
     },
     Trevenant: {
         types: ['Ghost', 'Grass'],
-        bs: { hp: 95, at: 135, df: 84, sa: 76, sd: 91, sp: 56 },
+        bs: { hp: 95, at: 125, df: 84, sa: 76, sd: 91, sp: 56 },
         weightkg: 71,
         abilities: { 0: 'Natural Cure' }
     },
@@ -6586,7 +6586,7 @@ var SM_PATCH = {
     },
     'Geodude-Alola': {
         types: ['Rock', 'Electric'],
-        bs: { hp: 40, at: 80, df: 100, sa: 45, sd: 35, sp: 25 },
+        bs: { hp: 40, at: 95, df: 100, sa: 30, sd: 35, sp: 25 },
         weightkg: 20.3,
         baseSpecies: 'Geodude',
         nfe: true,
@@ -6594,7 +6594,7 @@ var SM_PATCH = {
     },
     'Golem-Alola': {
         types: ['Rock', 'Electric'],
-        bs: { hp: 85, at: 120, df: 130, sa: 80, sd: 75, sp: 55 },
+        bs: { hp: 85, at: 140, df: 135, sa: 55, sd: 75, sp: 55 },
         weightkg: 316,
         abilities: { 0: 'Magnet Pull' },
         baseSpecies: 'Golem'
@@ -6607,7 +6607,7 @@ var SM_PATCH = {
     },
     'Graveler-Alola': {
         types: ['Rock', 'Electric'],
-        bs: { hp: 65, at: 95, df: 115, sa: 65, sd: 50, sp: 40 },
+        bs: { hp: 65, at: 115, df: 115, sa: 45, sd: 50, sp: 40 },
         weightkg: 110,
         baseSpecies: 'Graveler',
         nfe: true,
@@ -6824,7 +6824,7 @@ var SM_PATCH = {
     },
     'Meowth-Alola': {
         types: ['Dark'],
-        bs: { hp: 40, at: 50, df: 45, sa: 55, sd: 50, sp: 90 },
+        bs: { hp: 40, at: 50, df: 35, sa: 55, sd: 40, sp: 90 },
         weightkg: 4.2,
         baseSpecies: 'Meowth',
         nfe: true,
@@ -7015,7 +7015,7 @@ var SM_PATCH = {
     },
     'Persian-Alola': {
         types: ['Dark'],
-        bs: { hp: 65, at: 105, df: 65, sa: 95, sd: 85, sp: 115 },
+        bs: { hp: 65, at: 100, df: 60, sa: 90, sd: 80, sp: 115 },
         weightkg: 33,
         baseSpecies: 'Persian',
         abilities: { 0: 'Fur Coat' }
@@ -7745,7 +7745,7 @@ var SM_PATCH = {
     },
     'Hypno-Mega': {
         types: ['Psychic'],
-        bs: { hp: 95, at: 140, df: 120, sa: 115, sd: 140, sp: 77 },
+        bs: { hp: 95, at: 135, df: 115, sa: 110, sd: 140, sp: 77 },
         weightkg: 75.6,
         abilities: { 0: 'Baku Shield' },
         baseSpecies: 'Hypno'
@@ -7979,7 +7979,7 @@ var SM_PATCH = {
     },
     Boomba: {
         types: ['Water', 'Fire'],
-        bs: { hp: 66, at: 57, df: 41, sa: 53, sd: 44, sp: 67 },
+        bs: { hp: 66, at: 67, df: 51, sa: 63, sd: 54, sp: 74 },
         weightkg: 45.0,
         abilities: { 0: 'Flame Absorb' },
         nfe: true
@@ -8620,7 +8620,7 @@ var SM_PATCH = {
     },
     'Trevenant-Mega': {
         types: ['Ghost', 'Grass'],
-        bs: { hp: 95, at: 155, df: 101, sa: 112, sd: 105, sp: 69 },
+        bs: { hp: 95, at: 165, df: 104, sa: 81, sd: 111, sp: 71 },
         weightkg: 93.0,
         abilities: { 0: 'Evergreen Touch' },
         baseSpecies: 'Trevenant'
@@ -8685,6 +8685,27 @@ var SM_PATCH = {
         weightkg: 894.1,
         abilities: { 0: 'Super Luck' },
         gender: 'N'
+    },
+    Seward: {
+        types: ['Water', 'Steel'],
+        bs: { hp: 49, at: 96, df: 73, sa: 37, sd: 54, sp: 81 },
+        weightkg: 45.0,
+        abilities: { 0: 'Water Veil' },
+        nfe: true
+    },
+    Drild: {
+        types: ['Normal', 'Dragon'],
+        bs: { hp: 61, at: 50, df: 56, sa: 95, sd: 71, sp: 26 },
+        weightkg: 9.8,
+        abilities: { 0: 'Oblivious' },
+        nfe: true
+    },
+    Turtottle: {
+        types: ['Fire', 'Dragon'],
+        bs: { hp: 50, at: 53, df: 95, sa: 73, sd: 60, sp: 26 },
+        weightkg: 25.0,
+        abilities: { 0: 'Rattled' },
+        nfe: true
     },
     'Typhlosion-Armored': {
         types: ['Fire', 'Poison'],

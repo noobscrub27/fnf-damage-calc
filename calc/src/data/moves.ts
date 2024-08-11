@@ -1951,7 +1951,7 @@ const XY_PATCH: { [name: string]: DeepPartial<MoveData> } = {
   'Magnetic Flux': {bp: 0, type: 'Electric'},
   'Mat Block': {bp: 0, type: 'Fighting'},
   Moonblast: {
-    bp: 95,
+    bp: 90,
     type: 'Fairy',
     category: 'Special',
     secondaries: true,

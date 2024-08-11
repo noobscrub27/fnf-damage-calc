@@ -67,6 +67,10 @@ function getRecovery(gen, attacker, defender, move, damage, notation) {
     if (move.named('G-Max Finale')) {
         recovery[0] = recovery[1] = Math.round(attacker.maxHP() / 6);
     }
+    if (move.named('Pain Split')) {
+        var average = Math.floor((attacker.curHP() + defender.curHP()) / 2);
+        recovery[0] = recovery[1] = average - attacker.curHP();
+    }
     if (move.drain) {
         var percentHealed = move.drain[0] / move.drain[1];
         var max = Math.round(defender.maxHP() * percentHealed);
@@ -84,7 +88,8 @@ function getRecovery(gen, attacker, defender, move, damage, notation) {
         return { recovery: recovery, text: text };
     var minHealthRecovered = toDisplay(notation, recovery[0], attacker.maxHP());
     var maxHealthRecovered = toDisplay(notation, recovery[1], attacker.maxHP());
-    text = "".concat(minHealthRecovered, " - ").concat(maxHealthRecovered).concat(notation, " recovered");
+    var change = recovery[0] > 0 ? 'recovered' : 'lost';
+    text = "".concat(minHealthRecovered, " - ").concat(maxHealthRecovered).concat(notation, " ").concat(change);
     return { recovery: recovery, text: text };
 }
 exports.getRecovery = getRecovery;
@@ -192,6 +197,18 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
             attacker.ability = '';
         }
     }
+    if (field.isMysteryRoom || attacker.hasAbility('Neutralizing Gas') || defender.hasAbility('Neutralizing Gas')) {
+        defender.ability = '';
+        attacker.ability = '';
+    }
+    if (field.hasWeather('Miasma')) {
+        if (defender.hasAbility('Poison Heal', 'Toxic Boost')) {
+            defender.ability = '';
+        }
+        if (attacker.hasAbility('Poison Heal', 'Toxic Boost')) {
+            attacker.ability = '';
+        }
+    }
     if (move.timesUsed === undefined)
         move.timesUsed = 1;
     if (move.timesUsedWithMetronome === undefined)
@@ -210,112 +227,93 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
         ? ' after ' + serializeText(hazards.texts.concat(eot.texts))
         : '';
     var afterTextNoHazards = eot.texts.length > 0 ? ' after ' + serializeText(eot.texts) : '';
+    function roundChance(chance) {
+        return Math.max(Math.min(Math.round(chance * 1000), 999), 1) / 10;
+    }
+    function KOChance(chanceWithoutEot, chanceWithEot, n, multipleTurns) {
+        if (multipleTurns === void 0) { multipleTurns = false; }
+        var KOTurnText = n === 1 ? 'OHKO'
+            : (multipleTurns ? "KO in ".concat(n, " turns") : "".concat(n, "HKO"));
+        var text = qualifier;
+        var chance = undefined;
+        if (chanceWithoutEot === undefined || chanceWithEot === undefined) {
+            text += "possible ".concat(KOTurnText);
+        }
+        else if (chanceWithoutEot + chanceWithEot === 0) {
+            chance = 0;
+            text += 'not a KO';
+        }
+        else if (chanceWithoutEot === 1) {
+            chance = chanceWithoutEot;
+            if (qualifier === '')
+                text += 'guaranteed ';
+            text += "OHKO".concat(hazardsText);
+        }
+        else if (chanceWithoutEot > 0) {
+            chance = chanceWithEot;
+            if (chanceWithEot === 1) {
+                text += "".concat(roundChance(chanceWithoutEot), "% chance to ").concat(KOTurnText).concat(hazardsText, " ") +
+                    "(guaranteed ".concat(KOTurnText).concat(afterTextNoHazards, ")");
+            }
+            else if (chanceWithEot > chanceWithoutEot) {
+                text += "".concat(roundChance(chanceWithoutEot), "% chance to ").concat(KOTurnText).concat(hazardsText, " ") +
+                    "(".concat(qualifier).concat(roundChance(chanceWithEot), "% chance to ") +
+                    "".concat(KOTurnText).concat(afterTextNoHazards, ")");
+            }
+            else if (chanceWithoutEot > 0) {
+                text += "".concat(roundChance(chanceWithoutEot), "% chance to ").concat(KOTurnText).concat(hazardsText);
+            }
+        }
+        else if (chanceWithoutEot === 0) {
+            chance = chanceWithEot;
+            if (chanceWithEot === 1) {
+                if (qualifier === '')
+                    text += 'guaranteed ';
+                text += "".concat(KOTurnText).concat(afterText);
+            }
+            else if (chanceWithEot > 0) {
+                text += "".concat(roundChance(chanceWithEot), "% chance to ").concat(KOTurnText).concat(afterText);
+            }
+        }
+        return { chance: chance, n: n, text: text };
+    }
     if ((move.timesUsed === 1 && move.timesUsedWithMetronome === 1) || move.isZ) {
         var chance = computeKOChance(damage, defender.curHP() - hazards.damage, 0, 1, 1, defender.maxHP(), 0);
         var chanceWithEot = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter);
-        if (chance === 1) {
-            return { chance: chance, n: 1, text: "guaranteed OHKO".concat(hazardsText) };
-        }
-        else if (chance > 0) {
-            if (chanceWithEot === 1) {
-                return {
-                    chanceWithEot: chanceWithEot,
-                    n: 1,
-                    text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(hazardsText, " (guaranteed OHKO").concat(afterTextNoHazards, ")")
-                };
-            }
-            else if (chanceWithEot > chance) {
-                return {
-                    chanceWithEot: chanceWithEot,
-                    n: 1,
-                    text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(hazardsText, " (") + qualifier + Math.round(chanceWithEot * 1000) / 10 + "% to OHKO".concat(afterTextNoHazards, ")")
-                };
-            }
-            else if (chance > 0) {
-                return {
-                    chance: chance,
-                    n: 1,
-                    text: qualifier + Math.round(chance * 1000) / 10 + "% chance to OHKO".concat(hazardsText)
-                };
-            }
-        }
-        else if (chance == 0) {
-            if (chanceWithEot === 1) {
-                return {
-                    chanceWithEot: chanceWithEot,
-                    n: 1,
-                    text: "guaranteed OHKO".concat(afterText)
-                };
-            }
-            else if (chanceWithEot > 0) {
-                return {
-                    chanceWithEot: chanceWithEot,
-                    n: 1,
-                    text: qualifier + Math.round(chanceWithEot * 1000) / 10 + "% chance to OHKO".concat(afterText)
-                };
-            }
-        }
+        if (chance + chanceWithEot > 0)
+            return KOChance(chance, chanceWithEot, 1);
         if (damage.length === 256) {
             qualifier = 'approx. ';
         }
         for (var i = 2; i <= 4; i++) {
             var chance_1 = computeKOChance(damage, defender.curHP() - hazards.damage, eot.damage, i, 1, defender.maxHP(), toxicCounter);
-            if (chance_1 === 1) {
-                return { chance: chance_1, n: i, text: "".concat(qualifier || 'guaranteed ').concat(i, "HKO").concat(afterText) };
-            }
-            else if (chance_1 > 0) {
-                return {
-                    chance: chance_1,
-                    n: i,
-                    text: qualifier + Math.round(chance_1 * 1000) / 10 + "% chance to ".concat(i, "HKO").concat(afterText)
-                };
-            }
+            if (chance_1 > 0)
+                return KOChance(0, chance_1, i);
         }
         for (var i = 5; i <= 9; i++) {
             if (predictTotal(damage[0], eot.damage, i, 1, toxicCounter, defender.maxHP()) >=
                 defender.curHP() - hazards.damage) {
-                return { chance: 1, n: i, text: "".concat(qualifier || 'guaranteed ').concat(i, "HKO").concat(afterText) };
+                return KOChance(0, 1, i);
             }
             else if (predictTotal(damage[damage.length - 1], eot.damage, i, 1, toxicCounter, defender.maxHP()) >=
                 defender.curHP() - hazards.damage) {
-                return { n: i, text: qualifier + "possible ".concat(i, "HKO").concat(afterText) };
+                return KOChance(undefined, undefined, i);
             }
         }
     }
     else {
         var chance = computeKOChance(damage, defender.maxHP() - hazards.damage, eot.damage, move.hits || 1, move.timesUsed || 1, defender.maxHP(), toxicCounter);
-        if (chance === 1) {
-            return {
-                chance: chance,
-                n: move.timesUsed,
-                text: "".concat(qualifier || 'guaranteed ', "KO in ").concat(move.timesUsed, " turns").concat(afterText)
-            };
-        }
-        else if (chance > 0) {
-            return {
-                chance: chance,
-                n: move.timesUsed,
-                text: qualifier +
-                    Math.round(chance * 1000) / 10 +
-                    "% chance to ".concat(move.timesUsed, "HKO").concat(afterText)
-            };
-        }
+        if (chance > 0)
+            return KOChance(0, chance, move.timesUsed, chance === 1);
         if (predictTotal(damage[0], eot.damage, 1, move.timesUsed, toxicCounter, defender.maxHP()) >=
             defender.curHP() - hazards.damage) {
-            return {
-                chance: 1,
-                n: move.timesUsed,
-                text: "".concat(qualifier || 'guaranteed ', "KO in ").concat(move.timesUsed, " turns").concat(afterText)
-            };
+            return KOChance(0, 1, move.timesUsed, true);
         }
         else if (predictTotal(damage[damage.length - 1], eot.damage, 1, move.timesUsed, toxicCounter, defender.maxHP()) >=
             defender.curHP() - hazards.damage) {
-            return {
-                n: move.timesUsed,
-                text: qualifier + "possible KO in ".concat(move.timesUsed, " turns").concat(afterText)
-            };
+            return KOChance(undefined, undefined, move.timesUsed, true);
         }
-        return { n: move.timesUsed, text: qualifier + 'not a KO' };
+        return KOChance(0, 0, move.timesUsed);
     }
     return { chance: 0, n: 0, text: '' };
 }
@@ -643,10 +641,12 @@ function computeKOChance(damage, hp, eot, hits, timesUsed, maxHP, toxicCounter) 
 }
 function predictTotal(damage, eot, hits, timesUsed, toxicCounter, maxHP) {
     var toxicDamage = 0;
+    var lastTurnEot = eot;
     if (toxicCounter > 0) {
         for (var i = 0; i < hits - 1; i++) {
             toxicDamage += Math.floor(((toxicCounter + i) * maxHP) / 16);
         }
+        lastTurnEot -= Math.floor(((toxicCounter + (hits - 1)) * maxHP) / 16);
     }
     var total = 0;
     if (hits > 1 && timesUsed === 1) {
@@ -655,6 +655,8 @@ function predictTotal(damage, eot, hits, timesUsed, toxicCounter, maxHP) {
     else {
         total = damage - eot * (hits - 1) + toxicDamage;
     }
+    if (lastTurnEot < 0)
+        total -= lastTurnEot;
     return total;
 }
 function squashMultihit(gen, d, hits, err) {

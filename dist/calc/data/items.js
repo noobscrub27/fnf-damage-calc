@@ -535,6 +535,7 @@ var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Chingling Armor',
     'Spark Fossil',
     'Brush Fossil',
+    'Myth Incense',
 ]);
 var SS = SM.concat([
     'Berry Sweet',

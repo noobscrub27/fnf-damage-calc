@@ -129,6 +129,11 @@ export function getRecovery(
     recovery[0] = recovery[1] = Math.round(attacker.maxHP() / 6);
   }
 
+  if (move.named('Pain Split')) {
+    const average = Math.floor((attacker.curHP() + defender.curHP()) / 2);
+    recovery[0] = recovery[1] = average - attacker.curHP();
+  }
+
   if (move.drain) {
     const percentHealed = move.drain[0] / move.drain[1];
     const max = Math.round(defender.maxHP() * percentHealed);
@@ -147,7 +152,8 @@ export function getRecovery(
   const minHealthRecovered = toDisplay(notation, recovery[0], attacker.maxHP());
   const maxHealthRecovered = toDisplay(notation, recovery[1], attacker.maxHP());
 
-  text = `${minHealthRecovered} - ${maxHealthRecovered}${notation} recovered`;
+  const change = recovery[0] > 0 ? 'recovered' : 'lost';
+  text = `${minHealthRecovered} - ${maxHealthRecovered}${notation} ${change}`;
   return {recovery, text};
 }
 
@@ -274,6 +280,18 @@ export function getKOChance(
       attacker.ability = '' as AbilityName;
     }
   }
+  if (field.isMysteryRoom || attacker.hasAbility('Neutralizing Gas') || defender.hasAbility('Neutralizing Gas')) {
+    defender.ability = '' as AbilityName;
+    attacker.ability = '' as AbilityName;
+  }
+  if (field.hasWeather('Miasma')) {
+    if (defender.hasAbility('Poison Heal', 'Toxic Boost')) {
+      defender.ability = '' as AbilityName;
+    }
+    if (attacker.hasAbility('Poison Heal', 'Toxic Boost')) {
+      attacker.ability = '' as AbilityName;
+    }
+  }
   // Code doesn't really work if these aren't set.
   if (move.timesUsed === undefined) move.timesUsed = 1;
   if (move.timesUsedWithMetronome === undefined) move.timesUsedWithMetronome = 1;
@@ -300,6 +318,73 @@ export function getKOChance(
       : '';
   const afterTextNoHazards = eot.texts.length > 0 ? ' after ' + serializeText(eot.texts) : '';
 
+  function roundChance(chance: number) {
+    // prevent displaying misleading 100% or 0% chances
+    return Math.max(Math.min(Math.round(chance * 1000), 999), 1) / 10;
+  }
+
+  function KOChance(
+    chanceWithoutEot: number | undefined,
+    chanceWithEot: number | undefined,
+    n: number,
+    multipleTurns = false,
+  ) {
+    // chanceWithoutEot and chanceWithEot are calculated separately for OHKOs
+    // because the difference between KOing at start of turn is very important in some cases
+    // for 2HKOs and onward, only chanceWithEot is calculated,
+    // so chanceWithoutEot will be set to 0 for the purposes of this function
+    // all this really does is skip straight to that last else if block
+    // using the number of hits we can determine the type of KO we are checking for
+    // chance is the value that is returned by this function,
+    // and is the higher of the two chance parameters
+    const KOTurnText = n === 1 ? 'OHKO'
+      : (multipleTurns ? `KO in ${n} turns` : `${n}HKO`);
+    let text = qualifier;
+    let chance = undefined;
+    if (chanceWithoutEot === undefined || chanceWithEot === undefined) {
+      text += `possible ${KOTurnText}`;
+      // not a KO
+    } else if (chanceWithoutEot + chanceWithEot === 0) {
+      chance = 0;
+      text += 'not a KO';
+      // if the move OHKOing is guaranteed even without end of turn damage
+    } else if (chanceWithoutEot === 1) {
+      chance = chanceWithoutEot;
+      if (qualifier === '') text += 'guaranteed ';
+      text += `OHKO${hazardsText}`;
+    } else if (chanceWithoutEot > 0) {
+      chance = chanceWithEot;
+      // if the move OHKOing is possible, but eot damage guarantees the OHKO
+      // I have it so that the text specifies the chance of the OHKO without eot damage,
+      // because it might matter in some scenarios
+      // eg. if your opponent has a move that can OHKO you but you're faster,
+      // it might be important to get the OKKO before they can move
+      if (chanceWithEot === 1) {
+        text += `${roundChance(chanceWithoutEot)}% chance to ${KOTurnText}${hazardsText} ` +
+          `(guaranteed ${KOTurnText}${afterTextNoHazards})`;
+        // if the move OHKOing is possible, and eot damage increases the odds of the KO
+      } else if (chanceWithEot > chanceWithoutEot) {
+        text += `${roundChance(chanceWithoutEot)}% chance to ${KOTurnText}${hazardsText} ` +
+          `(${qualifier}${roundChance(chanceWithEot)}% chance to ` +
+          `${KOTurnText}${afterTextNoHazards})`;
+        // if the move KOing is possible, and eot damage does not increase the odds of the KO
+      } else if (chanceWithoutEot > 0) {
+        text += `${roundChance(chanceWithoutEot)}% chance to ${KOTurnText}${hazardsText}`;
+      }
+    } else if (chanceWithoutEot === 0) {
+      chance = chanceWithEot;
+      // if the move KOing is not possible, but eot damage guarantees the OHKO
+      if (chanceWithEot === 1) {
+        if (qualifier === '') text += 'guaranteed ';
+        text += `${KOTurnText}${afterText}`;
+        // if the move KOing is not possible, but eot damage might KO
+      } else if (chanceWithEot > 0) {
+        text += `${roundChance(chanceWithEot)}% chance to ${KOTurnText}${afterText}`;
+      }
+    }
+    return {chance, n, text};
+  }
+
   if ((move.timesUsed === 1 && move.timesUsedWithMetronome === 1) || move.isZ) {
     // for calculating OHKOs, chance only considers the move itself and hazards
     // chanceWithEot considers end of turn effects as well, and the text that is displayed depends on both results
@@ -309,45 +394,9 @@ export function getKOChance(
     const chanceWithEot = computeKOChance(
       damage, defender.curHP() - hazards.damage, eot.damage, 1, 1, defender.maxHP(), toxicCounter
     );
-    if (chance === 1) { // if the move OHKOing is guaranteed even without end of turn damage
-      return { chance, n: 1, text: `guaranteed OHKO${hazardsText}` };
-    } else if (chance > 0) {
-      if (chanceWithEot === 1) { // if the move OHKOing is possible, but eot damage guarantees the KO
-        return {
-          chanceWithEot,
-          n: 1,
-          // I have it so that the text specifies the chance of the OHKO without eot damage, because it might matter in some scenarios
-          // ie. if your opponent has a move that can OHKO you but you're faster, it might be important to get the KO before they can move
-          text: qualifier + Math.round(chance * 1000) / 10 + `% chance to OHKO${hazardsText} (guaranteed OHKO${afterTextNoHazards})`,
-        };
-      } else if (chanceWithEot > chance) { // if the move OHKOing is possible, and eot damage increases the odds of the KO
-        return {
-          chanceWithEot,
-          n: 1,
-          text: qualifier + Math.round(chance * 1000) / 10 + `% chance to OHKO${hazardsText} (` + qualifier + Math.round(chanceWithEot * 1000) / 10 + `% to OHKO${afterTextNoHazards})`,
-        };
-      } else if (chance > 0) { // if the move OHKOing is possible, and eot damage does not increase the odds of the KO
-        return {
-          chance,
-          n: 1,
-          text: qualifier + Math.round(chance * 1000) / 10 + `% chance to OHKO${hazardsText}`,
-        };
-      }
-    } else if (chance == 0) {
-      if (chanceWithEot === 1) { // if the move OHKOing is not possible, but eot damage guarantees the OHKO
-        return {
-          chanceWithEot,
-          n: 1,
-          text: `guaranteed OHKO${afterText}`,
-        };
-      } else if (chanceWithEot > 0) { // if the move OHKOing is not possible, but eot damage might KO
-        return {
-          chanceWithEot,
-          n: 1,
-          text: qualifier + Math.round(chanceWithEot * 1000) / 10 + `% chance to OHKO${afterText}`,
-        };
-      }
-    }
+
+    // checks if either chance is greater than 0
+    if (chance + chanceWithEot > 0) return KOChance(chance, chanceWithEot, 1);
 
     // Parental Bond's combined first + second hit only is accurate for chance to OHKO, for
     // multihit KOs its only approximated. We should be doing squashMultihit here instead of
@@ -362,15 +411,7 @@ export function getKOChance(
       const chance = computeKOChance(
         damage, defender.curHP() - hazards.damage, eot.damage, i, 1, defender.maxHP(), toxicCounter
       );
-      if (chance === 1) {
-        return {chance, n: i, text: `${qualifier || 'guaranteed '}${i}HKO${afterText}`};
-      } else if (chance > 0) {
-        return {
-          chance,
-          n: i,
-          text: qualifier + Math.round(chance * 1000) / 10 + `% chance to ${i}HKO${afterText}`,
-        };
-      }
+      if (chance > 0) return KOChance(0, chance, i);
     }
 
     for (let i = 5; i <= 9; i++) {
@@ -378,12 +419,13 @@ export function getKOChance(
         predictTotal(damage[0], eot.damage, i, 1, toxicCounter, defender.maxHP()) >=
         defender.curHP() - hazards.damage
       ) {
-        return {chance: 1, n: i, text: `${qualifier || 'guaranteed '}${i}HKO${afterText}`};
+        return KOChance(0, 1, i);
       } else if (
         predictTotal(damage[damage.length - 1], eot.damage, i, 1, toxicCounter, defender.maxHP()) >=
         defender.curHP() - hazards.damage
       ) {
-        return {n: i, text: qualifier + `possible ${i}HKO${afterText}`};
+        // possible but no concrete chance
+        return KOChance(undefined, undefined, i);
       }
     }
   } else {
@@ -395,22 +437,7 @@ export function getKOChance(
       defender.maxHP(),
       toxicCounter
     );
-    if (chance === 1) {
-      return {
-        chance,
-        n: move.timesUsed,
-        text: `${qualifier || 'guaranteed '}KO in ${move.timesUsed} turns${afterText}`,
-      };
-    } else if (chance > 0) {
-      return {
-        chance,
-        n: move.timesUsed,
-        text:
-          qualifier +
-          Math.round(chance * 1000) / 10 +
-          `% chance to ${move.timesUsed}HKO${afterText}`,
-      };
-    }
+    if (chance > 0) return KOChance(0, chance, move.timesUsed, chance === 1);
 
     if (predictTotal(
       damage[0],
@@ -422,11 +449,7 @@ export function getKOChance(
     ) >=
       defender.curHP() - hazards.damage
     ) {
-      return {
-        chance: 1,
-        n: move.timesUsed,
-        text: `${qualifier || 'guaranteed '}KO in ${move.timesUsed} turns${afterText}`,
-      };
+      return KOChance(0, 1, move.timesUsed, true);
     } else if (
       predictTotal(
         damage[damage.length - 1],
@@ -438,12 +461,10 @@ export function getKOChance(
       ) >=
       defender.curHP() - hazards.damage
     ) {
-      return {
-        n: move.timesUsed,
-        text: qualifier + `possible KO in ${move.timesUsed} turns${afterText}`,
-      };
+      // possible but no real idea
+      return KOChance(undefined, undefined, move.timesUsed, true);
     }
-    return {n: move.timesUsed, text: qualifier + 'not a KO'};
+    return KOChance(0, 0, move.timesUsed);
   }
 
   return {chance: 0, n: 0, text: ''};
@@ -808,10 +829,18 @@ function predictTotal(
   maxHP: number
 ) {
   let toxicDamage = 0;
+  // hits - 1 is used in this for loop, as well as in the total = ...  calcs later
+  // the last turn of eot damage is calculated separately
+  // since if the damage is less than 0 (healing)
+  // we want to exclude that from the calculations
+  // since on the last turn the pokemon has been ko'd by the attack
+  // and should not be able to heal after fainting
+  let lastTurnEot = eot;
   if (toxicCounter > 0) {
     for (let i = 0; i < hits - 1; i++) {
       toxicDamage += Math.floor(((toxicCounter + i) * maxHP) / 16);
     }
+    lastTurnEot -= Math.floor(((toxicCounter + (hits - 1)) * maxHP) / 16);
   }
   let total = 0;
   if (hits > 1 && timesUsed === 1) {
@@ -819,6 +848,8 @@ function predictTotal(
   } else {
     total = damage - eot * (hits - 1) + toxicDamage;
   }
+  // if the net eot health gain is negative for the last turn, include it in the total
+  if (lastTurnEot < 0) total -= lastTurnEot;
   return total;
 }
 
