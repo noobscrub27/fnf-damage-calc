@@ -924,7 +924,7 @@ var GSC_PATCH = {
     Magneton: { types: ['Electric', 'Steel'], bs: { sa: 120, sd: 70 }, gender: 'N' },
     Mankey: { bs: { at: 95, sa: 35, sd: 45, sp: 80 } },
     Marowak: { bs: { hp: 80, sa: 50, sd: 80 } },
-    Meowth: { bs: { at: 50, df: 35, sa: 40, sd: 50 } },
+    Meowth: { bs: { at: 50, df: 35, sa: 55, sd: 40 } },
     Metapod: { bs: { hp: 65, at: 30, df: 115, sa: 55, sd: 75 } },
     Mew: { bs: { sa: 100, sd: 100 }, gender: 'N' },
     Mewtwo: { bs: { sa: 154, sd: 90 }, gender: 'N' },
@@ -7979,7 +7979,7 @@ var SM_PATCH = {
     },
     Boomba: {
         types: ['Water', 'Fire'],
-        bs: { hp: 66, at: 67, df: 51, sa: 63, sd: 54, sp: 74 },
+        bs: { hp: 71, at: 67, df: 51, sa: 63, sd: 54, sp: 74 },
         weightkg: 45.0,
         abilities: { 0: 'Flame Absorb' },
         nfe: true
