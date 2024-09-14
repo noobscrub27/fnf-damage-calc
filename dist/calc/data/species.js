@@ -4335,7 +4335,7 @@ var BW_PATCH = {
     },
     Heatmor: {
         types: ['Fire'],
-        bs: { hp: 85, at: 107, df: 86, sa: 115, sd: 76, sp: 76 },
+        bs: { hp: 95, at: 107, df: 86, sa: 115, sd: 76, sp: 76 },
         weightkg: 58,
         abilities: { 0: 'Bugcatcher' }
     },

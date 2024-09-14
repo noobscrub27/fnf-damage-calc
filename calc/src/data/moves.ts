@@ -3110,6 +3110,13 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     type: 'Poison',
     category: 'Status',
   },
+  'Molten Magmawhip': {
+    bp: 190,
+    type: 'Fire',
+    category: 'Physical',
+    secondaries: true,
+    isZ: true,
+  },
   'Mystery Room': {
     bp: 0,
     type: 'Psychic',

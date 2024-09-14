@@ -3092,6 +3092,13 @@ var SM_PATCH = {
         type: 'Poison',
         category: 'Status'
     },
+    'Molten Magmawhip': {
+        bp: 190,
+        type: 'Fire',
+        category: 'Physical',
+        secondaries: true,
+        isZ: true
+    },
     'Mystery Room': {
         bp: 0,
         type: 'Psychic',
