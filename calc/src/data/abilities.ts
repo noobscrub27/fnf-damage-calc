@@ -170,6 +170,7 @@ const DPP = ADV.concat([
   'Bagwormicade',
   'Bugcatcher',
   'Cloud Guard',
+  'Craftsman',
   'Enigmatify',
   'Ice Breaker',
   'Ice Packing',
@@ -181,6 +182,7 @@ const DPP = ADV.concat([
   'Sedimentary',
   'Striker',
   'Sunbathing',
+  'Ultimate Craftsman'
 ]);
 
 const BW = DPP.concat([
@@ -345,7 +347,8 @@ const SM = XY.concat([
   'Team Spirit',
   'Toxicate',
   'Cursed Energy',
-  'Soul Lantern'
+  'Soul Lantern',
+  'Supply Chain',
 ]);
 
 const SS = SM.concat([

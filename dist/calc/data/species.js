@@ -3564,7 +3564,7 @@ var DPP_PATCH = {
         types: ['Normal'],
         bs: { hp: 110, at: 160, df: 110, sa: 80, sd: 110, sp: 100 },
         weightkg: 420,
-        abilities: { 0: 'Slow Start' },
+        abilities: { 0: 'Craftsman' },
         gender: 'N'
     },
     Revenankh: {
@@ -5212,6 +5212,7 @@ var XY_PATCH = {
     Wigglytuff: { types: ['Normal', 'Fairy'], bs: { at: 90, df: 100, sa: 105 } },
     Phione: { otherFormes: ['Phione-Primal'] },
     Cherrim: { otherFormes: ['Cherrim-Primal'] },
+    Regigigas: { otherFormes: ['Regigigas-Primal'] },
     Misdreavus: { types: ['Ghost', 'Fairy'] },
     'Aegislash-Blade': {
         types: ['Steel', 'Ghost'],
@@ -6291,6 +6292,14 @@ var XY_PATCH = {
         weightkg: 15.0,
         abilities: { 0: 'Primal Warmth' },
         baseSpecies: 'Cherrim'
+    },
+    'Regigigas-Primal': {
+        types: ['Normal'],
+        bs: { hp: 110, at: 200, df: 130, sa: 120, sd: 130, sp: 80 },
+        weightkg: 999.9,
+        abilities: { 0: 'Ultimate Craftsman' },
+        baseSpecies: 'Regigigas',
+        gender: 'N'
     }
 };
 var XY = (0, util_1.extend)(true, {}, BW, XY_PATCH);
@@ -8775,6 +8784,26 @@ var SM_PATCH = {
         bs: { hp: 135, at: 63, df: 79, sa: 117, sd: 92, sp: 62 },
         abilities: { 0: 'Soul Lantern' },
         weightkg: 22.5
+    },
+    Drashimi: {
+        types: ['Dragon'],
+        bs: { hp: 55, at: 54, df: 48, sa: 51, sd: 50, sp: 45 },
+        abilities: { 0: 'Damp' },
+        weightkg: 4.4,
+        nfe: true
+    },
+    Tsushimi: {
+        types: ['Dragon'],
+        bs: { hp: 77, at: 75, df: 62, sa: 72, sd: 64, sp: 71 },
+        abilities: { 0: 'Damp' },
+        weightkg: 26.0,
+        nfe: true
+    },
+    Tobishimi: {
+        types: ['Dragon'],
+        bs: { hp: 99, at: 96, df: 76, sa: 93, sd: 78, sp: 91 },
+        abilities: { 0: 'Damp' },
+        weightkg: 76.0
     },
     Butterno: {
         types: ['Bug', 'Psychic'],

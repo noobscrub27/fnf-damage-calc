@@ -2976,6 +2976,13 @@ var SM_PATCH = {
         recoil: [1, 4],
         zp: 175
     },
+    'Dragon Roll': {
+        bp: 85,
+        type: 'Dragon',
+        category: 'Physical',
+        zp: 160,
+        makesContact: true
+    },
     'Dry Pass': {
         bp: 0,
         type: 'Normal',
@@ -4801,6 +4808,7 @@ var SS_PATCH = {
     'Dragon Hammer': { maxPower: 130 },
     'Dragon Pulse': { maxPower: 130 },
     'Dragon Rage': { maxPower: 100 },
+    'Dragon Roll': { maxPower: 130 },
     'Dragon Rush': { maxPower: 130 },
     'Dragon Tail': { maxPower: 110 },
     'Draining Kiss': { maxPower: 100 },

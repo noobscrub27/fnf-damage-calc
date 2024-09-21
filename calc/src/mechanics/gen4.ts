@@ -498,6 +498,9 @@ export function calculateBasePowerDPP(
     desc.moveName = 'Tri Attack';
     break;
   case 'Crush Grip':
+    basePower = Math.floor((defender.curHP() * 180) / defender.maxHP()) + 1;
+    desc.moveBP = basePower;
+    break;
   case 'Wring Out':
     basePower = Math.floor((defender.curHP() * 120) / defender.maxHP()) + 1;
     desc.moveBP = basePower;
@@ -650,6 +653,12 @@ export function calculateAttackDPP(
   } else if (attacker.hasAbility('Galaxian') && field.isGravity && move.category === 'Special') {
     attack = Math.floor(attack * 1.5);
     desc.attackerAbility = attacker.ability;
+  } else if (attacker.hasAbility('Craftsman') && move.hasType('Rock', 'Steel', 'Ice')) {
+    attack = Math.floor(attack * 1.5);
+    desc.attackerAbility = 'Craftsman';
+  } else if (attacker.hasAbility('Ultimate Craftsman') && move.hasType('Rock', 'Steel', 'Ice')) {
+    attack = Math.floor(attack * 2);
+    desc.attackerAbility = 'Ultimate Craftsman';
   } else if ((attacker.hasAbility('Corona') && move.hasType('Fire')) ||
     (attacker.hasAbility('Royal Guard') && attacker.curHP() <= attacker.maxHP() / 2)) {
     attack = Math.floor(attack * 1.5);

@@ -633,6 +633,10 @@ export function calculateBasePowerBWXY(
     desc.moveBP = move.hits === 2 ? 60 : move.hits === 3 ? 120 : 10;
     break;
   case 'Crush Grip':
+    basePower = 100 * Math.floor((defender.curHP() * 4096) / defender.maxHP());
+    basePower = Math.floor(Math.floor((180 * basePower + 2048 - 1) / 4096) / 100) || 1;
+    desc.moveBP = basePower;
+    break;
   case 'Wring Out':
     basePower = 100 * Math.floor((defender.curHP() * 4096) / defender.maxHP());
     basePower = Math.floor(Math.floor((120 * basePower + 2048 - 1) / 4096) / 100) || 1;
@@ -944,6 +948,12 @@ export function calculateAtModsBWXY(
   } else if (attacker.hasAbility('Flash Fire') && attacker.abilityOn && move.hasType('Fire')) {
     atMods.push(6144);
     desc.attackerAbility = 'Flash Fire';
+  } else if (attacker.hasAbility('Craftsman') && move.hasType('Rock', 'Steel', 'Ice')) {
+    atMods.push(6144);
+    desc.attackerAbility = 'Craftsman';
+  } else if (attacker.hasAbility('Ultimate Craftsman') && move.hasType('Rock', 'Steel', 'Ice')) {
+    atMods.push(8192);
+    desc.attackerAbility = 'Ultimate Craftsman';
   } else if (attacker.hasAbility('Luminesce') && attacker.abilityOn && move.category === 'Special') {
     atMods.push(6144);
     desc.attackerAbility = 'Luminesce';

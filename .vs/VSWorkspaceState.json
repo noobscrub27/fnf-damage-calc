@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\calc",
     "\\calc\\src",
-    "\\calc\\src\\mechanics",
-    "\\dist",
+    "\\calc\\src\\data",
+    "\\dist\\calc",
+    "\\dist\\calc\\data",
     "\\dist\\js",
     "\\dist\\js\\data",
     "\\dist\\js\\data\\sets",
@@ -13,5 +13,6 @@
     "\\src\\js\\data",
     "\\src\\js\\data\\sets"
   ],
+  "SelectedNode": "\\src\\honkalculate.template.html",
   "PreviewInSolutionExplorer": false
 }

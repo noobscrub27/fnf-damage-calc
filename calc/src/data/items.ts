@@ -397,6 +397,7 @@ const XY = BW.concat(
     'Whipped Dream',
     'Teal Orb',
     'Cerise Orb',
+    'Craftsman Orb',
   ].sort()
 );
 

@@ -448,6 +448,7 @@ var XY = BW.concat(__spreadArray(__spreadArray([], __read(Object.keys(exports.ME
     'Whipped Dream',
     'Teal Orb',
     'Cerise Orb',
+    'Craftsman Orb',
 ], false).sort());
 var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Adrenaline Orb',
