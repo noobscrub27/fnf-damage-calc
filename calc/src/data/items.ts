@@ -490,6 +490,8 @@ const SM = XY.filter(i => i !== 'Old Amber').concat([
   'Brush Fossil',
   'Myth Incense',
   'Heatmorium Z',
+  'Melodium Z',
+  'Moeloettium Z',
 ]);
 
 const SS = SM.concat([

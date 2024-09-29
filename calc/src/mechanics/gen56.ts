@@ -22,6 +22,7 @@ import {
   checkSillySoda,
   checkForecast,
   checkInfiltrator,
+  checkScreenBreakers,
   checkIntimidate,
   checkItem,
   checkMultihitBoost,
@@ -76,6 +77,7 @@ export function calculateBWXY(
   checkSillySoda(defender, gen);
   computeFinalStats(gen, attacker, defender, field, 'atk', 'spa');
 
+  checkScreenBreakers(attacker, move, field.defenderSide);
   checkInfiltrator(attacker, field.defenderSide);
   checkInfiltrator(defender, field.attackerSide);
 

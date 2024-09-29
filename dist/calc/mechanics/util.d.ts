@@ -21,6 +21,7 @@ export declare function checkIntrepidSword(source: Pokemon, gen: Generation): vo
 export declare function checkDauntlessShield(source: Pokemon, gen: Generation): void;
 export declare function checkSillySoda(source: Pokemon, gen: Generation): void;
 export declare function checkEmbody(source: Pokemon, gen: Generation): void;
+export declare function checkScreenBreakers(pokemon: Pokemon, move: Move, affectedSide: Side): void;
 export declare function checkInfiltrator(pokemon: Pokemon, affectedSide: Side): void;
 export declare function checkSeedBoost(pokemon: Pokemon, field: Field): void;
 export declare function checkMultihitBoost(gen: Generation, attacker: Pokemon, defender: Pokemon, move: Move, field: Field, desc: RawDesc, attackerUsedItem?: boolean, defenderUsedItem?: boolean): boolean[];

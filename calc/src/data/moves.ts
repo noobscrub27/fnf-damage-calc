@@ -2881,6 +2881,12 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     type: 'Normal',
     category: 'Status',
   },
+  'Antique Arabesque': {
+    bp: 190,
+    type: 'Fighting',
+    category: 'Physical',
+    isZ: true
+  },
   'Aroma Bomb': {
     bp: 90,
     type: 'Grass',
@@ -3076,6 +3082,13 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     secondaries: true,
     zp: 140,
   },
+  Icefall: {
+    bp: 150,
+    type: 'Ice',
+    category: "Special",
+    target: 'allAdjacentFoes',
+    zp: 200,
+  },
   Kappo: {
     bp: 0,
     type: 'Fighting',
@@ -3231,6 +3244,12 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     type: 'Water',
     category: 'Status',
     priority: 4,
+  },
+  'Reliquary Recital': {
+    bp: 0,
+    type: 'Normal',
+    category: 'Status',
+    isZ: true
   },
   Rockjaw: {
     bp: 80,
@@ -4957,6 +4976,7 @@ const SS_PATCH: {[name: string]: DeepPartial<MoveData>} = {
   'Ice Hammer': {maxPower: 130},
   'Ice Punch': {maxPower: 130},
   'Ice Shard': {maxPower: 90},
+  'Icefall': {maxPower: 150},
   'Icicle Crash': {maxPower: 130},
   'Icicle Spear': {maxPower: 130},
   'Icy Wind': {maxPower: 110},

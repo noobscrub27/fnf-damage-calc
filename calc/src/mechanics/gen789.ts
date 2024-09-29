@@ -26,6 +26,7 @@ import {
   checkEmbody,
   checkForecast,
   checkInfiltrator,
+  checkScreenBreakers,
   checkIntimidate,
   checkIntrepidSword,
   checkItem,
@@ -105,6 +106,7 @@ export function calculateSMSSSV(
 
   computeFinalStats(gen, attacker, defender, field, 'atk', 'spa');
 
+  checkScreenBreakers(attacker, move, field.defenderSide);
   checkInfiltrator(attacker, field.defenderSide);
   checkInfiltrator(defender, field.attackerSide);
 
@@ -146,7 +148,8 @@ export function calculateSMSSSV(
     'Moongeist Beam',
     'Photon Geyser',
     'Searing Sunraze Smash',
-    'Sunsteel Strike'
+    'Sunsteel Strike',
+    'Shadow Titan'
   );
   if (!defenderIgnoresAbility && !defender.hasAbility('Poison Heal') &&
     (attackerIgnoresAbility || moveIgnoresAbility)) {
@@ -1054,7 +1057,8 @@ export function calculateBPModsSMSSSV(
     (defender.named('Chingling-Armored') && defender.hasItem('Chingling Armor')) ||
     (defender.named('Kirlia-Armored', 'Kirlia-Armored-Weaver') && defender.hasItem('Kirlia Armor')) ||
     (defender.named('Granbull-Armored') && defender.hasItem('Granbull Armor')) ||
-    (defender.named('Granbull-Nobunaga') && defender.hasItem('Nobunaga Armor'));
+    (defender.named('Granbull-Nobunaga') && defender.hasItem('Nobunaga Armor')) ||
+    (defender.name.includes('Castform') && defender.hasItem('Heat Rock', 'Icy Rock', 'Damp Rock', 'Mordant Rock', 'Smooth Rock'));
 
   // The last case only applies when the Pokemon has the Mega Stone that matches its species
   // (or when it's already a Mega-Evolution)

@@ -538,6 +538,8 @@ var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Brush Fossil',
     'Myth Incense',
     'Heatmorium Z',
+    'Melodium Z',
+    'Moeloettium Z',
 ]);
 var SS = SM.concat([
     'Berry Sweet',

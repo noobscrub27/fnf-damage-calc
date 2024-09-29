@@ -317,6 +317,14 @@ export function checkEmbody(source: Pokemon, gen: Generation) {
   }
 }
 
+export function checkScreenBreakers(pokemon: Pokemon, move: Move, affectedSide: Side) {
+  if (move.named('Brick Break', 'Psycleaner', 'Demolition', 'Shadow Shatter', 'Shadow Wreckage')) {
+    affectedSide.isReflect = false;
+    affectedSide.isLightScreen = false;
+    affectedSide.isAuroraVeil = false;
+  }
+}
+
 export function checkInfiltrator(pokemon: Pokemon, affectedSide: Side) {
   if (pokemon.hasAbility('Infiltrator')) {
     affectedSide.isReflect = false;

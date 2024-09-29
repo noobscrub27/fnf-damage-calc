@@ -7840,19 +7840,19 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
   },
   'Vaporeon-Linguine': {
     types: ['Water'],
-    bs: { hp: 140, at: 65, df: 95, sa: 110, sd: 95, sp: 65 },
+    bs: { hp: 150, at: 65, df: 95, sa: 120, sd: 105, sp: 65 },
     weightkg: 29.0,
     abilities: { 0: 'Water Absorb' },
   },
   'Jolteon-Radiatori': {
     types: ['Electric'],
-    bs: { hp: 65, at: 95, df: 65, sa: 110, sd: 95, sp: 140 },
+    bs: { hp: 65, at: 95, df: 65, sa: 120, sd: 105, sp: 150 },
     weightkg: 24.5,
     abilities: { 0: 'Electric Surge' },
   },
   'Flareon-Lasagna': {
     types: ['Fire'],
-    bs: { hp: 95, at: 140, df: 65, sa: 95, sd: 110, sp: 65 },
+    bs: { hp: 95, at: 140, df: 75, sa: 105, sd: 110, sp: 75 },
     weightkg: 25.0,
     abilities: { 0: 'Fur Coat' },
   },
@@ -7931,13 +7931,13 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
   },
   'Espeon-Daybreak': {
     types: ['Psychic'],
-    bs: { hp: 65, at: 65, df: 65, sa: 130, sd: 140, sp: 110 },
+    bs: { hp: 75, at: 65, df: 70, sa: 140, sd: 140, sp: 110 },
     weightkg: 26.5,
     abilities: { 0: 'Natural Cure' },
   },
   'Umbreon-Nocturne': {
     types: ['Dark'],
-    bs: { hp: 95, at: 110, df: 110, sa: 65, sd: 130, sp: 65 },
+    bs: { hp: 95, at: 110, df: 110, sa: 70, sd: 140, sp: 75 },
     weightkg: 27.0,
     abilities: { 0: 'Synchronize' },
   },
@@ -8332,13 +8332,13 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
   },
   'Leafeon-Tagliatelle': {
     types: ['Grass'],
-    bs: { hp: 95, at: 110, df: 140, sa: 65, sd: 65, sp: 95 },
+    bs: { hp: 95, at: 120, df: 150, sa: 75, sd: 65, sp: 95 },
     weightkg: 25.5,
     abilities: { 0: 'Adaptability' },
   },
   'Glaceon-Manicotti': {
     types: ['Ice'],
-    bs: { hp: 65, at: 65, df: 95, sa: 140, sd: 110, sp: 95 },
+    bs: { hp: 65, at: 75, df: 95, sa: 150, sd: 120, sp: 95 },
     weightkg: 25.9,
     abilities: { 0: 'Slush Rush' },
   },
@@ -8585,9 +8585,9 @@ const SM_PATCH: { [name: string]: DeepPartial<SpeciesData> } = {
   },
   'Sylveon-Farfalle': {
     types: ['Fairy'],
-    bs: { hp: 95, at: 65, df: 65, sa: 110, sd: 140, sp: 95 },
+    bs: { hp: 95, at: 75, df: 75, sa: 110, sd: 150, sp: 95 },
     weightkg: 23.5,
-    abilities: { 0: 'Misty Cover' },
+    abilities: { 0: 'Misty Surge' },
   },
   Longeon: {
     types: ['Dragon'],
