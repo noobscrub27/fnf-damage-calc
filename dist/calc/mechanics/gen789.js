@@ -393,7 +393,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         return result;
     }
     var attack = calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
-    var attackSource = move.named('Foul Play') ? defender : attacker;
+    var attackSource = move.named('Foul Play', 'Shadow Duplicity') ? defender : attacker;
     if (move.named('Photon Geyser', 'Light That Burns the Sky') ||
         (move.named('Tera Blast') && attackSource.teraType)) {
         move.category = attackSource.stats.atk > attackSource.stats.spa ? 'Physical' : 'Special';
@@ -452,7 +452,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
             (0, util_2.getFinalDamage)(baseDamage, i, typeEffectiveness, statusReducesDamage, stabMod, finalMod, protect);
     }
     desc.attackBoost =
-        move.named('Foul Play') ? defender.boosts[attackStat] : attacker.boosts[attackStat];
+        move.named('Foul Play', 'Shadow Duplicity') ? defender.boosts[attackStat] : attacker.boosts[attackStat];
     if ((move.dropsStats && move.timesUsed > 1) || move.hits > 1) {
         var origDefBoost = desc.defenseBoost;
         var origAtkBoost = desc.attackBoost;
@@ -1014,7 +1014,7 @@ exports.calculateBPModsSMSSSV = calculateBPModsSMSSSV;
 function calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCritical) {
     if (isCritical === void 0) { isCritical = false; }
     var attack;
-    var attackSource = move.named('Foul Play') ? defender : attacker;
+    var attackSource = move.named('Foul Play', 'Shadow Duplicity') ? defender : attacker;
     if (move.named('Photon Geyser', 'Light That Burns the Sky') ||
         (move.named('Tera Blast') && attackSource.teraType)) {
         move.category = attackSource.stats.atk > attackSource.stats.spa ? 'Physical' : 'Special';
@@ -1028,7 +1028,7 @@ function calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCri
                 ? 'spa'
                 : 'atk';
     desc.attackEVs =
-        move.named('Foul Play')
+        move.named('Foul Play', 'Shadow Duplicity')
             ? (0, util_2.getEVDescriptionText)(gen, defender, attackStat, defender.nature)
             : (0, util_2.getEVDescriptionText)(gen, attacker, attackStat, attacker.nature);
     if (attackSource.boosts[attackStat] === 0 ||

@@ -532,7 +532,7 @@ export function calculateSMSSSV(
   // #endregion
   // #region (Special) Attack
   const attack = calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
-  const attackSource = move.named('Foul Play') ? defender : attacker;
+  const attackSource = move.named('Foul Play', 'Shadow Duplicity') ? defender : attacker;
   if (move.named('Photon Geyser', 'Light That Burns the Sky') ||
     (move.named('Tera Blast') && attackSource.teraType)) {
     move.category = attackSource.stats.atk > attackSource.stats.spa ? 'Physical' : 'Special';
@@ -633,7 +633,7 @@ export function calculateSMSSSV(
   }
 
   desc.attackBoost =
-    move.named('Foul Play') ? defender.boosts[attackStat] : attacker.boosts[attackStat];
+    move.named('Foul Play', 'Shadow Duplicity') ? defender.boosts[attackStat] : attacker.boosts[attackStat];
 
   if ((move.dropsStats && move.timesUsed! > 1) || move.hits > 1) {
     // store boosts so intermediate boosts don't show.
@@ -1350,7 +1350,7 @@ export function calculateAttackSMSSSV(
   isCritical = false
 ) {
   let attack: number;
-  const attackSource = move.named('Foul Play') ? defender : attacker;
+  const attackSource = move.named('Foul Play', 'Shadow Duplicity') ? defender : attacker;
   if (move.named('Photon Geyser', 'Light That Burns the Sky') ||
     (move.named('Tera Blast') && attackSource.teraType)) {
     move.category = attackSource.stats.atk > attackSource.stats.spa ? 'Physical' : 'Special';
@@ -1365,7 +1365,7 @@ export function calculateAttackSMSSSV(
           ? 'spa'
           : 'atk';
   desc.attackEVs =
-    move.named('Foul Play')
+    move.named('Foul Play', 'Shadow Duplicity')
       ? getEVDescriptionText(gen, defender, attackStat, defender.nature)
       : getEVDescriptionText(gen, attacker, attackStat, attacker.nature);
 
