@@ -100,14 +100,14 @@ export function getFinalSpeed(gen: Generation, pokemon: Pokemon, field: Field, s
   // speedMods.push(1024);
 
   if ((pokemon.hasAbility('Unburden') && pokemon.abilityOn) ||
-      (pokemon.hasAbility('Chlorophyll', 'Shadow Embers') && weather.includes('Sun')) ||
-      (pokemon.hasAbility('Sand Rush') && weather === 'Sand') ||
-      (pokemon.hasAbility('Swift Swim') && weather.includes('Rain')) ||
-      (pokemon.hasAbility('Toxcceleration') && weather.includes('Miasma')) ||
-      (pokemon.hasAbility('Slush Rush', 'Shadow Slush') && ['Hail', 'Snow'].includes(weather)) ||
-      (pokemon.hasAbility('Surge Surfer', 'Shadow Sparks') && terrain === 'Electric') ||
-      (pokemon.hasAbility('Shadow Birch') && terrain === 'Grassy') ||
-      (pokemon.hasAbility('Shadow Ribbons') && terrain === 'Misty')
+    (pokemon.hasAbility('Chlorophyll', 'Shadow Embers') && weather.includes('Sun')) ||
+    (pokemon.hasAbility('Sand Rush') && weather === 'Sand') ||
+    (pokemon.hasAbility('Swift Swim') && weather.includes('Rain')) ||
+    (pokemon.hasAbility('Toxcceleration') && weather.includes('Miasma')) ||
+    (pokemon.hasAbility('Slush Rush', 'Shadow Slush') && ['Hail', 'Snow'].includes(weather)) ||
+    (pokemon.hasAbility('Surge Surfer', 'Shadow Sparks') && terrain === 'Electric') ||
+    (pokemon.hasAbility('Shadow Birch') && terrain === 'Grassy') ||
+    (pokemon.hasAbility('Shadow Ribbons') && terrain === 'Misty')
   ) {
     speedMods.push(8192);
   } else if (pokemon.hasAbility('Quick Feet') && pokemon.status) {
@@ -148,7 +148,7 @@ export function getMoveEffectiveness(
   if (isGhostRevealed && type === 'Ghost' && move.hasType('Normal', 'Fighting')) {
     return 1;
   } else if (isDarkRevealed && type === 'Dark' && move.hasType('Psychic')) {
-      return 1;
+    return 1;
   } else if ((isRingTarget || isGravity) && type === 'Flying' && move.hasType('Ground')) {
     return 1;
   } else if (isBoneMaster && ((type === 'Ghost' && move.hasType('Normal')) || (type === 'Flying' && move.hasType('Ground')) || (type === 'Normal' && move.hasType('Ghost')))) {
@@ -193,20 +193,20 @@ export function checkTeraformZero(pokemon: Pokemon, field: Field) {
 export function checkForecast(pokemon: Pokemon, weather?: Weather) {
   if (pokemon.hasAbility('Forecast') && pokemon.named('Castform')) {
     switch (weather) {
-    case 'Sun':
-    case 'Harsh Sunshine':
-      pokemon.types = ['Fire'];
-      break;
-    case 'Rain':
-    case 'Heavy Rain':
-      pokemon.types = ['Water'];
-      break;
-    case 'Hail':
-    case 'Snow':
-      pokemon.types = ['Ice'];
-      break;
-    default:
-      pokemon.types = ['Normal'];
+      case 'Sun':
+      case 'Harsh Sunshine':
+        pokemon.types = ['Fire'];
+        break;
+      case 'Rain':
+      case 'Heavy Rain':
+        pokemon.types = ['Water'];
+        break;
+      case 'Hail':
+      case 'Snow':
+        pokemon.types = ['Ice'];
+        break;
+      default:
+        pokemon.types = ['Normal'];
     }
   }
 }
@@ -302,18 +302,18 @@ export function checkSillySoda(source: Pokemon, gen: Generation) {
 export function checkEmbody(source: Pokemon, gen: Generation) {
   if (gen.num < 9) return;
   switch (source.ability) {
-  case 'Embody Aspect (Cornerstone)':
-    source.boosts.def = Math.min(6, source.boosts.def + 1);
-    break;
-  case 'Embody Aspect (Hearthflame)':
-    source.boosts.atk = Math.min(6, source.boosts.atk + 1);
-    break;
-  case 'Embody Aspect (Teal)':
-    source.boosts.spe = Math.min(6, source.boosts.spe + 1);
-    break;
-  case 'Embody Aspect (Wellspring)':
-    source.boosts.spd = Math.min(6, source.boosts.spd + 1);
-    break;
+    case 'Embody Aspect (Cornerstone)':
+      source.boosts.def = Math.min(6, source.boosts.def + 1);
+      break;
+    case 'Embody Aspect (Hearthflame)':
+      source.boosts.atk = Math.min(6, source.boosts.atk + 1);
+      break;
+    case 'Embody Aspect (Teal)':
+      source.boosts.spe = Math.min(6, source.boosts.spe + 1);
+      break;
+    case 'Embody Aspect (Wellspring)':
+      source.boosts.spd = Math.min(6, source.boosts.spd + 1);
+      break;
   }
 }
 
@@ -364,7 +364,7 @@ export function checkMultihitBoost(
   defenderUsedItem = false
 ) {
   // NOTE: attacker.ability must be Parental Bond for these moves to be multi-hit
-  if (move.named('Gyro Ball', 'Electro Ball') && defender.hasAbility('Gooey', 'Tangling Hair')) {
+  if (move.named('Gyro Ball', 'Electro Ball', 'Shadow Centrifuge', 'Shadow Dart') && defender.hasAbility('Gooey', 'Tangling Hair')) {
     // Gyro Ball (etc) makes contact into Gooey (etc) whenever its inflicting multiple hits because
     // this can only happen if the attacker ability is Parental Bond (and thus can't be Long Reach)
     if (attacker.hasItem('White Herb') && !attackerUsedItem) {
@@ -616,13 +616,13 @@ export function getWeight(pokemon: Pokemon, desc: RawDesc, role: 'defender' | 'a
     weightHG = Math.max(Math.trunc(weightHG * abilityFactor), 1);
     // I keep getting TS7053 here and I'm a TS noob so here's a dumb workaround that I shouldnt have to resort to
     switch (role) {
-      case 'defender': 
+      case 'defender':
         desc['defenderAbility'] = pokemon.ability;
         break;
-      case 'attacker': 
+      case 'attacker':
         desc['attackerAbility'] = pokemon.ability;
         break;
-      default: 
+      default:
         break;
     }
   }
@@ -715,14 +715,14 @@ export function getEVDescriptionText(
   const nature = gen.natures.get(toID(natureName))!;
   return (pokemon.evs[stat] +
     (nature.plus === nature.minus ? ''
-    : nature.plus === stat ? '+'
-    : nature.minus === stat ? '-'
-    : '') + ' ' +
-     Stats.displayStat(stat));
+      : nature.plus === stat ? '+'
+        : nature.minus === stat ? '-'
+          : '') + ' ' +
+    Stats.displayStat(stat));
 }
 
 export function handleFixedDamageMoves(attacker: Pokemon, move: Move) {
-  if (move.named('Seismic Toss', 'Night Shade')) {
+  if (move.named('Seismic Toss', 'Night Shade', 'Shadow Mirage')) {
     return attacker.level;
   } else if (move.named('Dragon Rage')) {
     return 40;

@@ -119,8 +119,11 @@ function calculateBWXY(gen, attacker, defender, move, field) {
     }
     var hasAteAbilityTypeChange = false;
     var isAerilate = false;
+    var isMalevolate = false;
     var isPixilate = false;
     var isRefrigerate = false;
+    var isToxicate = false;
+    var isDraconize = false;
     var isNormalize = false;
     var noTypeChange = move.named('Judgment', 'Nature Power', 'Techo Blast', 'Natural Gift', 'Weather Ball', 'Struggle');
     if (!move.isZ && !noTypeChange) {
@@ -128,16 +131,25 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         if ((isAerilate = attacker.hasAbility('Aerilate') && normal)) {
             move.type = 'Flying';
         }
+        else if ((isMalevolate = attacker.hasAbility('Malevolate') && normal)) {
+            move.type = 'Dark';
+        }
         else if ((isPixilate = attacker.hasAbility('Pixilate') && normal)) {
             move.type = 'Fairy';
         }
         else if ((isRefrigerate = attacker.hasAbility('Refrigerate') && normal)) {
             move.type = 'Ice';
         }
+        else if ((isToxicate = attacker.hasAbility('Toxicate') && normal)) {
+            move.type = 'Poison';
+        }
+        else if ((isDraconize = attacker.hasAbility('Draconize') && normal)) {
+            move.type = 'Dragon';
+        }
         else if ((isNormalize = attacker.hasAbility('Normalize'))) {
             move.type = 'Normal';
         }
-        if (isPixilate || isRefrigerate || isAerilate || isNormalize) {
+        if (isMalevolate || isPixilate || isRefrigerate || isToxicate || isAerilate || isDraconize || isNormalize) {
             desc.attackerAbility = attacker.ability;
             hasAteAbilityTypeChange = true;
         }
@@ -318,7 +330,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
             var newAtk = calculateAttackBWXY(gen, attacker, defender, move, field, desc, isCritical);
             var newDef = calculateDefenseBWXY(gen, attacker, defender, move, field, desc, isCritical);
             hasAteAbilityTypeChange = hasAteAbilityTypeChange &&
-                attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate', 'Normalize');
+                attacker.hasAbility('Aerilate', 'Galvanize', 'Toxicate', 'Malevolate', 'Draconize', 'Pixilate', 'Refrigerate', 'Normalize');
             if ((move.dropsStats && move.timesUsed > 1)) {
                 stabMod = (0, util_2.getStabMod)(attacker, move, desc);
             }
@@ -364,6 +376,7 @@ function calculateBasePowerBWXY(gen, attacker, defender, move, field, hasAteAbil
             desc.moveBP = basePower;
             break;
         case 'Electro Ball':
+        case 'Shadow Dart':
             if (defender.stats.spe === 0)
                 defender.stats.spe = 1;
             var r = Math.floor(attacker.stats.spe / defender.stats.spe);
@@ -371,6 +384,7 @@ function calculateBasePowerBWXY(gen, attacker, defender, move, field, hasAteAbil
             desc.moveBP = basePower;
             break;
         case 'Gyro Ball':
+        case 'Shadow Centrifuge':
             if (attacker.stats.spe === 0)
                 attacker.stats.spe = 1;
             basePower = Math.min(150, Math.floor((25 * defender.stats.spe) / attacker.stats.spe) + 1);
@@ -382,6 +396,7 @@ function calculateBasePowerBWXY(gen, attacker, defender, move, field, hasAteAbil
             break;
         case 'Low Kick':
         case 'Grass Knot':
+        case 'Shadow Trip':
             var w = (0, util_2.getWeight)(defender, desc, 'defender');
             basePower = w >= 200 ? 120 : w >= 100 ? 100 : w >= 50 ? 80 : w >= 25 ? 60 : w >= 10 ? 40 : 20;
             desc.moveBP = basePower;
@@ -393,6 +408,7 @@ function calculateBasePowerBWXY(gen, attacker, defender, move, field, hasAteAbil
             desc.moveBP = basePower;
             break;
         case 'Heavy Slam':
+        case 'Shadow Anvil':
         case 'Heat Crash':
             var wr = (0, util_2.getWeight)(attacker, desc, 'attacker') /
                 (0, util_2.getWeight)(defender, desc, 'defender');
@@ -720,7 +736,8 @@ function calculateAtModsBWXY(gen, attacker, defender, move, field, desc) {
     var _a;
     var atMods = [];
     if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
-        (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water'))) {
+        (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water')) ||
+        (defender.hasAbility('Mythocide') && move.hasType('Fairy'))) {
         atMods.push(2048);
         desc.defenderAbility = defender.ability;
     }

@@ -397,7 +397,7 @@ exports.checkSeedBoost = checkSeedBoost;
 function checkMultihitBoost(gen, attacker, defender, move, field, desc, attackerUsedItem, defenderUsedItem) {
     if (attackerUsedItem === void 0) { attackerUsedItem = false; }
     if (defenderUsedItem === void 0) { defenderUsedItem = false; }
-    if (move.named('Gyro Ball', 'Electro Ball') && defender.hasAbility('Gooey', 'Tangling Hair')) {
+    if (move.named('Gyro Ball', 'Electro Ball', 'Shadow Centrifuge', 'Shadow Dart') && defender.hasAbility('Gooey', 'Tangling Hair')) {
         if (attacker.hasItem('White Herb') && !attackerUsedItem) {
             desc.attackerItem = attacker.item;
             attackerUsedItem = true;
@@ -735,7 +735,7 @@ function getEVDescriptionText(gen, pokemon, stat, natureName) {
 }
 exports.getEVDescriptionText = getEVDescriptionText;
 function handleFixedDamageMoves(attacker, move) {
-    if (move.named('Seismic Toss', 'Night Shade')) {
+    if (move.named('Seismic Toss', 'Night Shade', 'Shadow Mirage')) {
         return attacker.level;
     }
     else if (move.named('Dragon Rage')) {

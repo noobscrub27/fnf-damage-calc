@@ -393,6 +393,7 @@ function calculateBasePowerDPP(gen, attacker, defender, move, field, hasAteAbili
             desc.attackerItem = attacker.item;
             break;
         case 'Grass Knot':
+        case 'Shadow Trip':
         case 'Low Kick':
             var w = defender.weightkg;
             basePower = w >= 200 ? 120 : w >= 100 ? 100 : w >= 50 ? 80 : w >= 25 ? 60 : w >= 10 ? 40 : 20;
@@ -412,6 +413,7 @@ function calculateBasePowerDPP(gen, attacker, defender, move, field, hasAteAbili
             desc.moveBP = basePower;
             break;
         case 'Gyro Ball':
+        case 'Shadow Centrifuge':
             basePower = Math.min(150, Math.floor((25 * defender.stats.spe) / attacker.stats.spe));
             desc.moveBP = basePower;
             break;

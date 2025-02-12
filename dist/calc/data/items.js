@@ -324,6 +324,8 @@ var DPP = ADV.concat([
     'Magnetic Stone',
     'Mordant Rock',
     'Royal Jelly',
+    'Fruit Incense',
+    'Corrupted Rock',
 ]);
 var BW = DPP.concat([
     'Absorb Bulb',
@@ -427,7 +429,10 @@ exports.MEGA_STONES = {
     'FnFSablenite X': 'Sableye-FnF',
     'FnFSablenite Y': 'Sableye-FnF',
     Rapidashite: 'Rapidash',
-    Hypnite: 'Hypno'
+    Hypnite: 'Hypno',
+    Gogoatite: 'Gogoat',
+    Skarmorite: 'Skarmory',
+    'Delta Cameruptite': 'Camerupt-Delta'
 };
 var XY = BW.concat(__spreadArray(__spreadArray([], __read(Object.keys(exports.MEGA_STONES)), false), [
     'Assault Vest',
@@ -539,7 +544,10 @@ var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Myth Incense',
     'Heatmorium Z',
     'Melodium Z',
-    'Moeloettium Z',
+    'Meloettium Z',
+    'Ignajara Armor',
+    'Dragonair Armor',
+    'Despotidium Z',
 ]);
 var SS = SM.concat([
     'Berry Sweet',

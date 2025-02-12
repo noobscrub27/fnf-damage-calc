@@ -135,6 +135,9 @@ var ADV = [
     'Arachnid\'s Grace',
     'Bone Master',
     'Cunning Blade',
+    'Draconize',
+    'Malevolate',
+    'Mythocide',
     'Pure Heart',
     'Shadow Adaptation',
     'Shadow Armor',
@@ -149,6 +152,7 @@ var ADV = [
     'Shadow Slush',
     'Shadow Sparks',
     'Shadow Tyrant',
+    'Volatility',
 ];
 var DPP = ADV.concat([
     'Adaptability',

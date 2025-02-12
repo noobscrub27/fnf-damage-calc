@@ -35,7 +35,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     (0, util_2.checkIntrepidSword)(defender, gen);
     (0, util_2.checkSillySoda)(attacker, gen);
     (0, util_2.checkSillySoda)(defender, gen);
-    if (move.named('Meteor Beam', 'Electro Shot')) {
+    if (move.named('Meteor Beam', 'Electro Shot', 'Shadow Laser')) {
         attacker.boosts.spa +=
             attacker.hasAbility('Simple') ? 2
                 : attacker.hasAbility('Contrary') ? -1
@@ -186,7 +186,9 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     var isGalvanize = false;
     var isLiquidVoice = false;
     var isNormalize = false;
+    var isMalevolate = false;
     var isToxicate = false;
+    var isDraconize = false;
     var noTypeChange = move.named('Revelation Dance', 'Judgment', 'Nature Power', 'Techno Blast', 'Multi Attack', 'Natural Gift', 'Weather Ball', 'Terrain Pulse', 'Struggle') || (move.named('Tera Blast') && attacker.teraType);
     if (!move.isZ && !noTypeChange) {
         var normal = move.hasType('Normal');
@@ -202,6 +204,12 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         else if ((isPixilate = attacker.hasAbility('Pixilate') && normal)) {
             type = 'Fairy';
         }
+        else if ((isMalevolate = attacker.hasAbility('Malevolate') && normal)) {
+            type = 'Dark';
+        }
+        else if ((isDraconize = attacker.hasAbility('Draconize') && normal)) {
+            type = 'Dragon';
+        }
         else if ((isRefrigerate = attacker.hasAbility('Refrigerate') && normal)) {
             type = 'Ice';
         }
@@ -211,7 +219,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         else if ((isNormalize = attacker.hasAbility('Normalize'))) {
             type = 'Normal';
         }
-        if (isGalvanize || isPixilate || isRefrigerate || isAerilate || isToxicate || isNormalize) {
+        if (isGalvanize || isPixilate || isRefrigerate || isAerilate || isToxicate || isMalevolate || isDraconize || isNormalize) {
             desc.attackerAbility = attacker.ability;
             hasAteAbilityTypeChange = true;
         }
@@ -332,7 +340,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         desc.terrain = field.terrain;
         return result;
     }
-    var weightBasedMove = move.named('Heat Crash', 'Heavy Slam', 'Low Kick', 'Grass Knot');
+    var weightBasedMove = move.named('Heat Crash', 'Heavy Slam', 'Low Kick', 'Grass Knot', 'Shadow Avil', 'Shadow Trip');
     if (defender.isDynamaxed && weightBasedMove) {
         return result;
     }
@@ -392,7 +400,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     var attackStat = move.named('Shell Side Arm') &&
         (0, util_2.getShellSideArmCategory)(attacker, defender) === 'Physical'
         ? 'atk'
-        : move.named('Body Press')
+        : move.named('Body Press', 'Shadow Press')
             ? 'def'
             : move.category === 'Special'
                 ? 'spa'
@@ -461,7 +469,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
             var newAttack = calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
             var newDefense = calculateDefenseSMSSSV(gen, attacker, defender, move, field, desc, isCritical);
             hasAteAbilityTypeChange = hasAteAbilityTypeChange &&
-                attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate', 'Normalize', 'Toxicate');
+                attacker.hasAbility('Aerilate', 'Galvanize', 'Pixilate', 'Refrigerate', 'Normalize', 'Malevolate', 'Draconize', 'Toxicate');
             if ((move.dropsStats && move.timesUsed > 1)) {
                 preStellarStabMod = (0, util_2.getStabMod)(attacker, move, desc);
                 typeEffectiveness = turn2typeEffectiveness;
@@ -511,6 +519,7 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
             desc.moveBP = basePower;
             break;
         case 'Electro Ball':
+        case 'Shadow Dart':
             var r = Math.floor(attacker.stats.spe / defender.stats.spe);
             basePower = r >= 4 ? 150 : r >= 3 ? 120 : r >= 2 ? 80 : r >= 1 ? 60 : 40;
             if (defender.stats.spe === 0)
@@ -518,6 +527,7 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
             desc.moveBP = basePower;
             break;
         case 'Gyro Ball':
+        case 'Shadow Centrifuge':
             basePower = Math.min(150, Math.floor((25 * defender.stats.spe) / attacker.stats.spe) + 1);
             if (attacker.stats.spe === 0)
                 basePower = 1;
@@ -528,11 +538,13 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
             desc.moveBP = basePower;
             break;
         case 'Creeping Despair':
+        case 'Shadow Desolation':
             basePower = Math.floor(move.bp * ((0, util_2.checkForLoweredStat)(gen, defender.boosts) ? 1.5 : 1));
             desc.moveBP = basePower;
             break;
         case 'Low Kick':
         case 'Grass Knot':
+        case 'Shadow Trip':
             var w = (0, util_2.getWeight)(defender, desc, 'defender');
             basePower = w >= 200 ? 120 : w >= 100 ? 100 : w >= 50 ? 80 : w >= 25 ? 60 : w >= 10 ? 40 : 20;
             desc.moveBP = basePower;
@@ -548,6 +560,7 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
             desc.moveBP = basePower;
             break;
         case 'Heavy Slam':
+        case 'Shadow Anvil':
         case 'Heat Crash':
             var wr = (0, util_2.getWeight)(attacker, desc, 'attacker') /
                 (0, util_2.getWeight)(defender, desc, 'defender');
@@ -684,6 +697,7 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
             desc.moveBP = basePower;
             break;
         case 'Wring Out':
+        case 'Shadow Squeeze':
             basePower = 100 * Math.floor((defender.curHP() * 4096) / defender.maxHP());
             basePower = Math.floor(Math.floor((120 * basePower + 2048 - 1) / 4096) / 100) || 1;
             desc.moveBP = basePower;
@@ -779,7 +793,9 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         (defender.named('Kirlia-Armored', 'Kirlia-Armored-Weaver') && defender.hasItem('Kirlia Armor')) ||
         (defender.named('Granbull-Armored') && defender.hasItem('Granbull Armor')) ||
         (defender.named('Granbull-Nobunaga') && defender.hasItem('Nobunaga Armor')) ||
-        (defender.name.includes('Castform') && defender.hasItem('Heat Rock', 'Icy Rock', 'Damp Rock', 'Mordant Rock', 'Smooth Rock'));
+        (defender.named('Ignajara-Nobunaga') && defender.hasItem('Ignajara Armor')) ||
+        (defender.named('Dragonair-Nobunaga') && defender.hasItem('Dragonair Armor')) ||
+        (defender.name.includes('Castform') && defender.hasItem('Heat Rock', 'Icy Rock', 'Damp Rock', 'Mordant Rock', 'Smooth Rock', 'Corrupted Rock'));
     if (!resistedKnockOffDamage && defender.item) {
         var item = gen.items.get((0, util_1.toID)(defender.item));
         resistedKnockOffDamage = !!item.megaEvolves && defender.name.includes(item.megaEvolves) ||
@@ -1005,7 +1021,7 @@ function calculateAttackSMSSSV(gen, attacker, defender, move, field, desc, isCri
     var attackStat = move.named('Shell Side Arm') &&
         (0, util_2.getShellSideArmCategory)(attacker, defender) === 'Physical'
         ? 'atk'
-        : move.named('Body Press')
+        : move.named('Body Press', 'Shadow Press')
             ? 'def'
             : move.category === 'Special'
                 ? 'spa'
@@ -1147,6 +1163,7 @@ function calculateAtModsSMSSSV(gen, attacker, defender, move, field, desc) {
     if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
         (defender.hasAbility('Primal Warmth') && move.hasType('Fire', 'Water')) ||
         (defender.hasAbility('Water Bubble') && move.hasType('Fire')) ||
+        (defender.hasAbility('Mythocide') && move.hasType('Fairy')) ||
         (defender.hasAbility('Purifying Salt') && move.hasType('Ghost'))) {
         atMods.push(2048);
         desc.defenderAbility = defender.ability;

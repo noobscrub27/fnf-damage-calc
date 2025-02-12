@@ -266,6 +266,8 @@ const DPP = ADV.concat([
   'Magnetic Stone',
   'Mordant Rock',
   'Royal Jelly',
+  'Fruit Incense',
+  'Corrupted Rock',
 ]);
 
 const BW = DPP.concat([
@@ -374,6 +376,9 @@ export const MEGA_STONES: {[species: string]: string} = {
   'FnFSablenite Y': 'Sableye-FnF',
   Rapidashite: 'Rapidash',
   Hypnite: 'Hypno',
+  Gogoatite: 'Gogoat',
+  Skarmorite: 'Skarmory',
+  'Delta Cameruptite': 'Camerupt-Delta',
 };
 
 const XY = BW.concat(
@@ -491,7 +496,10 @@ const SM = XY.filter(i => i !== 'Old Amber').concat([
   'Myth Incense',
   'Heatmorium Z',
   'Melodium Z',
-  'Moeloettium Z',
+  'Meloettium Z',
+  'Ignajara Armor',
+  'Dragonair Armor',
+  'Despotidium Z',
 ]);
 
 const SS = SM.concat([

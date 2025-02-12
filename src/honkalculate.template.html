@@ -661,12 +661,22 @@
                         <label class="btn btn-right" for="miasma">Miasma</label>
                     </div>
                     <div class="gen-specific g6 g7 g8 g9" title="Select the current weather condition.">
-                        <input class="visually-hidden" type="radio" name="weather" value="Harsh Sunshine" id="harsh-sunshine" />
-                        <label class="btn btn-xxxwide btn-left" for="harsh-sunshine">Harsh Sunshine</label>
-                        <input class="visually-hidden" type="radio" name="weather" value="Heavy Rain" id="heavy-rain" />
-                        <label class="btn btn-xxxwide btn-mid" for="heavy-rain">Heavy Rain</label>
-                        <input class="visually-hidden" type="radio" name="weather" value="Strong Winds" id="strong-winds" />
-                        <label class="btn btn-xxxwide btn-right" for="strong-winds">Strong Winds</label>
+                        <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Harsh Sunshine" id="harsh-sunshine" />
+                        <label class="btn btn-xxwide btn-left" for="harsh-sunshine">Harsh Sunshine</label>
+                        <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Heavy Rain" id="heavy-rain" />
+                        <label class="btn btn-wide btn-mid" for="heavy-rain">Heavy Rain</label>
+                        <span class="gen-specific g6">
+                           <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Strong Winds" id="strong-winds-edge" />
+                           <label class="btn btn-xwide btn-right" for="strong-winds-edge">Strong Winds</label>
+                        </span>
+                        <span class="gen-specific g7 g8 g9">
+                           <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Strong Winds" id="strong-winds-mid" />
+                           <label class="btn btn-xwide btn-mid" for="strong-winds-mid">Strong Winds</label>
+                        </span>
+                        <span class="gen-specific g7 g8 g9">
+                           <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Shadow Sky" id="shadow-sky" />
+                           <label class="btn btn-wide btn-right" for="shadow-sky">Shadow Sky</label>
+                        </span>
                     </div>
                     <div class="gen-specific g2 hide" style="width: 19.8em; margin: 0 auto 5px;" title="Select the current weather condition.">
                         <input class="visually-hidden" type="radio" name="gscWeather" value="" id="gscClear" checked="checked" />

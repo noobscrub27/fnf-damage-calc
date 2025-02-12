@@ -2949,15 +2949,14 @@ var SM_PATCH = {
         bp: 85,
         type: 'Dark',
         category: 'Special',
-        secondaries: true,
         zp: 160
     },
     'Cumulo-Roll': {
-        bp: 50,
+        bp: 70,
         type: 'Flying',
         category: 'Physical',
         secondaries: true,
-        zp: 100
+        zp: 140
     },
     'Cursed Roots': {
         bp: 75,
@@ -3207,6 +3206,13 @@ var SM_PATCH = {
         secondaries: true,
         zp: 175
     },
+    'Radiant Mace': {
+        bp: 100,
+        type: 'Dragon',
+        category: 'Physical',
+        secondaries: true,
+        zp: 180
+    },
     'Red Rush': {
         bp: 120,
         type: 'Water',
@@ -3241,11 +3247,26 @@ var SM_PATCH = {
         isBite: true,
         makesContact: true
     },
+    'Ruinous Riptide': {
+        bp: 190,
+        type: 'Water',
+        category: 'Physical',
+        secondaries: true,
+        makesContact: true,
+        isZ: true
+    },
     'Sand Inversion': {
         bp: 120,
         type: 'Ground',
         category: 'Special',
         zp: 190
+    },
+    'Savage Horn': {
+        bp: 80,
+        type: 'Dragon',
+        category: 'Physical',
+        makesContact: true,
+        zp: 160
     },
     Scold: {
         bp: 100,
@@ -3260,6 +3281,23 @@ var SM_PATCH = {
         category: 'Physical',
         zp: 190
     },
+    'Shadow Ambush': {
+        bp: 80,
+        type: 'Shadow',
+        priority: 2,
+        makesContact: true,
+        category: 'Physical',
+        willCrit: true,
+        zp: 160
+    },
+    'Shadow Anvil': {
+        bp: 0,
+        type: 'Shadow',
+        makesContact: true,
+        category: 'Physical',
+        willCrit: true,
+        zp: 160
+    },
     'Shadow Bandit': {
         bp: 70,
         type: 'Shadow',
@@ -3272,6 +3310,30 @@ var SM_PATCH = {
         bp: 0,
         type: 'Shadow',
         category: 'Status'
+    },
+    'Shadow Beam': {
+        bp: 95,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 175
+    },
+    'Shadow Blast': {
+        bp: 80,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 160
+    },
+    'Shadow Bluff': {
+        bp: 40,
+        type: 'Shadow',
+        category: 'Physical',
+        priority: 3,
+        secondaries: true,
+        willCrit: true,
+        zp: 100,
+        makesContact: true
     },
     'Shadow Bolt': {
         bp: 75,
@@ -3299,6 +3361,15 @@ var SM_PATCH = {
         zp: 160,
         makesContact: true
     },
+    'Shadow Centrifuge': {
+        bp: 0,
+        type: 'Shadow',
+        makesContact: true,
+        isBullet: true,
+        category: 'Physical',
+        willCrit: true,
+        zp: 160
+    },
     'Shadow Chant': {
         bp: 0,
         type: 'Shadow',
@@ -3314,11 +3385,27 @@ var SM_PATCH = {
         zp: 100,
         makesContact: true
     },
+    'Shadow Chew': {
+        bp: 60,
+        type: 'Shadow',
+        makesContact: true,
+        category: 'Physical',
+        willCrit: true,
+        zp: 120
+    },
     'Shadow Chill': {
         bp: 75,
         type: 'Shadow',
         category: 'Special',
         secondaries: true,
+        willCrit: true,
+        zp: 140
+    },
+    'Shadow Chop': {
+        bp: 75,
+        type: 'Shadow',
+        makesContact: true,
+        category: 'Physical',
         willCrit: true,
         zp: 140
     },
@@ -3336,15 +3423,37 @@ var SM_PATCH = {
         zp: 160,
         makesContact: true
     },
+    'Shadow Dart': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 160
+    },
     'Shadow Dance': {
         bp: 0,
         type: 'Shadow',
         category: 'Status'
     },
+    'Shadow Desolation': {
+        bp: 70,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 140
+    },
     'Shadow Destruction': {
         bp: 150,
         type: 'Shadow',
         category: 'Physical',
+        willCrit: true,
+        zp: 200
+    },
+    'Shadow Detonation': {
+        bp: 200,
+        type: 'Shadow',
+        category: 'Physical',
+        target: 'allAdjacent',
         willCrit: true,
         zp: 200
     },
@@ -3375,6 +3484,14 @@ var SM_PATCH = {
         type: 'Shadow',
         category: 'Status'
     },
+    'Shadow Duplicity': {
+        bp: 80,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 160,
+        overrideOffensivePokemon: 'target'
+    },
     'Shadow End': {
         bp: 145,
         type: 'Shadow',
@@ -3397,6 +3514,13 @@ var SM_PATCH = {
         willCrit: true,
         zp: 140
     },
+    'Shadow Firestorm': {
+        bp: 90,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 175
+    },
     'Shadow Fission': {
         bp: 0,
         type: 'Shadow',
@@ -3411,6 +3535,19 @@ var SM_PATCH = {
         bp: 0,
         type: 'Shadow',
         category: 'Status'
+    },
+    'Shadow Fountain': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status'
+    },
+    'Shadow Frenzy': {
+        bp: 95,
+        type: 'Shadow',
+        category: 'Physical',
+        willCrit: true,
+        zp: 175,
+        makesContact: true
     },
     'Shadow Frost': {
         bp: 0,
@@ -3430,6 +3567,13 @@ var SM_PATCH = {
         type: 'Shadow',
         category: 'Status'
     },
+    'Shadow Gale': {
+        bp: 110,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 185
+    },
     'Shadow Glaze': {
         bp: 0,
         type: 'Shadow',
@@ -3439,6 +3583,17 @@ var SM_PATCH = {
         bp: 0,
         type: 'Shadow',
         category: 'Status'
+    },
+    'Shadow Gluttony': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status'
+    },
+    'Shadow Half': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Special',
+        zp: 100
     },
     'Shadow Hatred': {
         bp: 60,
@@ -3486,6 +3641,13 @@ var SM_PATCH = {
         type: 'Shadow',
         category: 'Status'
     },
+    'Shadow Inversion': {
+        bp: 65,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 120
+    },
     'Shadow Jolt': {
         bp: 80,
         type: 'Shadow',
@@ -3495,15 +3657,35 @@ var SM_PATCH = {
         zp: 160,
         makesContact: true
     },
+    'Shadow Laser': {
+        bp: 95,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 175
+    },
     'Shadow Meld': {
         bp: 0,
         type: 'Shadow',
         category: 'Status'
     },
+    'Shadow Mirage': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Special',
+        zp: 100
+    },
     'Shadow Mist': {
         bp: 0,
         type: 'Shadow',
         category: 'Status'
+    },
+    'Shadow Monsoon': {
+        bp: 90,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 175
     },
     'Shadow Moon': {
         bp: 0,
@@ -3541,6 +3723,15 @@ var SM_PATCH = {
         zp: 120,
         makesContact: true
     },
+    'Shadow Press': {
+        bp: 65,
+        type: 'Shadow',
+        makesContact: true,
+        category: 'Physical',
+        willCrit: true,
+        zp: 120,
+        overrideOffensiveStat: 'def'
+    },
     'Shadow Punish': {
         bp: 0,
         type: 'Shadow',
@@ -3573,12 +3764,31 @@ var SM_PATCH = {
         willCrit: true,
         zp: 185
     },
+    'Shadow Recruit': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status'
+    },
+    'Shadow Requital': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Physical',
+        zp: 100
+    },
     'Shadow Reset': {
         bp: 50,
         type: 'Shadow',
         category: 'Special',
         willCrit: true,
         zp: 100
+    },
+    'Shadow Robbery': {
+        bp: 70,
+        type: 'Shadow',
+        category: 'Physical',
+        willCrit: true,
+        zp: 140,
+        makesContact: true
     },
     'Shadow Roulette': {
         bp: 0,
@@ -3633,7 +3843,23 @@ var SM_PATCH = {
         priority: -6,
         isWind: true
     },
+    'Shadow Signal': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status'
+    },
     'Shadow Siren': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status',
+        isSound: true
+    },
+    'Shadow Sky': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status'
+    },
+    'Shadow Slander': {
         bp: 0,
         type: 'Shadow',
         category: 'Status',
@@ -3673,10 +3899,23 @@ var SM_PATCH = {
         willCrit: true,
         zp: 100
     },
+    'Shadow Spikes': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status'
+    },
     'Shadow Sprites': {
         bp: 0,
         type: 'Shadow',
         category: 'Status'
+    },
+    'Shadow Squeeze': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 100,
+        makesContact: true
     },
     'Shadow Stare': {
         bp: 0,
@@ -3701,7 +3940,20 @@ var SM_PATCH = {
         zp: 100,
         makesContact: true
     },
+    'Shadow Stratoslam': {
+        bp: 80,
+        type: 'Shadow',
+        category: 'Physical',
+        willCrit: true,
+        zp: 160,
+        makesContact: true
+    },
     'Shadow Sun': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status'
+    },
+    'Shadow Swap': {
         bp: 0,
         type: 'Shadow',
         category: 'Status'
@@ -3725,6 +3977,19 @@ var SM_PATCH = {
         type: 'Shadow',
         category: 'Status'
     },
+    'Shadow Transform': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status'
+    },
+    'Shadow Trip': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 100,
+        makesContact: true
+    },
     'Shadow Vampirism': {
         bp: 75,
         type: 'Shadow',
@@ -3746,6 +4011,19 @@ var SM_PATCH = {
         category: 'Special',
         willCrit: true,
         maxPower: 90
+    },
+    'Shadow Venom': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status'
+    },
+    'Shadow Volley': {
+        bp: 70,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 140,
+        overrideDefensiveStat: 'def'
     },
     'Shadow Wall': {
         bp: 0,
@@ -3778,6 +4056,13 @@ var SM_PATCH = {
         zp: 140,
         makesContact: true
     },
+    'Shadow Whiteout': {
+        bp: 90,
+        type: 'Shadow',
+        category: 'Special',
+        willCrit: true,
+        zp: 175
+    },
     'Shadow Wreckage': {
         bp: 75,
         type: 'Shadow',
@@ -3785,6 +4070,11 @@ var SM_PATCH = {
         target: 'allAdjacent',
         willCrit: true,
         zp: 140
+    },
+    'Shadow Wyrm': {
+        bp: 0,
+        type: 'Shadow',
+        category: 'Status'
     },
     'Silk Snare': {
         bp: 90,
