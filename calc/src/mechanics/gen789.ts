@@ -173,9 +173,10 @@ export function calculateSMSSSV(
     type =
       field.hasWeather('Sun', 'Harsh Sunshine') && !holdingUmbrella ? 'Fire'
         : field.hasWeather('Rain', 'Heavy Rain') && !holdingUmbrella ? 'Water'
-          : field.hasWeather('Sand') ? 'Rock'
-            : field.hasWeather('Hail', 'Snow') ? 'Ice'
-              : 'Normal';
+        : field.hasWeather('Sand') ? 'Rock'
+        : field.hasWeather('Hail', 'Snow') ? 'Ice'
+        : field.hasWeather('Shadow Sky') ? 'Shadow'
+        : 'Normal';
     desc.weather = field.weather;
     desc.moveType = type;
   } else if (move.named('Judgment') && attacker.item && attacker.item.includes('Plate')) {
@@ -836,7 +837,7 @@ export function calculateBasePowerSMSSSV(
       break;
     case 'Weather Ball':
       basePower = move.bp * (field.weather && !field.hasWeather('Strong Winds') ? 2 : 1);
-      if (field.hasWeather('Sun', 'Harsh Sunshine', 'Rain', 'Heavy Rain', 'Miasma') &&
+      if (field.hasWeather('Sun', 'Harsh Sunshine', 'Rain', 'Heavy Rain', 'Miasma', 'Shadow Sky') &&
         attacker.hasItem('Utility Umbrella')) basePower = move.bp;
       desc.moveBP = basePower;
       break;
@@ -1758,7 +1759,8 @@ function calculateBaseDamageSMSSSV(
     if (
       (field.hasWeather('Sun', 'Harsh Sunshine') && move.hasType('Fire')) ||
       (field.hasWeather('Rain', 'Heavy Rain') && move.hasType('Water')) ||
-      (field.hasWeather('Miasma') && move.hasType('Poison'))
+      (field.hasWeather('Miasma') && move.hasType('Poison')) ||
+      (field.hasWeather('Shadow Sky') && move.hasType('Shadow'))
     ) {
       baseDamage = pokeRound(OF32(baseDamage * 6144) / 4096);
       desc.weather = field.weather;
