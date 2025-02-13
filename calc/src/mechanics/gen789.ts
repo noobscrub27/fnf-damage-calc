@@ -1084,7 +1084,7 @@ export function calculateBPModsSMSSSV(
       (defender.named('Gyarados-Alarix', 'Gyarados-Mega-Alarix') && defender.hasItem('Alarixite'));
   }
 
-  if ((move.named('Facade') && attacker.hasStatus('brn', 'par', 'psn', 'tox')) ||
+  if ((move.named('Facade', 'Shadow Rage') && attacker.hasStatus('brn', 'par', 'psn', 'tox', 'frz')) ||
     (move.named('Brine') && defender.curHP() <= defender.maxHP() / 2) ||
     (move.named('Venoshock') && defender.hasStatus('psn', 'tox')) ||
     (move.named('Lash Out') && (countBoosts(gen, attacker.boosts) < 0))

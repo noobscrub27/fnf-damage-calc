@@ -259,7 +259,7 @@ function calculateBasePowerADV(gen, attacker, defender, move, desc, hit) {
             desc.moveBP = bp;
             break;
         case 'Facade':
-            if (attacker.hasStatus('par', 'psn', 'tox', 'brn')) {
+            if (attacker.hasStatus('par', 'psn', 'tox', 'brn', 'frz')) {
                 bp = move.bp * 2;
                 desc.moveBP = bp;
             }
