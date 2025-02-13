@@ -548,6 +548,19 @@ var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Ignajara Armor',
     'Dragonair Armor',
     'Despotidium Z',
+    'Alahala Berry',
+    'Drash Berry',
+    'Eggant Berry',
+    'Ginema Berry',
+    'Kuo Berry',
+    'Lanchi Berry',
+    'Niniku Berry',
+    'Nutpea Berry',
+    'Pumkin Berry',
+    'Strib Berry',
+    'Topo Berry',
+    'Touga Berry',
+    'Yago Berry',
 ]);
 var SS = SM.concat([
     'Berry Sweet',
@@ -681,7 +694,20 @@ var BERRIES = {
     'Watmel Berry': { t: 'Fire', p: 100 },
     'Wepear Berry': { t: 'Electric', p: 90 },
     'Wiki Berry': { t: 'Rock', p: 80 },
-    'Yache Berry': { t: 'Ice', p: 80 }
+    'Yache Berry': { t: 'Ice', p: 80 },
+    'Alahala Berry': { t: 'Psychic', p: 110 },
+    'Drash Berry': { t: 'Ground', p: 110 },
+    'Eggant Berry': { t: 'Electric', p: 110 },
+    'Ginema Berry': { t: 'Flying', p: 110 },
+    'Kuo Berry': { t: 'Fairy', p: 110 },
+    'Lanchi Berry': { t: 'Steel', p: 110 },
+    'Niniku Berry': { t: 'Dragon', p: 110 },
+    'Nutpea Berry': { t: 'Rock', p: 110 },
+    'Pumkin Berry': { t: 'Ice', p: 110 },
+    'Strib Berry': { t: 'Grass', p: 110 },
+    'Topo Berry': { t: 'Poison', p: 110 },
+    'Touga Berry': { t: 'Fire', p: 110 },
+    'Yago Berry': { t: 'Water', p: 110 }
 };
 exports.ITEMS = [[], RBY, GSC, ADV, DPP, BW, XY, SM, SS, SV];
 var Items = (function () {

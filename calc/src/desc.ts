@@ -135,14 +135,14 @@ export function getRecovery(
   }
 
   if (move.drain) {
-    const percentHealed = move.drain[0] / move.drain[1];
+    let percentHealed = move.drain[0] / move.drain[1];
+    if (attacker.hasItem('Eggant Berry')) percentHealed *= 2;
     const max = Math.round(defender.maxHP() * percentHealed);
     for (let i = 0; i < minD.length; i++) {
       const range = [minD[i], maxD[i]];
       for (const j in recovery) {
         let drained = Math.round(range[j] * percentHealed);
         if (attacker.hasItem('Big Root', 'Fruit Incense')) drained = Math.trunc(drained * 5324 / 4096);
-        else if (attacker.hasItem('Eggant Berry')) drained = Math.trunc(drained * 2);
         recovery[j] += Math.min(drained * move.hits, max);
       }
     }

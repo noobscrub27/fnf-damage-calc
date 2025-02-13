@@ -73,6 +73,8 @@ function getRecovery(gen, attacker, defender, move, damage, notation) {
     }
     if (move.drain) {
         var percentHealed = move.drain[0] / move.drain[1];
+        if (attacker.hasItem('Eggant Berry'))
+            percentHealed *= 2;
         var max = Math.round(defender.maxHP() * percentHealed);
         for (var i = 0; i < minD.length; i++) {
             var range = [minD[i], maxD[i]];
@@ -80,8 +82,6 @@ function getRecovery(gen, attacker, defender, move, damage, notation) {
                 var drained = Math.round(range[j] * percentHealed);
                 if (attacker.hasItem('Big Root', 'Fruit Incense'))
                     drained = Math.trunc(drained * 5324 / 4096);
-                else if (attacker.hasItem('Eggant Berry'))
-                    drained = Math.trunc(drained * 2);
                 recovery[j] += Math.min(drained * move.hits, max);
             }
         }

@@ -7914,7 +7914,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   'Sudowoodo-Busted': {
     types: ['Rock'],
-    bs: {hp: 80, at: 125, df: 115, sa: 30, sd: 65, sp: 55},
+    bs: {hp: 80, at: 115, df: 125, sa: 30, sd: 65, sp: 55},
     weightkg: 38.0,
     abilities: {0: 'Mimictree'},
     baseSpecies: 'Sudowoodo',
@@ -8229,14 +8229,14 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   'Camerupt-Delta': {
     types: ['Ice'],
-    bs: {hp: 100, at: 155, df: 100, sa: 155, sd: 110, sp: 20},
+    bs: {hp: 100, at: 110, df: 75, sa: 125, sd: 90, sp: 40},
     weightkg: 220.0,
     abilities: {0: 'Ice Body'},
     otherFormes: ['Camerupt-Delta-Mega'],
   },
   'Camerupt-Delta-Mega': {
     types: ['Ice'],
-    bs: {hp: 100, at: 110, df: 75, sa: 125, sd: 90, sp: 40},
+    bs: {hp: 100, at: 155, df: 100, sa: 155, sd: 110, sp: 20},
     weightkg: 320.5,
     abilities: {0: 'Mountaineer'},
     baseSpecies: 'Camerupt-Delta',
@@ -8262,7 +8262,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   'Milotic-Lothraxia': {
     types: ['Water'],
-    bs: {hp: 140, at: 60, df: 89, sa: 140, sd: 130, sp: 96},
+    bs: {hp: 95, at: 60, df: 89, sa: 140, sd: 130, sp: 96},
     weightkg: 162.0,
     abilities: {0: 'Competitive'},
   },
@@ -8375,7 +8375,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   'Dewott-Lutryla': {
     types: ['Water', 'Fighting'],
-    bs: {hp: 90, at: 90, df: 104, sa: 133, sd: 104, sp: 114},
+    bs: {hp: 95, at: 90, df: 104, sa: 133, sd: 104, sp: 114},
     weightkg: 24.5,
     abilities: {0: 'Skill Link'},
   },
@@ -8586,7 +8586,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   'Braixen-Nonzerda': {
     types: ['Fire'],
-    bs: {hp: 58, at: 58, df: 68, sa: 132, sd: 99, sp: 134},
+    bs: {hp: 59, at: 58, df: 68, sa: 132, sd: 99, sp: 134},
     weightkg: 14.5,
     abilities: {0: 'Illuminate'},
   },
@@ -8911,7 +8911,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   'Gogoat-Mega': {
     types: ['Grass', 'Ground'],
     bs: {hp: 123, at: 150, df: 87, sa: 122, sd: 101, sp: 68},
-    weightkg: 135,
+    weightkg: 135.5,
     abilities: {0: 'Territorial'},
     baseSpecies: 'Gogat',
   },
@@ -8931,7 +8931,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   'Longeon-Spaghetti': {
     types: ['Dragon'],
     bs: {hp: 105, at: 150, df: 75, sa: 65, sd: 95, sp: 110},
-    weightkg: 23.7,
+    weightkg: 27.3,
     abilities: {0: 'Draconize'},
   },
   'Snorunt-Sherbet': {
@@ -8995,7 +8995,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     abilities: {0: 'Corrosion'},
   },
   'Noivern-Eyrie': {
-    types: ['Dragon', 'Flying'],
+    types: ['Flying', 'Dragon'],
     bs: {hp: 91, at: 109, df: 86, sa: 109, sd: 86, sp: 138},
     weightkg: 85,
     abilities: {0: 'Moxie'},
@@ -9081,7 +9081,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   'Zapdos-Strato': {
     types: ['Electric', 'Flying'],
-    bs: {hp: 100, at: 85, df: 105, sa: 130, sd: 140, sp: 100},
+    bs: {hp: 100, at: 100, df: 100, sa: 140, sd: 100, sp: 120},
     weightkg: 52.6,
     abilities: {0: 'Drizzle'},
   },
