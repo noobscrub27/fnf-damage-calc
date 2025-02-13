@@ -1167,7 +1167,7 @@ const GSC_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   Ledian: {
     types: ['Bug', 'Fighting'],
-    bs: {hp: 75, at: 115, df: 75, sa: 55, sd: 110, sp: 100},
+    bs: {hp: 75, at: 115, df: 65, sa: 55, sd: 110, sp: 100},
     weightkg: 35.6,
   },
   Ledyba: {
