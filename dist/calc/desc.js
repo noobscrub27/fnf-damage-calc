@@ -358,7 +358,7 @@ function getHazards(gen, defender, defenderSide) {
         var stealthRockDamage = Math.floor((effectiveness * defender.maxHP()) / 8);
         if (defender.hasAbility('Magic Guard'))
             stealthRockDamage = magicGuardReduction(stealthRockDamage);
-        damage + stealthRockDamage;
+        damage += stealthRockDamage;
         texts.push('Stealth Rock');
     }
     if (defenderSide.steelsurge && !defender.hasAbility('Magic Guard', 'Mountaineer')) {
@@ -368,7 +368,7 @@ function getHazards(gen, defender, defenderSide) {
         var steelSurgeDamage = Math.floor((effectiveness * defender.maxHP()) / 8);
         if (defender.hasAbility('Magic Guard'))
             steelSurgeDamage = magicGuardReduction(steelSurgeDamage);
-        damage + steelSurgeDamage;
+        damage += steelSurgeDamage;
         texts.push('Steelsurge');
     }
     if (!defender.hasType('Flying') &&

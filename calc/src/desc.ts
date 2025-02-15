@@ -517,7 +517,7 @@ function getHazards(gen: Generation, defender: Pokemon, defenderSide: Side) {
       (defender.types[1] ? rockType.effectiveness[defender.types[1]]! : 1);
     let stealthRockDamage = Math.floor((effectiveness * defender.maxHP()) / 8);
     if (defender.hasAbility('Magic Guard')) stealthRockDamage = magicGuardReduction(stealthRockDamage);
-    damage + stealthRockDamage;
+    damage += stealthRockDamage;
     texts.push('Stealth Rock');
   }
   if (defenderSide.steelsurge && !defender.hasAbility('Magic Guard', 'Mountaineer')) {
@@ -527,7 +527,7 @@ function getHazards(gen: Generation, defender: Pokemon, defenderSide: Side) {
       (defender.types[1] ? steelType.effectiveness[defender.types[1]]! : 1);
     let steelSurgeDamage = Math.floor((effectiveness * defender.maxHP()) / 8);
     if (defender.hasAbility('Magic Guard')) steelSurgeDamage = magicGuardReduction(steelSurgeDamage);
-    damage + steelSurgeDamage;
+    damage += steelSurgeDamage;
     texts.push('Steelsurge');
   }
 
