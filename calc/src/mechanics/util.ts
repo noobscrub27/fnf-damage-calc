@@ -161,15 +161,12 @@ export function getMoveEffectiveness(
     return 2;
   } else if (move.named('Vaporize') && type === 'Water') {
     return 2;
+  } else if (move.named('Flying Press') && type === 'Flying') {
+    return 2;
   } else if (move.named('Boisterous Blackout') && type === 'Electric') {
     return 2;
   } else if (move.named('Venus Chomp') && type === 'Bug') {
     return 2;
-  } else if (move.named('Flying Press')) {
-    return (
-      gen.types.get('fighting' as ID)!.effectiveness[type]! *
-      gen.types.get('flying' as ID)!.effectiveness[type]!
-    );
   } else if (isRingTarget && gen.types.get(toID(move.type))!.effectiveness[type] === 0) {
     return 1;
   } else {

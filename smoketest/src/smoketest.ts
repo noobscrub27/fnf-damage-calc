@@ -85,6 +85,7 @@ function createCalcSide(side: Side) {
     isFriendGuard: !!side.sideConditions['friendguard'],
     isAuroraVeil: !!side.sideConditions['auroraveil'],
     isBattery: !!side.sideConditions['battery'],
+    isTeamSpirit: !!side.sideConditions['teamspirit'],
   });
 }
 function createCalcField(battle: Battle, field: Field, sides: [Side, Side]) {

@@ -139,7 +139,7 @@ const RBY: {[name: string]: MoveData} = {
   'Thunder Wave': {bp: 0, category: 'Status', type: 'Electric'},
   Transform: {bp: 0, category: 'Status', type: 'Normal'},
   'Tri Attack': {bp: 85, type: 'Normal'},
-  Twineedle: {bp: 50, type: 'Bug', multihit: 2},
+  Twineedle: {bp: 40, type: 'Bug', multihit: 2},
   Whirlwind: {bp: 0, category: 'Status', type: 'Normal'},
   'Wing Attack': {bp: 35, type: 'Flying'},
   Wrap: {bp: 15, type: 'Normal'},
@@ -2212,7 +2212,7 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
   'Flash Cannon': {zp: 160},
   Fling: {zp: 100},
   Fly: {zp: 175},
-  'Flying Press': {bp: 100, zp: 170},
+  'Flying Press': {bp: 80, zp: 170},
   'Focus Blast': {zp: 190},
   'Focus Punch': {zp: 200},
   'Force Palm': {zp: 120},
@@ -2872,7 +2872,6 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     type: 'Electric',
     makesContact: true,
     category: 'Physical',
-    secondaries: true,
     zp: 160,
   },
   // FnF changes start here
@@ -2950,6 +2949,13 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     type: 'Ice',
     category: 'Status',
   },
+  'Cloud Cannon': {
+    bp: 90,
+    type: 'Flying',
+    category: 'Special',
+    secondaries: true,
+    zp: 175,
+  },
   Combardment: {
     bp: 120,
     type: 'Bug',
@@ -2962,6 +2968,7 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     category: 'Physical',
     secondaries: true,
     zp: 140,
+    makesContact: true,
   },
   'Creeping Despair': {
     bp: 85,
@@ -3285,13 +3292,6 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     category: 'Physical',
     makesContact: true,
     zp: 160,
-  },
-  Scold: {
-    bp: 100,
-    type: 'Dark',
-    category: 'Special',
-    zp: 180,
-    isSound: true,
   },
   'Seasonal Spirit': {
     bp: 120,
@@ -4212,6 +4212,12 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     zp: 175,
     makesContact: true,
     isBite: true,
+  },
+  'Verdant Blessing': {
+    bp: 75,
+    type: 'Grass',
+    category: 'Special',
+    zp: 140,
   },
   Yorikiri: {
     bp: 90,
@@ -5567,7 +5573,6 @@ const SS_PATCH: {[name: string]: DeepPartial<MoveData>} = {
   'Red Rush': {maxPower: 140},
   Rockjaw: {maxPower: 130},
   'Sand Inversion': {maxPower: 140},
-  Scold: {maxPower: 130},
   'Seasonal Spirit': {maxPower: 140},
   'Shadow Bandit': {maxPower: 120},
   'Shadow Bolt': {maxPower: 130},

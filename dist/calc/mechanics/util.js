@@ -197,15 +197,14 @@ function getMoveEffectiveness(gen, move, type, isGhostRevealed, isDarkRevealed, 
     else if (move.named('Vaporize') && type === 'Water') {
         return 2;
     }
+    else if (move.named('Flying Press') && type === 'Flying') {
+        return 2;
+    }
     else if (move.named('Boisterous Blackout') && type === 'Electric') {
         return 2;
     }
     else if (move.named('Venus Chomp') && type === 'Bug') {
         return 2;
-    }
-    else if (move.named('Flying Press')) {
-        return (gen.types.get('fighting').effectiveness[type] *
-            gen.types.get('flying').effectiveness[type]);
     }
     else if (isRingTarget && gen.types.get((0, util_1.toID)(move.type)).effectiveness[type] === 0) {
         return 1;

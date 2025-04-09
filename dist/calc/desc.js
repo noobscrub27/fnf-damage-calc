@@ -912,6 +912,9 @@ function buildDescription(description, attacker, defender) {
     if (description.isPowerSpot) {
         output += 'Power Spot boosted ';
     }
+    if (description.isTeamSpirit) {
+        output += 'Team Spirit boosted ';
+    }
     if (description.isSwitching) {
         output += 'switching boosted ';
     }

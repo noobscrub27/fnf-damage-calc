@@ -547,6 +547,7 @@ var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Meloettium Z',
     'Ignajara Armor',
     'Dragonair Armor',
+    'Primeape Armor',
     'Despotidium Z',
     'Alahala Berry',
     'Drash Berry',

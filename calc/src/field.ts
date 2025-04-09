@@ -94,6 +94,7 @@ export class Side implements State.Side {
   isFriendGuard: boolean;
   isAuroraVeil: boolean;
   isBattery: boolean;
+  isTeamSpirit: boolean;
   isPowerSpot: boolean;
   isSwitching?: 'out' | 'in';
 
@@ -117,6 +118,7 @@ export class Side implements State.Side {
     this.isFriendGuard = !!side.isFriendGuard;
     this.isAuroraVeil = !!side.isAuroraVeil;
     this.isBattery = !!side.isBattery;
+    this.isTeamSpirit = !!side.isTeamSpirit;
     this.isPowerSpot = !!side.isPowerSpot;
     this.isSwitching = side.isSwitching;
   }

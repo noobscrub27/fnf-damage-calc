@@ -35,6 +35,7 @@ export interface RawDesc {
     isProtected?: boolean;
     isReflect?: boolean;
     isBattery?: boolean;
+    isTeamSpirit?: boolean;
     isPowerSpot?: boolean;
     isWonderRoom?: boolean;
     isSwitching?: 'out' | 'in';

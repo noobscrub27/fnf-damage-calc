@@ -101,6 +101,7 @@ var Side = (function () {
         this.isFriendGuard = !!side.isFriendGuard;
         this.isAuroraVeil = !!side.isAuroraVeil;
         this.isBattery = !!side.isBattery;
+        this.isTeamSpirit = !!side.isTeamSpirit;
         this.isPowerSpot = !!side.isPowerSpot;
         this.isSwitching = side.isSwitching;
     }

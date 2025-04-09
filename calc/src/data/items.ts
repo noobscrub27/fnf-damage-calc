@@ -499,6 +499,7 @@ const SM = XY.filter(i => i !== 'Old Amber').concat([
   'Meloettium Z',
   'Ignajara Armor',
   'Dragonair Armor',
+  'Primeape Armor',
   'Despotidium Z',
   'Alahala Berry',
   'Drash Berry',

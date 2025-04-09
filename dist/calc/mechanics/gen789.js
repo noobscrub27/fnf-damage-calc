@@ -820,6 +820,7 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
     }
     else if ((move.named('Knock Off') && !resistedKnockOffDamage) ||
         (move.named('Misty Explosion') && (0, util_2.isGrounded)(attacker, field) && field.hasTerrain('Misty')) ||
+        (move.named('Zing Zap') && defender.hasStatus('par')) ||
         (move.named('Grav Apple') && field.isGravity)) {
         bpMods.push(6144);
         desc.moveBP = basePower * 1.5;
@@ -922,6 +923,10 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
     if (field.attackerSide.isBattery && move.category === 'Special') {
         bpMods.push(5325);
         desc.isBattery = true;
+    }
+    if (field.attackerSide.isTeamSpirit && move.category === 'Physical') {
+        bpMods.push(5325);
+        desc.isTeamSpirit = true;
     }
     if (field.attackerSide.isPowerSpot) {
         bpMods.push(5325);

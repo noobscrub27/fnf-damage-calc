@@ -173,10 +173,10 @@ export function calculateSMSSSV(
     type =
       field.hasWeather('Sun', 'Harsh Sunshine') && !holdingUmbrella ? 'Fire'
         : field.hasWeather('Rain', 'Heavy Rain') && !holdingUmbrella ? 'Water'
-        : field.hasWeather('Sand') ? 'Rock'
-        : field.hasWeather('Hail', 'Snow') ? 'Ice'
-        : field.hasWeather('Shadow Sky') ? 'Shadow'
-        : 'Normal';
+          : field.hasWeather('Sand') ? 'Rock'
+            : field.hasWeather('Hail', 'Snow') ? 'Ice'
+              : field.hasWeather('Shadow Sky') ? 'Shadow'
+                : 'Normal';
     desc.weather = field.weather;
     desc.moveType = type;
   } else if (move.named('Judgment') && attacker.item && attacker.item.includes('Plate')) {
@@ -1104,6 +1104,7 @@ export function calculateBPModsSMSSSV(
     move.type = 'Stellar';
   } else if ((move.named('Knock Off') && !resistedKnockOffDamage) ||
     (move.named('Misty Explosion') && isGrounded(attacker, field) && field.hasTerrain('Misty')) ||
+    (move.named('Zing Zap') && defender.hasStatus('par')) ||
     (move.named('Grav Apple') && field.isGravity)
   ) {
     bpMods.push(6144);
@@ -1236,6 +1237,11 @@ export function calculateBPModsSMSSSV(
   if (field.attackerSide.isBattery && move.category === 'Special') {
     bpMods.push(5325);
     desc.isBattery = true;
+  }
+
+  if (field.attackerSide.isTeamSpirit && move.category === 'Physical') {
+    bpMods.push(5325);
+    desc.isTeamSpirit = true;
   }
 
   if (field.attackerSide.isPowerSpot) {
