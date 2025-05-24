@@ -2613,7 +2613,7 @@ const ADV_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     types: ['Grass', 'Flying'],
     bs: {hp: 101, at: 92, df: 107, sa: 82, sd: 97, sp: 63},
     weightkg: 100,
-    abilities: {0: 'Sunbathing'},
+    abilities: {0: 'Ripen'},
   },
   Vibrava: {
     types: ['Ground', 'Dragon'],
@@ -6409,7 +6409,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     bs: {hp: 52, at: 40, df: 48, sa: 40, sd: 48, sp: 42},
     weightkg: 3.2,
     nfe: true,
-    abilities: {0: 'Leaf Guard'},
+    abilities: {0: 'Ripen'},
   },
   Brionne: {
     types: ['Water'],
@@ -7438,7 +7438,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     bs: {hp: 62, at: 88, df: 78, sa: 50, sd: 78, sp: 68},
     weightkg: 8.2,
     nfe: true,
-    abilities: {0: 'Leaf Guard'},
+    abilities: {0: 'Ripen'},
   },
   Stufful: {
     types: ['Normal', 'Fighting'],
@@ -8469,9 +8469,21 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     weightkg: 10.0,
     abilities: {0: 'Toxcceleration'},
   },
+  'Vanillite-FnF': {
+    types: ['Ice', 'Poison'],
+    bs: {hp: 36, at: 50, df: 60, sa: 85, sd: 50, sp: 54},
+    weightkg: 5.7,
+    abilities: {0: 'Ice Body'},
+  },
+  'Vanillish-FnF': {
+    types: ['Ice', 'Poison'],
+    bs: {hp: 51, at: 65, df: 75, sa: 105, sd: 65, sp: 69},
+    weightkg: 41,
+    abilities: {0: 'Ice Body'},
+  },
   'Vanilluxe-FnF': {
     types: ['Ice', 'Poison'],
-    bs: {hp: 71, at: 95, df: 85, sa: 135, sd: 95, sp: 79},
+    bs: {hp: 71, at: 95, df: 95, sa: 135, sd: 85, sp: 79},
     weightkg: 57.5,
     abilities: {0: 'Ice Body'},
   },
@@ -8712,7 +8724,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     types: ['Grass'],
     bs: {hp: 71, at: 62, df: 77, sa: 52, sd: 67, sp: 53},
     weightkg: 44,
-    abilities: {0: 'Sunbathing'},
+    abilities: {0: 'Ripen'},
     nfe: true,
   },
   Seward: {
@@ -8864,6 +8876,32 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     abilities: {0: 'Fluffy'},
     weightkg: 53,
   },
+  Peatot: {
+    types: ['Grass', 'Rock'],
+    bs: {hp: 58, at: 68, df: 108, sa: 48, sd: 58, sp: 38},
+    abilities: {0: 'Weak Armor'},
+    weightkg: 20,
+    nfe: true,
+  },
+  Raptopea: {
+    types: ['Grass', 'Rock'],
+    bs: {hp: 98, at: 108, df: 98, sa: 68, sd: 78, sp: 88},
+    abilities: {0: 'Sunbathing'},
+    weightkg: 56,
+  },
+  Arachgrape: {
+    types: ['Bug', 'Grass'],
+    bs: {hp: 60, at: 80, df: 75, sa: 50, sd: 55, sp: 50},
+    abilities: {0: 'Ripen'},
+    weightkg: 19,
+    nfe: true,
+  },
+  Tarazzpula: {
+    types: ['Bug', 'Grass'],
+    bs: {hp: 80, at: 115, df: 85, sa: 70, sd: 75, sp: 90},
+    abilities: {0: 'Ripen'},
+    weightkg: 36,
+  },
   'Skarmory-Mega': {
     types: ['Steel', 'Flying'],
     bs: {hp: 65, at: 140, df: 140, sa: 10, sd: 70, sp: 140},
@@ -8997,9 +9035,9 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   'Marill-Dredge': {
     types: ['Water', 'Fairy'],
-    bs: {hp: 118, at: 60, df: 103, sa: 60, sd: 103, sp: 55},
+    bs: {hp: 118, at: 98, df: 103, sa: 98, sd: 103, sp: 55},
     weightkg: 8.5,
-    abilities: {0: 'Water Bubble'},
+    abilities: {0: 'Sheer Force'},
   },
   'Meowstic-Royal': {
     types: ['Psychic'],

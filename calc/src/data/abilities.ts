@@ -353,6 +353,8 @@ const SM = XY.concat([
   'Cursed Energy',
   'Soul Lantern',
   'Supply Chain',
+  'Ripen',
+  'Bountiful',
 ]);
 
 const SS = SM.concat([
@@ -380,7 +382,6 @@ const SS = SM.concat([
   'Propeller Tail',
   'Punk Rock',
   'Quick Draw',
-  'Ripen',
   'Sand Spit',
   'Screen Cleaner',
   'Stalwart',

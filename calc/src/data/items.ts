@@ -514,6 +514,9 @@ const SM = XY.filter(i => i !== 'Old Amber').concat([
   'Topo Berry',
   'Touga Berry',
   'Yago Berry',
+  'Redinium Z',
+  'Greenium Z',
+  'Bluinium Z',
 ]);
 
 const SS = SM.concat([

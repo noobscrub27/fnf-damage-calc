@@ -2907,6 +2907,12 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     category: 'Special',
     zp: 120,
   },
+  'Blazing Burnblast': {
+    bp: 210,
+    type: 'Fire',
+    category: 'Special',
+    isZ: true,
+  },
   'Blue Bites': {
     bp: 40,
     type: 'Water',
@@ -3046,6 +3052,12 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     zp: 175,
     makesContact: true,
   },
+  'Frenzied Overgrowth': {
+    bp: 210,
+    type: 'Grass',
+    category: 'Special',
+    isZ: true,
+  },
   'Gastro Slam': {
     bp: 100,
     type: 'Poison',
@@ -3099,6 +3111,13 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     bp: 0,
     type: 'Fighting',
     category: 'Status',
+  },
+  'Kindle Burst': {
+    bp: 90,
+    type: 'Fire',
+    priority: 2,
+    category: 'Physical',
+    zp: 175,
   },
   'Lightning Kick': {
     bp: 90,
@@ -4175,6 +4194,12 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     recoil: [1, 2],
     zp: 200,
     makesContact: true,
+  },
+  'Torrential Cannonade': {
+    bp: 210,
+    type: 'Water',
+    category: 'Special',
+    isZ: true,
   },
   'Typhonic Thunderstorm': {
     bp: 210,
