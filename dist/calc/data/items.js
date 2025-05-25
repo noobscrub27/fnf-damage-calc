@@ -562,6 +562,9 @@ var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Topo Berry',
     'Touga Berry',
     'Yago Berry',
+    'Redinium Z',
+    'Greenium Z',
+    'Bluinium Z',
 ]);
 var SS = SM.concat([
     'Berry Sweet',

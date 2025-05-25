@@ -5,12 +5,11 @@
     "\\calc\\src",
     "\\calc\\src\\data",
     "\\calc\\src\\mechanics",
-    "\\dist\\calc",
     "\\src",
     "\\src\\js",
     "\\src\\js\\data",
     "\\src\\js\\data\\sets"
   ],
-  "SelectedNode": "\\.github",
+  "SelectedNode": "\\calc\\src\\data\\moves.ts",
   "PreviewInSolutionExplorer": false
 }

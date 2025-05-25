@@ -381,6 +381,8 @@ var SM = XY.concat([
     'Cursed Energy',
     'Soul Lantern',
     'Supply Chain',
+    'Ripen',
+    'Bountiful',
 ]);
 var SS = SM.concat([
     'As One (Glastrier)',
@@ -407,7 +409,6 @@ var SS = SM.concat([
     'Propeller Tail',
     'Punk Rock',
     'Quick Draw',
-    'Ripen',
     'Sand Spit',
     'Screen Cleaner',
     'Stalwart',
