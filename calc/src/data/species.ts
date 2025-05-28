@@ -883,7 +883,7 @@ const GSC_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   Magnemite: {types: ['Electric', 'Steel'], bs: {hp: 35, df: 80, sa: 95, sd: 65, sp: 55}, gender: 'N'},
   Magneton: {types: ['Electric', 'Steel'], bs: {sa: 120, sd: 70}, gender: 'N'},
   Mankey: {bs: {at: 95, sa: 35, sd: 45, sp: 80}},
-  Marowak: {bs: {hp: 80, sa: 50, sd: 80}},
+  Marowak: {bs: {hp: 60, sa: 50, sd: 80}},
   Meowth: {bs: {at: 50, df: 35, sa: 55, sd: 40}},
   Metapod: {bs: {hp: 65, at: 30, df: 115, sa: 55, sd: 75}},
   Mew: {bs: {sa: 100, sd: 100}, gender: 'N'},
@@ -944,7 +944,7 @@ const GSC_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   Vaporeon: {bs: {sa: 110, sd: 95}},
   Venomoth: {bs: {hp: 75, df: 80, sa: 95, sd: 80}},
   Venonat: {bs: {df: 65, sa: 75, sd: 75, sp: 55}},
-  Venusaur: {bs: {sa: 100, sd: 100}},
+  Venusaur: {bs: {at: 83, sa: 107, sd: 107}},
   Victreebel: {bs: {sa: 100, sd: 60}},
   Vileplume: {bs: {sa: 100, sd: 90}},
   Voltorb: {bs: {at: 60, sa: 75, sd: 55, sp: 110}, gender: 'N'},
@@ -2968,7 +2968,7 @@ const DPP_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   Buizel: {
     types: ['Water'],
-    bs: {hp: 55, at: 75, df: 35, sa: 70, sd: 30, sp: 85},
+    bs: {hp: 55, at: 70, df: 35, sa: 70, sd: 30, sp: 85},
     weightkg: 29.5,
     nfe: true,
     abilities: {0: 'Swift Swim'},
@@ -3065,7 +3065,7 @@ const DPP_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     bs: {hp: 48, at: 66, df: 40, sa: 66, sd: 40, sp: 60},
     weightkg: 23,
     nfe: true,
-    abilities: {0: 'Anticipation'},
+    abilities: {0: 'Toxicate'},
   },
   Cyclohm: {
     types: ['Electric', 'Dragon'],
@@ -3167,7 +3167,7 @@ const DPP_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   Floatzel: {
     types: ['Water'],
-    bs: {hp: 85, at: 115, df: 55, sa: 105, sd: 50, sp: 115},
+    bs: {hp: 85, at: 105, df: 55, sa: 105, sd: 50, sp: 115},
     weightkg: 33.5,
     abilities: {0: 'Swift Swim'},
   },
@@ -3758,7 +3758,7 @@ const DPP_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     types: ['Poison', 'Fighting'],
     bs: {hp: 83, at: 106, df: 65, sa: 96, sd: 65, sp: 85},
     weightkg: 44.4,
-    abilities: {0: 'Anticipation'},
+    abilities: {0: 'Toxicate'},
   },
   Turtwig: {
     types: ['Grass'],
@@ -3850,7 +3850,7 @@ const BW_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   Alomomola: {
     types: ['Water'],
-    bs: {hp: 165, at: 75, df: 80, sa: 40, sd: 45, sp: 65},
+    bs: {hp: 165, at: 95, df: 80, sa: 40, sd: 45, sp: 65},
     weightkg: 31.6,
     abilities: {0: 'Healer'},
   },
@@ -5930,7 +5930,7 @@ const XY_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   'Venusaur-Mega': {
     types: ['Grass', 'Poison'],
-    bs: {hp: 80, at: 100, df: 123, sa: 122, sd: 120, sp: 80},
+    bs: {hp: 80, at: 115, df: 123, sa: 122, sd: 120, sp: 80},
     weightkg: 155.5,
     abilities: {0: 'Thick Fat'},
     baseSpecies: 'Venusaur',
@@ -6318,7 +6318,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   Dugtrio: {bs: {at: 105, sa: 60, sp: 125}, otherFormes: ['Dugtrio-Alola']},
   Eevee: {otherFormes: ['Eevee-Starter']},
   Electrode: {bs: {at: 80, sa: 100, sp: 150}},
-  Exeggutor: {bs: {sa: 135, sd: 95}, otherFormes: ['Exeggutor-Alola']},
+  Exeggutor: {bs: {df: 95, sa: 135, sd: 85}, otherFormes: ['Exeggutor-Alola']},
   'Farfetch\u2019d': {bs: {hp: 70, at: 97, df: 70, sd: 81, sp: 91}},
   Furret: {otherFormes: ['Furret-Mega']},
   Gengar: {abilities: {0: 'Cursed Body'}},
@@ -6334,9 +6334,9 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   Lunatone: {bs: {hp: 95, at: 60, df: 75, sa: 130, sd: 125, sp: 75}},
   Magcargo: {bs: {hp: 65, df: 155, sa: 105, sd: 85, sp: 25}},
   Magnezone: {otherFormes: ['Magnezone-Mega']},
-  Mantine: {bs: {hp: 85}},
+  Mantine: {bs: {hp: 85, sa: 95}},
   Marowak: {otherFormes: ['Marowak-Alola', 'Marowak-Alola-Totem']},
-  Masquerain: {bs: {df: 67, sa: 100, sd: 87, sp: 85}},
+  Masquerain: {bs: {df: 77, sa: 100, sd: 87, sp: 85}},
   Meowth: {otherFormes: ['Meowth-Alola']},
   Muk: {otherFormes: ['Muk-Alola']},
   Necturna: {bs: {sp: 58}},
@@ -6571,7 +6571,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   'Exeggutor-Alola': {
     types: ['Grass', 'Dragon'],
-    bs: {hp: 95, at: 105, df: 95, sa: 135, sd: 85, sp: 45},
+    bs: {hp: 95, at: 105, df: 85, sa: 135, sd: 95, sp: 45},
     weightkg: 415.6,
     baseSpecies: 'Exeggutor',
     abilities: {0: 'Frisk'},
@@ -6795,7 +6795,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   'Marowak-Alola': {
     types: ['Fire', 'Ghost'],
-    bs: {hp: 60, at: 80, df: 110, sa: 70, sd: 80, sp: 45},
+    bs: {hp: 60, at: 80, df: 110, sa: 50, sd: 80, sp: 45},
     weightkg: 34,
     abilities: {0: 'Cursed Body'},
     baseSpecies: 'Marowak',
@@ -7649,7 +7649,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   Venustoise: {
     types: ['Water', 'Grass'],
-    bs: {hp: 80, at: 85, df: 92, sa: 95, sd: 102, sp: 79},
+    bs: {hp: 80, at: 85, df: 92, sa: 98, sd: 106, sp: 79},
     weightkg: 92.5,
     abilities: {0: 'Torrent'},
     gender: 'N',
@@ -7789,7 +7789,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   Osteoskhan: {
     types: ['Ground', 'Normal'],
-    bs: {hp: 91, at: 94, df: 97, sa: 44, sd: 80, sp: 89},
+    bs: {hp: 91, at: 89, df: 97, sa: 44, sd: 80, sp: 89},
     weightkg: 50.0,
     abilities: {0: 'Friend Guard'},
   },
@@ -8931,7 +8931,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   },
   Fowlfrost: {
     types: ['Ice', 'Poison'],
-    bs: {hp: 90, at: 60, df: 90, sa: 140, sd: 125, sp: 95},
+    bs: {hp: 85, at: 75, df: 90, sa: 130, sd: 125, sp: 95},
     abilities: {0: 'Dancer'},
     weightkg: 100,
   },
@@ -8950,7 +8950,7 @@ const SM_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   Despotide: {
     types: ['Water', 'Dragon'],
     bs: {hp: 92, at: 127, df: 88, sa: 55, sd: 104, sp: 102},
-    abilities: {0: 'Mythocide'},
+    abilities: {0: 'Territorial'},
     weightkg: 122,
   },
   Flymolcky: {

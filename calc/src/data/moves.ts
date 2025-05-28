@@ -2804,13 +2804,13 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     zp: 140,
   },
   'Sparkling Aria': {
-    bp: 90,
+    bp: 80,
     type: 'Water',
     isSound: true,
     target: 'allAdjacent',
     category: 'Special',
     secondaries: true,
-    zp: 175,
+    zp: 160,
   },
   'Spectral Thief': {
     bp: 90,

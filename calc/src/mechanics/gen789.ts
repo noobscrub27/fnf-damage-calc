@@ -794,6 +794,10 @@ export function calculateBasePowerSMSSSV(
       basePower = move.bp * (defender.status || defender.hasAbility('Comatose') ? 2 : 1);
       desc.moveBP = basePower;
       break;
+    case 'Sparkling Aria':
+      basePower = move.bp * (defender.status || defender.hasAbility('Comatose') ? 1.5 : 1);
+      desc.moveBP = basePower;
+      break;
     case 'Barb Barrage':
       basePower = move.bp * (defender.hasStatus('psn', 'tox') ? 2 : 1);
       desc.moveBP = basePower;
