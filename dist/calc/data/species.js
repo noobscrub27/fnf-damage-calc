@@ -8002,6 +8002,12 @@ var SM_PATCH = {
         weightkg: 80.0,
         abilities: { 0: 'Snow Cloak' }
     },
+    Warpharos: {
+        types: ['Dark', 'Electric'],
+        bs: { hp: 103, at: 96, df: 77, sa: 80, sd: 88, sp: 76 },
+        weightkg: 73.0,
+        abilities: { 0: 'Plus' }
+    },
     Boomba: {
         types: ['Water', 'Fire'],
         bs: { hp: 71, at: 67, df: 51, sa: 63, sd: 54, sp: 74 },
