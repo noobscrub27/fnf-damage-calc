@@ -987,7 +987,7 @@ const DPP_PATCH: {[name: string]: DeepPartial<MoveData>} = {
   'Power Gem': {bp: 70, type: 'Rock', category: 'Special'},
   'Psycho Shift': {bp: 0, type: 'Psychic'},
   'Shadow Force': {
-    bp: 120,
+    bp: 130,
     type: 'Ghost',
     breaksProtect: true,
     makesContact: true,
@@ -1647,7 +1647,7 @@ const BW_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     isBlade: true,
   },
   Retaliate: {
-    bp: 70,
+    bp: 80,
     type: 'Normal',
     makesContact: true,
     category: 'Physical',
@@ -1844,7 +1844,7 @@ const XY_PATCH: {[name: string]: DeepPartial<MoveData>} = {
   },
   'Parting Shot': {bp: 0, type: 'Dark', isSound: true},
   'Phantom Force': {
-    bp: 90,
+    bp: 110,
     type: 'Ghost',
     breaksProtect: true,
     makesContact: true,
@@ -2083,7 +2083,7 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
   'Searing Shot': {zp: 180},
   'Secret Power': {zp: 140},
   'Seed Flare': {zp: 190},
-  'Shadow Force': {zp: 190},
+  'Shadow Force': {zp: 195},
   'Signal Beam': {zp: 140},
   'Silver Wind': {zp: 120, isWind: true},
   'Sky Drop': {zp: 120},
@@ -2300,7 +2300,7 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
   Peck: {zp: 100},
   'Petal Blizzard': {zp: 175, isWind: true},
   'Petal Dance': {zp: 190},
-  'Phantom Force': {zp: 175},
+  'Phantom Force': {zp: 185},
   'Pin Missile': {zp: 140},
   'Play Rough': {zp: 175},
   Pluck: {zp: 120},
@@ -2322,7 +2322,7 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
   'Quick Attack': {zp: 100},
   'Razor Leaf': {zp: 100},
   'Razor Shell': {zp: 140},
-  Retaliate: {zp: 140},
+  Retaliate: {zp: 160},
   Revenge: {zp: 120},
   Reversal: {zp: 160},
   'Rock Blast': {isBullet: true, zp: 140},
@@ -2901,6 +2901,11 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     makesContact: true,
     overrideDefensiveStat: 'spd',
   },
+  'Berserk Terrain': {
+    bp: 0,
+    type: 'Dragon',
+    category: 'Status',
+  },
   'Biddy Bud': {
     bp: 60,
     type: 'Grass',
@@ -2942,6 +2947,13 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     type: 'Water',
     category: 'Special',
     zp: 180,
+  },
+  'Burst of Ideals': {
+    bp: 130,
+    type: 'Dragon',
+    category: 'Special',
+    secondaries: true,
+    zp: 195,
   },
   'Cat Burglary': {
     bp: 80,
@@ -3022,6 +3034,11 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
   'Dry Pass': {
     bp: 0,
     type: 'Normal',
+    category: 'Status',
+  },
+  'Evanesce Diffusion': {
+    bp: 0,
+    type: 'Ghost',
     category: 'Status',
   },
   Fallout: {
@@ -3144,6 +3161,12 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     secondaries: true,
     zp: 140,
   },
+  'Melancholia Expanse': {
+    bp: 180,
+    type: 'Dark',
+    category: 'Special',
+    isZ: true,
+  },
   'Merciless Marinade': {
     bp: 180,
     type: 'Poison',
@@ -3154,6 +3177,12 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     bp: 0,
     type: 'Poison',
     category: 'Status',
+  },
+  'Mind Wipe': {
+    bp: 150,
+    type: 'Psychic',
+    category: 'Special',
+    zp: 200,
   },
   'Molten Magmawhip': {
     bp: 190,
@@ -3256,6 +3285,20 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     category: 'Physical',
     secondaries: true,
     zp: 180,
+  },
+  'Rapid Raidswipe': {
+    bp: 175,
+    type: 'Normal',
+    category: 'Physical',
+    makesContact: true,
+    isZ: true,
+  },
+  'Ravagement': {
+    bp: 120,
+    type: 'Dark',
+    category: 'Physical',
+    zp: 190,
+    makesContact: true,
   },
   'Red Rush': {
     bp: 120,
@@ -4187,6 +4230,13 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     multihit: [2, 5],
     isBlade: true,
   },
+  'Tao Genesis': {
+    bp: 200,
+    type: 'Dragon',
+    category: 'Physical',
+    secondaries: true,
+    zp: 250,
+  },
   'Thunder Crash': {
     bp: 150,
     type: 'Electric',
@@ -4200,6 +4250,13 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     type: 'Water',
     category: 'Special',
     isZ: true,
+  },
+  'Truth Rupture': {
+    bp: 130,
+    type: 'Dragon',
+    category: 'Special',
+    secondaries: true,
+    zp: 195,
   },
   'Typhonic Thunderstorm': {
     bp: 210,
@@ -4228,6 +4285,13 @@ const SM_PATCH: {[name: string]: DeepPartial<MoveData>} = {
     category: 'Special',
     secondaries: true,
     zp: 140,
+  },
+  Vendetta: {
+    bp: 80,
+    type: 'Dark',
+    category: 'Physical',
+    zp: 160,
+    makesContact: true,
   },
   'Venus Chomp': {
     bp: 90,

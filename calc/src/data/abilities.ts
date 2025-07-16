@@ -355,6 +355,11 @@ const SM = XY.concat([
   'Supply Chain',
   'Ripen',
   'Bountiful',
+  'Transience',
+  'Swindler',
+  'Depravity',
+  'Zettaflux',
+  'Surging Rage',
 ]);
 
 const SS = SM.concat([

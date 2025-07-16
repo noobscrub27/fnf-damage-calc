@@ -4,6 +4,7 @@ import {toID} from './util';
 export const SEED_BOOSTED_STAT: {[item: string]: StatID} = {
   'Electric Seed': 'def',
   'Grassy Seed': 'def',
+  'Berserk Seed': 'def',
   'Misty Seed': 'spd',
   'Psychic Seed': 'spd',
 };
@@ -411,6 +412,7 @@ const FLING_10 = new Set([
   'TR91',
   // fnf changes
   'Myth Incense',
+  'Berserk Seed',
 ]);
 
 // TODO: move this data to the data files instead.

@@ -379,6 +379,10 @@ export const MEGA_STONES: {[species: string]: string} = {
   Gogoatite: 'Gogoat',
   Skarmorite: 'Skarmory',
   'Delta Cameruptite': 'Camerupt-Delta',
+  Scraftite: 'Scrafty',
+  Porygonzite: 'Porygon-Z',
+  Honchkrite: 'Honchkrow',
+  Spiritombite: 'Spiritomb',
 };
 
 const XY = BW.concat(
@@ -517,6 +521,13 @@ const SM = XY.filter(i => i !== 'Old Amber').concat([
   'Redinium Z',
   'Greenium Z',
   'Bluinium Z',
+  'Diffusion Catalyst',
+  'Pickpossium Z',
+  'Ideals Splicer',
+  'Truth Splicer',
+  'Berserk Seed',
+  'Mewtwo Armor',
+  'Sorceromium Z',
 ]);
 
 const SS = SM.concat([

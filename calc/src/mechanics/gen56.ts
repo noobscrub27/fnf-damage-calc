@@ -710,6 +710,7 @@ export function calculateBPModsBWXY(
     (defender.named('Probopass') && defender.hasItem('Magnetic Stone')) ||
     (defender.named('Osteoskhan') && defender.hasItem('Bone Baton')) ||
     (defender.named('Spinda') && defender.hasItem('Silly Soda')) ||
+    (defender.named('Farfetch\u2019d', 'Madamme') && defender.hasItem('Stick')) ||
     (defender.named('Darmanitan', 'Darmanizen', 'Darmanitan-Zen') && defender.hasItem('Calm Candy Bar')) ||
     (defender.named('Chansey') && defender.hasItem('Lucky Punch')) ||
     (defender.named('Gallade') && defender.hasItem('Knight\'s Edge')) ||
@@ -1128,7 +1129,7 @@ export function calculateDfModsBWXY(
   }
 
   if (field.hasTerrain('Grassy') && defender.hasAbility('Grass Pelt') && hitsPhysical) {
-    dfMods.push(8192);
+    dfMods.push(6144);
     desc.defenderAbility = defender.ability;
   }
 
