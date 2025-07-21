@@ -383,6 +383,11 @@ var SM = XY.concat([
     'Supply Chain',
     'Ripen',
     'Bountiful',
+    'Transience',
+    'Swindler',
+    'Depravity',
+    'Zettaflux',
+    'Surging Rage',
 ]);
 var SS = SM.concat([
     'As One (Glastrier)',

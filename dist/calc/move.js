@@ -176,6 +176,32 @@ function getZMoveName(moveName, moveType, item) {
         if (item === 'Pikashunium Z')
             return '10,000,000 Volt Thunderbolt';
     }
+    if (moveName === 'Power Outage' && item === 'Electrodium Z')
+        return 'Boisterous Blackout';
+    if (moveName === 'Gastro Slam' && item === 'FnFLickium Z')
+        return 'Merciless Marinade';
+    if (moveName === 'Volt Tackle' && item === 'Gorochunium Z')
+        return 'Typhonic Thunderstorm';
+    if (moveName === 'Focus Blast' && item === 'Poliwrathium Z')
+        return 'Unified Upsurge';
+    if (moveName === 'Fire Lash' && item === 'Heatmorium Z')
+        return 'Molten Magmawhip';
+    if (moveName === 'Sing' && item === 'Melodium Z')
+        return 'Reliquary Recital';
+    if (moveName === 'Close Combat' && item === 'Meloettium Z')
+        return 'Antique Arabesque';
+    if (moveName === 'Red Rush' && item === 'Despotidium Z')
+        return 'Ruinous Riptide';
+    if (moveName === 'Hydro Cannon' && item === 'Bluinium Z')
+        return 'Torrential Cannonade';
+    if (moveName === 'Blast Burn' && item === 'Redinium Z')
+        return 'Blazing Burnblast';
+    if (moveName === 'Frenzy Plant' && item === 'Greenium Z')
+        return 'Frenzied Overgrowth';
+    if (moveName === 'Cat Burglary' && item === 'Pickpossium Z')
+        return 'Rapid Raidswipe';
+    if (moveName === 'Creeping Despair' && item === 'Sorceromium Z')
+        return 'Melancholia Expanse';
     return ZMOVES_TYPING[moveType];
 }
 exports.getZMoveName = getZMoveName;

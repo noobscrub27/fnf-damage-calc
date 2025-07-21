@@ -861,7 +861,7 @@ var GSC_PATCH = {
     Clefable: { bs: { sa: 85, sd: 90 } },
     Clefairy: { bs: { sa: 60, sd: 65 } },
     Cloyster: { bs: { sa: 85, sd: 45 } },
-    Cubone: { bs: { hp: 60, at: 60, sa: 40, sd: 60 } },
+    Cubone: { bs: { hp: 50, at: 60, sa: 40, sd: 60 } },
     Dewgong: { bs: { at: 105, sa: 70, sd: 110 } },
     Diglett: { bs: { at: 65, sa: 35, sd: 45, sp: 105 } },
     Ditto: { bs: { sa: 48, sd: 48 }, gender: 'N' },
@@ -878,7 +878,7 @@ var GSC_PATCH = {
     Electrode: { bs: { sa: 80, sd: 80 }, gender: 'N' },
     Exeggcute: { bs: { sa: 95, sd: 80 } },
     Exeggutor: { bs: { sa: 125, sd: 65 } },
-    'Farfetch\u2019d': { bs: { sa: 58, sd: 62 } },
+    'Farfetch\u2019d': { bs: { sa: 58, sd: 62 }, nfe: true },
     Fearow: { bs: { hp: 73, at: 100, df: 91, sa: 75, sd: 69 } },
     Flareon: { bs: { sa: 95, sd: 110 } },
     Gastly: { bs: { sa: 100, sd: 35 } },
@@ -897,14 +897,14 @@ var GSC_PATCH = {
     Growlithe: { bs: { hp: 80, at: 85, df: 65, sa: 80, sd: 65, sp: 75 } },
     Gyarados: { bs: { sa: 60, sd: 100 } },
     Haunter: { bs: { sa: 115, sd: 55 } },
-    Hitmonchan: { bs: { at: 115, df: 100, sa: 20, sd: 110, sp: 85 } },
+    Hitmonchan: { bs: { at: 110, df: 95, sa: 35, sd: 110, sp: 80 } },
     Hitmonlee: { bs: { at: 125, df: 68, sa: 35, sd: 110, sp: 92 } },
     Horsea: { bs: { hp: 40, sa: 70, sd: 45, sp: 65 } },
     Hypno: { bs: { hp: 97, at: 109, df: 91, sa: 84, sd: 114 } },
     Ivysaur: { bs: { sa: 80, sd: 80 } },
     Jigglypuff: { bs: { at: 70, df: 60, sa: 75, sd: 35 } },
     Jolteon: { bs: { sa: 110, sd: 95 } },
-    Jynx: { bs: { df: 45, sa: 130, sd: 95 } },
+    Jynx: { bs: { df: 40, sa: 120, sd: 95 } },
     Kabuto: { bs: { sa: 55, sd: 65, sp: 60 } },
     Kabutops: { bs: { sa: 65, sd: 75, sp: 100 } },
     Kadabra: { bs: { sa: 120, sd: 70 } },
@@ -959,8 +959,8 @@ var GSC_PATCH = {
     Psyduck: { bs: { hp: 60, at: 72, df: 68, sa: 75, sd: 70 } },
     Raichu: { bs: { sa: 90, sd: 80 } },
     Rapidash: { bs: { hp: 75, at: 110, sa: 80, sd: 80, sp: 135 } },
-    Raticate: { bs: { hp: 65, at: 106, df: 65, sa: 45, sd: 75, sp: 107 } },
-    Rattata: { bs: { hp: 35, at: 76, sa: 20, sd: 40, sp: 78 } },
+    Raticate: { bs: { hp: 65, at: 106, df: 65, sa: 70, sd: 75, sp: 107 } },
+    Rattata: { bs: { hp: 35, at: 76, sa: 35, sd: 40, sp: 78 } },
     Rhydon: { bs: { sa: 45, sd: 55, sp: 45 } },
     Rhyhorn: { bs: { sa: 30, sd: 35 } },
     Sandshrew: { bs: { hp: 60, at: 85, df: 100, sa: 20, sd: 50, sp: 45 } },
@@ -1173,7 +1173,7 @@ var GSC_PATCH = {
     },
     Houndour: {
         types: ['Dark', 'Fire'],
-        bs: { hp: 45, at: 85, df: 30, sa: 105, sd: 50, sp: 65 },
+        bs: { hp: 45, at: 85, df: 30, sa: 95, sd: 50, sp: 65 },
         weightkg: 10.8,
         nfe: true
     },
@@ -1395,7 +1395,7 @@ var GSC_PATCH = {
     Smeargle: { types: ['Normal'], bs: { hp: 55, at: 40, df: 45, sa: 40, sd: 45, sp: 75 }, weightkg: 58 },
     Smoochum: {
         types: ['Ice', 'Psychic'],
-        bs: { hp: 45, at: 30, df: 25, sa: 105, sd: 65, sp: 65 },
+        bs: { hp: 45, at: 30, df: 20, sa: 95, sd: 65, sp: 65 },
         weightkg: 6,
         nfe: true
     },
@@ -2743,6 +2743,7 @@ var DPP_PATCH = {
     Dusclops: { nfe: true },
     Electabuzz: { nfe: true },
     Gligar: { nfe: true },
+    Jynx: { nfe: true },
     Lickitung: { nfe: true, abilities: { 0: 'Unaware' } },
     Magmar: { nfe: true },
     Magneton: { nfe: true },
@@ -3308,7 +3309,7 @@ var DPP_PATCH = {
     },
     Honchkrow: {
         types: ['Dark', 'Flying'],
-        bs: { hp: 100, at: 125, df: 52, sa: 105, sd: 52, sp: 71 },
+        bs: { hp: 100, at: 125, df: 62, sa: 105, sd: 62, sp: 71 },
         weightkg: 27.3,
         abilities: { 0: 'Insomnia' }
     },
@@ -3543,7 +3544,7 @@ var DPP_PATCH = {
     },
     Purugly: {
         types: ['Normal'],
-        bs: { hp: 103, at: 102, df: 69, sa: 64, sd: 64, sp: 117 },
+        bs: { hp: 103, at: 112, df: 69, sa: 64, sd: 64, sp: 117 },
         weightkg: 43.8,
         abilities: { 0: 'Thick Fat' }
     },
@@ -3863,8 +3864,8 @@ var BW_PATCH = {
     'Rotom-Heat': { types: ['Electric', 'Fire'] },
     'Rotom-Mow': { types: ['Electric', 'Grass'] },
     'Rotom-Wash': { types: ['Electric', 'Water'] },
-    Houndoom: { abilities: { 0: 'Infiltrator' } },
-    Houndour: { abilities: { 0: 'Infiltrator' } },
+    Houndoom: { abilities: { 0: 'Malevolate' } },
+    Houndour: { abilities: { 0: 'Malevolate' } },
     Finneon: { abilities: { 0: 'Luminesce' } },
     Lumineon: { abilities: { 0: 'Luminesce' } },
     Accelgor: {
@@ -4760,13 +4761,13 @@ var BW_PATCH = {
     },
     Scrafty: {
         types: ['Dark', 'Fighting'],
-        bs: { hp: 65, at: 100, df: 115, sa: 45, sd: 115, sp: 66 },
+        bs: { hp: 65, at: 95, df: 115, sa: 45, sd: 115, sp: 66 },
         weightkg: 30,
         abilities: { 0: 'Shed Skin' }
     },
     Scraggy: {
         types: ['Dark', 'Fighting'],
-        bs: { hp: 50, at: 85, df: 70, sa: 35, sd: 70, sp: 51 },
+        bs: { hp: 50, at: 80, df: 70, sa: 35, sd: 70, sp: 51 },
         weightkg: 11.8,
         nfe: true,
         abilities: { 0: 'Shed Skin' }
@@ -5150,6 +5151,7 @@ var XY_PATCH = {
     Groudon: { otherFormes: ['Groudon-Primal'] },
     Gyarados: { otherFormes: ['Gyarados-Mega'] },
     Heracross: { otherFormes: ['Heracross-Mega'] },
+    Honchkrow: { otherFormes: ['Honchkrow-Mega'] },
     Houndoom: { otherFormes: ['Houndoom-Mega'] },
     Igglybuff: { types: ['Normal', 'Fairy'] },
     Illumise: { abilities: { 0: 'Aroma Veil' } },
@@ -5190,6 +5192,7 @@ var XY_PATCH = {
     },
     Pinsir: { otherFormes: ['Pinsir-Mega'] },
     Poliwrath: { bs: { at: 115, sa: 90, sp: 75 } },
+    'Porygon-Z': { otherFormes: ['Porygon-Z-Mega'] },
     Raichu: { bs: { hp: 70, at: 110, df: 60, sp: 110 } },
     Ralts: { types: ['Psychic', 'Fairy'] },
     Rayquaza: { otherFormes: ['Rayquaza-Mega'] },
@@ -5199,10 +5202,12 @@ var XY_PATCH = {
     Sceptile: { otherFormes: ['Sceptile-Mega'] },
     Scizor: { otherFormes: ['Scizor-Mega'] },
     Scolipede: { bs: { at: 100 } },
+    Scrafty: { otherFormes: ['Scrafty-Mega'] },
     Seismitoad: { bs: { at: 95, sa: 95, sp: 77 } },
     Sharpedo: { otherFormes: ['Sharpedo-Mega'] },
     Slowbro: { otherFormes: ['Slowbro-Mega'] },
     Snubbull: { types: ['Fairy'] },
+    Spiritomb: { otherFormes: ['Spiritomb-Mega'] },
     Staraptor: { bs: { sd: 60 } },
     Steelix: { otherFormes: ['Steelix-Mega'] },
     Stoutland: { bs: { at: 120, df: 95, sd: 95 } },
@@ -5259,7 +5264,7 @@ var XY_PATCH = {
     },
     Aromatisse: {
         types: ['Fairy'],
-        bs: { hp: 101, at: 72, df: 82, sa: 99, sd: 99, sp: 29 },
+        bs: { hp: 101, at: 62, df: 82, sa: 99, sd: 99, sp: 29 },
         weightkg: 15.5,
         abilities: { 0: 'Healer' }
     },
@@ -6314,6 +6319,7 @@ var XY = (0, util_1.extend)(true, {}, BW, XY_PATCH);
 XY['Arceus'].otherFormes.push('Arceus-Fairy');
 XY['Arceus'].otherFormes.sort();
 var SM_PATCH = {
+    Alakazam: { abilities: { 0: 'Enigmatify' } },
     'Alakazam-Mega': { bs: { sd: 105 } },
     Arbok: { bs: { hp: 65, at: 115, df: 89, sp: 90 } },
     Ariados: { bs: { hp: 85, at: 115, df: 85, sa: 90, sd: 85, sp: 60 } },
@@ -6381,6 +6387,7 @@ var SM_PATCH = {
     Skarmory: { otherFormes: ['Skarmory-Mega'] },
     Solrock: { bs: { hp: 95, at: 130, df: 125, sa: 60, sd: 75, sp: 75 } },
     Starmie: { otherFormes: ['Starmie-Mega'] },
+    Stunfisk: { abilities: { 0: 'Surge Surfer' } },
     Sudowoodo: { abilities: { 0: 'Mimictree' } },
     Sunflora: { otherFormes: ['Sunflora-Mega'] },
     Swellow: { bs: { sa: 75 } },
@@ -6677,7 +6684,7 @@ var SM_PATCH = {
     },
     Guzzlord: {
         types: ['Dark', 'Dragon'],
-        bs: { hp: 173, at: 113, df: 73, sa: 97, sd: 67, sp: 47 },
+        bs: { hp: 211, at: 109, df: 83, sa: 47, sd: 79, sp: 41 },
         weightkg: 888,
         abilities: { 0: 'Beast Boost' },
         gender: 'N'
@@ -7145,7 +7152,7 @@ var SM_PATCH = {
     },
     'Raticate-Alola': {
         types: ['Dark', 'Normal'],
-        bs: { hp: 115, at: 101, df: 75, sa: 10, sd: 85, sp: 77 },
+        bs: { hp: 115, at: 101, df: 75, sa: 35, sd: 85, sp: 77 },
         weightkg: 25.5,
         baseSpecies: 'Raticate',
         abilities: { 0: 'Gluttony' }
@@ -7159,7 +7166,7 @@ var SM_PATCH = {
     },
     'Rattata-Alola': {
         types: ['Dark', 'Normal'],
-        bs: { hp: 50, at: 66, df: 40, sa: 5, sd: 45, sp: 78 },
+        bs: { hp: 50, at: 66, df: 40, sa: 20, sd: 45, sp: 78 },
         weightkg: 3.8,
         baseSpecies: 'Rattata',
         nfe: true,
@@ -7792,7 +7799,7 @@ var SM_PATCH = {
     },
     'Cubone-Alola': {
         types: ['Fire', 'Ghost'],
-        bs: { hp: 50, at: 60, df: 95, sa: 50, sd: 60, sp: 35 },
+        bs: { hp: 50, at: 60, df: 95, sa: 40, sd: 60, sp: 35 },
         weightkg: 5.0,
         abilities: { 0: 'Cursed Body' },
         nfe: true,
@@ -8558,7 +8565,7 @@ var SM_PATCH = {
     },
     Hitmonwu: {
         types: ['Fighting'],
-        bs: { hp: 50, at: 56, df: 50, sa: 117, sd: 110, sp: 97 },
+        bs: { hp: 50, at: 35, df: 61, sa: 127, sd: 110, sp: 97 },
         weightkg: 49.0,
         abilities: { 0: 'Steadfast' }
     },
@@ -8633,9 +8640,10 @@ var SM_PATCH = {
     },
     'Aromatisse-FnF': {
         types: ['Fairy', 'Dark'],
-        bs: { hp: 86, at: 59, df: 82, sa: 147, sd: 94, sp: 14 },
+        bs: { hp: 88, at: 59, df: 75, sa: 133, sd: 90, sp: 27 },
         weightkg: 10.0,
-        abilities: { 0: 'Pressure' }
+        abilities: { 0: 'Pressure' },
+        nfe: true
     },
     'Sylveon-Farfalle': {
         types: ['Fairy'],
@@ -8893,6 +8901,18 @@ var SM_PATCH = {
         abilities: { 0: 'Fluffy' },
         weightkg: 53
     },
+    Pickpossum: {
+        types: ['Normal', 'Dark'],
+        bs: { hp: 64, at: 104, df: 67, sa: 58, sd: 78, sp: 122 },
+        abilities: { 0: 'Swindler' },
+        weightkg: 26
+    },
+    'Pickpossum-Popo': {
+        types: ['Normal', 'Dark'],
+        bs: { hp: 74, at: 144, df: 77, sa: 68, sd: 88, sp: 162 },
+        abilities: { 0: 'Swindler' },
+        weightkg: 26
+    },
     Peatot: {
         types: ['Grass', 'Rock'],
         bs: { hp: 58, at: 68, df: 108, sa: 48, sd: 58, sp: 38 },
@@ -8936,14 +8956,14 @@ var SM_PATCH = {
     Synopede: {
         types: ['Bug', 'Fairy'],
         bs: { hp: 68, at: 47, df: 45, sa: 47, sd: 82, sp: 42 },
-        abilities: { 0: 'Inner Focus' },
+        abilities: { 0: 'Misty Cover' },
         weightkg: 13,
         nfe: true
     },
     Lunapede: {
         types: ['Bug', 'Fairy'],
         bs: { hp: 94, at: 98, df: 73, sa: 87, sd: 114, sp: 68 },
-        abilities: { 0: 'Inner Focus' },
+        abilities: { 0: 'Misty Cover' },
         weightkg: 62
     },
     Fowlfrost: {
@@ -8987,7 +9007,21 @@ var SM_PATCH = {
         bs: { hp: 123, at: 150, df: 87, sa: 122, sd: 101, sp: 68 },
         weightkg: 135.5,
         abilities: { 0: 'Territorial' },
-        baseSpecies: 'Gogat'
+        baseSpecies: 'Gogoat'
+    },
+    'Scrafty-Mega': {
+        types: ['Dark', 'Fighting'],
+        bs: { hp: 65, at: 125, df: 140, sa: 45, sd: 140, sp: 86 },
+        weightkg: 30,
+        abilities: { 0: 'Moxie' },
+        baseSpecies: 'Scrafty'
+    },
+    'Porygon-Z-Mega': {
+        types: ['Normal'],
+        bs: { hp: 85, at: 81, df: 86, sa: 184, sd: 92, sp: 107 },
+        weightkg: 34,
+        abilities: { 0: 'Adaptability' },
+        baseSpecies: 'Porygon-Z'
     },
     'Remoraid-FnF': {
         types: ['Water', 'Flying'],
@@ -9001,6 +9035,96 @@ var SM_PATCH = {
         bs: { hp: 85, at: 90, df: 133, sa: 90, sd: 123, sp: 45 },
         abilities: { 0: 'Carrier' },
         weightkg: 310
+    },
+    Enchantice: {
+        types: ['Ice', 'Psychic'],
+        bs: { hp: 75, at: 70, df: 50, sa: 140, sd: 110, sp: 110 },
+        abilities: { 0: 'Magician' },
+        weightkg: 55
+    },
+    'Luvdisc-FnF': {
+        types: ['Water', 'Ghost'],
+        bs: { hp: 45, at: 47, df: 70, sa: 91, sd: 110, sp: 97 },
+        weightkg: 8.7,
+        abilities: { 0: 'Oblivious' },
+        nfe: true
+    },
+    Shorelorn: {
+        types: ['Water', 'Ghost'],
+        bs: { hp: 54, at: 56, df: 79, sa: 112, sd: 131, sp: 118 },
+        abilities: { 0: 'Transience' },
+        weightkg: 59
+    },
+    Omniverum: {
+        types: ['Dragon'],
+        bs: { hp: 155, at: 170, df: 113, sa: 170, sd: 113, sp: 115 },
+        abilities: { 0: 'Zettaflux' },
+        weightkg: 500
+    },
+    Madamme: {
+        types: ['Normal', 'Flying'],
+        bs: { hp: 84, at: 111, df: 81, sa: 69, sd: 92, sp: 103 },
+        abilities: { 0: 'Keen Eye' },
+        weightkg: 55
+    },
+    Terrofünfaizer: {
+        types: ['Dark', 'Dragon'],
+        bs: { hp: 98, at: 125, df: 90, sa: 105, sd: 90, sp: 92 },
+        abilities: { 0: 'Berserk Surge' },
+        weightkg: 200
+    },
+    'Honchkrow-Mega': {
+        types: ['Dark', 'Flying'],
+        bs: { hp: 100, at: 150, df: 82, sa: 115, sd: 82, sp: 96 },
+        weightkg: 35,
+        abilities: { 0: 'Defiant' },
+        baseSpecies: 'Honchkrow'
+    },
+    'Celebi-Withered': {
+        types: ['Grass'],
+        bs: { hp: 100, at: 100, df: 100, sa: 100, sd: 100, sp: 100 },
+        weightkg: 5,
+        abilities: { 0: 'Unnerve' }
+    },
+    Sorceroma: {
+        types: ['Fairy', 'Dark'],
+        bs: { hp: 98, at: 74, df: 89, sa: 148, sd: 109, sp: 34 },
+        abilities: { 0: 'Pressure' },
+        weightkg: 21
+    },
+    'Spiritomb-Mega': {
+        types: ['Ghost', 'Dark'],
+        bs: { hp: 50, at: 158, df: 108, sa: 158, sd: 108, sp: 55 },
+        weightkg: 108,
+        abilities: { 0: 'Depravity' },
+        baseSpecies: 'Spiritomb'
+    },
+    'Mewtwo-Armored': {
+        types: ['Psychic'],
+        bs: { hp: 106, at: 120, df: 125, sa: 184, sd: 115, sp: 130 },
+        weightkg: 142,
+        abilities: { 0: 'Psyche Control' }
+    },
+    Musleeb: {
+        types: ['Grass'],
+        bs: { hp: 60, at: 55, df: 50, sa: 65, sd: 60, sp: 32 },
+        abilities: { 0: 'Overgrow' },
+        weightkg: 8.1,
+        nfe: true
+    },
+    Sindle: {
+        types: ['Fire'],
+        bs: { hp: 40, at: 58, df: 47, sa: 62, sd: 50, sp: 65 },
+        abilities: { 0: 'Blaze' },
+        weightkg: 6.3,
+        nfe: true
+    },
+    Fofoam: {
+        types: ['Water'],
+        bs: { hp: 55, at: 65, df: 59, sa: 41, sd: 46, sp: 56 },
+        abilities: { 0: 'Torrent' },
+        weightkg: 6.8,
+        nfe: true
     },
     'Longeon-Spaghetti': {
         types: ['Dragon'],
@@ -9173,7 +9297,7 @@ var SM_PATCH = {
     },
     'Roboheeyem-Curio': {
         types: ['Steel', 'Dark'],
-        bs: { hp: 80, at: 75, df: 125, sa: 145, sd: 105, sp: 85 },
+        bs: { hp: 85, at: 70, df: 125, sa: 155, sd: 110, sp: 105 },
         weightkg: 105,
         abilities: { 0: 'Levitate' }
     },

@@ -432,7 +432,11 @@ exports.MEGA_STONES = {
     Hypnite: 'Hypno',
     Gogoatite: 'Gogoat',
     Skarmorite: 'Skarmory',
-    'Delta Cameruptite': 'Camerupt-Delta'
+    'Delta Cameruptite': 'Camerupt-Delta',
+    Scraftite: 'Scrafty',
+    Porygonzite: 'Porygon-Z',
+    Honchkrite: 'Honchkrow',
+    Spiritombite: 'Spiritomb'
 };
 var XY = BW.concat(__spreadArray(__spreadArray([], __read(Object.keys(exports.MEGA_STONES)), false), [
     'Assault Vest',
@@ -565,6 +569,13 @@ var SM = XY.filter(function (i) { return i !== 'Old Amber'; }).concat([
     'Redinium Z',
     'Greenium Z',
     'Bluinium Z',
+    'Diffusion Catalyst',
+    'Pickpossium Z',
+    'Ideals Splicer',
+    'Truth Splicer',
+    'Berserk Seed',
+    'Mewtwo Armor',
+    'Sorceromium Z',
 ]);
 var SS = SM.concat([
     'Berry Sweet',

@@ -5,6 +5,7 @@ var util_1 = require("./util");
 exports.SEED_BOOSTED_STAT = {
     'Electric Seed': 'def',
     'Grassy Seed': 'def',
+    'Berserk Seed': 'def',
     'Misty Seed': 'spd',
     'Psychic Seed': 'spd'
 };
@@ -401,6 +402,7 @@ var FLING_10 = new Set([
     'TR88',
     'TR91',
     'Myth Incense',
+    'Berserk Seed',
 ]);
 function getFlingPower(item) {
     if (!item)

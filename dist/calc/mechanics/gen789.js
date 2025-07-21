@@ -124,7 +124,8 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
                 : field.hasTerrain('Grassy') ? 'Grass'
                     : field.hasTerrain('Misty') ? 'Fairy'
                         : field.hasTerrain('Psychic') ? 'Psychic'
-                            : 'Normal';
+                            : field.hasTerrain('Berserk') ? 'Dragon'
+                                : 'Normal';
         desc.terrain = field.terrain;
         desc.moveType = type;
     }
@@ -368,7 +369,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         result.damage = lostHP;
         return result;
     }
-    if (move.named('Spectral Thief', 'Cat Burglary')) {
+    if (move.named('Spectral Thief', 'Cat Burglary', 'Rapid Raidswipe')) {
         var stat = void 0;
         for (stat in defender.boosts) {
             if (defender.boosts[stat] > 0) {
@@ -669,8 +670,12 @@ function calculateBasePowerSMSSSV(gen, attacker, defender, move, field, hasAteAb
                     desc.moveName = 'Energy Ball';
                     break;
                 case 'Misty':
-                    basePower = 95;
+                    basePower = 90;
                     desc.moveName = 'Moonblast';
+                    break;
+                case 'Berserk':
+                    basePower = 90;
+                    desc.moveName = 'Dragon Pulse';
                     break;
                 case 'Psychic':
                     if (attacker.hasAbility('Prankster') && (0, util_2.isGrounded)(defender, field)) {
@@ -768,6 +773,9 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         (defender.named('Pyukumuku') && defender.hasItem('Strange Mucus')) ||
         (defender.named('Tropius') && defender.hasItem('Banana Bunch')) ||
         (defender.named('Shedinja') && defender.hasItem('Cursed Crown')) ||
+        (defender.named('Marowak', 'Cubone', 'Marowak-Alola', 'Cubone-Alola') && defender.hasItem('Thick Club')) ||
+        (defender.named('Pikachu') && defender.hasItem('Light Ball')) ||
+        (defender.named('Meowth') && defender.hasItem('Amulet Coin')) ||
         (defender.named('Happiny') && defender.hasItem('Oval Stone')) ||
         (defender.named('Chansey') && defender.hasItem('Lucky Punch')) ||
         (defender.named('Probopass') && defender.hasItem('Magnetic Stone')) ||
@@ -779,10 +787,12 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         (defender.name.includes('Vespiquen') && defender.hasItem('Royal Jelly')) ||
         (defender.named('Feebas-Vanessa') && defender.hasItem('Precious Scale')) ||
         (defender.name.includes('Meowth') && defender.hasItem('Amulet Coin')) ||
+        (defender.named('Farfetch\u2019d', 'Madamme') && defender.hasItem('Stick')) ||
         (defender.named('Magmortar') && defender.hasItem('Magmarizer')) ||
         (defender.named('Electivire') && defender.hasItem('Electirizer')) ||
         (defender.name.includes('Cherrim') && defender.hasItem('Cerise Orb')) ||
         (defender.name.includes('Phione') && defender.hasItem('Teal Orb')) ||
+        (defender.name.includes('Omniverum') && defender.hasItem('Truth Splicer', 'Ideals Splicer')) ||
         (defender.name.includes('Regigigas') && defender.hasItem('Craftsman Orb')) ||
         (defender.named('Vespiquen-Armored') && defender.hasItem('Vespiquen Armor')) ||
         (defender.named('Toxicroak-Armored') && defender.hasItem('Toxicroak Armor')) ||
@@ -798,8 +808,10 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         (defender.named('Kirlia-Armored', 'Kirlia-Armored-Weaver') && defender.hasItem('Kirlia Armor')) ||
         (defender.named('Granbull-Armored') && defender.hasItem('Granbull Armor')) ||
         (defender.named('Granbull-Nobunaga') && defender.hasItem('Nobunaga Armor')) ||
-        (defender.named('Ignajara-Nobunaga') && defender.hasItem('Ignajara Armor')) ||
-        (defender.named('Dragonair-Nobunaga') && defender.hasItem('Dragonair Armor')) ||
+        (defender.named('Ignajara-Armored') && defender.hasItem('Ignajara Armor')) ||
+        (defender.named('Dragonair-Armored') && defender.hasItem('Dragonair Armor')) ||
+        (defender.named('Primeape-Armored') && defender.hasItem('Primeape Armor')) ||
+        (defender.named('Mewtwo-Armored') && defender.hasItem('Mewtwo Armor')) ||
         (defender.name.includes('Castform') && defender.hasItem('Heat Rock', 'Icy Rock', 'Damp Rock', 'Mordant Rock', 'Smooth Rock', 'Corrupted Rock'));
     if (!resistedKnockOffDamage && defender.item) {
         var item = gen.items.get((0, util_1.toID)(defender.item));
@@ -863,6 +875,7 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
     }
     if ((0, util_2.isGrounded)(defender, field)) {
         if ((field.hasTerrain('Misty') && move.hasType('Dragon')) ||
+            (field.hasTerrain('Berserk') && move.hasType('Fairy')) ||
             (field.hasTerrain('Grassy') && move.named('Bulldoze', 'Earthquake'))) {
             bpMods.push(2048);
             desc.terrain = field.terrain;
@@ -1017,6 +1030,18 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         bpMods.push(4505);
         desc.attackerItem = attacker.item;
     }
+    else if ((attacker.hasItem('Truth Splicer') &&
+        attacker.named('Omniverum') &&
+        move.hasType('Fire', 'Dragon'))) {
+        bpMods.push(5324);
+        desc.attackerItem = attacker.item;
+    }
+    else if ((attacker.hasItem('Ideals Splicer') &&
+        attacker.named('Omniverum') &&
+        move.hasType('Electric', 'Dragon'))) {
+        bpMods.push(5324);
+        desc.attackerItem = attacker.item;
+    }
     return bpMods;
 }
 exports.calculateBPModsSMSSSV = calculateBPModsSMSSSV;
@@ -1150,7 +1175,17 @@ function calculateAtModsSMSSSV(gen, attacker, defender, move, field, desc) {
         desc.attackerAbility = attacker.ability;
     }
     else if (attacker.hasAbility('Surging Mindforce') && move.category === 'Special' && field.hasTerrain('Psychic')) {
-        atMods.push(8192);
+        atMods.push(6144);
+        desc.attackerAbility = attacker.ability;
+        desc.terrain = field.terrain;
+    }
+    else if (attacker.hasAbility('Grass Pelt') && move.category === 'Physical' && field.hasTerrain('Grassy')) {
+        atMods.push(6144);
+        desc.attackerAbility = attacker.ability;
+        desc.terrain = field.terrain;
+    }
+    else if (attacker.hasAbility('Surging Rage') && field.hasTerrain('Berserk')) {
+        atMods.push(6144);
         desc.attackerAbility = attacker.ability;
         desc.terrain = field.terrain;
     }
@@ -1298,11 +1333,16 @@ function calculateDfModsSMSSSV(gen, attacker, defender, move, field, desc, isCri
     else if (defender.hasAbility('Grass Pelt') &&
         field.hasTerrain('Grassy') &&
         hitsPhysical) {
-        dfMods.push(8192);
+        dfMods.push(6144);
         desc.defenderAbility = defender.ability;
     }
     else if (defender.hasAbility('Misty Cover') &&
-        field.hasTerrain('Misty') &&
+        field.hasTerrain('Misty')) {
+        dfMods.push(6144);
+        desc.defenderAbility = defender.ability;
+    }
+    else if (defender.hasAbility('Surging Mindforce') &&
+        field.hasTerrain('Psychic') &&
         !hitsPhysical) {
         dfMods.push(6144);
         desc.defenderAbility = defender.ability;
@@ -1497,6 +1537,6 @@ function calculateFinalModsSMSSSV(gen, attacker, defender, move, field, desc, is
 }
 exports.calculateFinalModsSMSSSV = calculateFinalModsSMSSSV;
 function hasTerrainSeed(pokemon) {
-    return pokemon.hasItem('Electric Seed', 'Misty Seed', 'Grassy Seed', 'Psychic Seed');
+    return pokemon.hasItem('Electric Seed', 'Misty Seed', 'Grassy Seed', 'Psychic Seed', 'Berserk Seed');
 }
 //# sourceMappingURL=gen789.js.map
