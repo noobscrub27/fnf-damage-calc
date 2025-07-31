@@ -1049,6 +1049,7 @@ const GSC_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
     types: ['Normal'],
     bs: {hp: 100, at: 85, df: 80, sa: 80, sd: 75, sp: 55},
     weightkg: 14,
+    nfe: true,
   },
   Elekid: {
     types: ['Electric'],
