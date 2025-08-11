@@ -1087,7 +1087,8 @@ var GSC_PATCH = {
     Dunsparce: {
         types: ['Normal'],
         bs: { hp: 100, at: 85, df: 80, sa: 80, sd: 75, sp: 55 },
-        weightkg: 14
+        weightkg: 14,
+        nfe: true
     },
     Elekid: {
         types: ['Electric'],
