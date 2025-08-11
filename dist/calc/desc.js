@@ -343,7 +343,8 @@ function combine(damage) {
 var TRAPPING = [
     'Bind', 'Clamp', 'Fire Spin', 'Infestation', 'Magma Storm', 'Sand Tomb',
     'Thunder Cage', 'Whirlpool', 'Wrap', 'G-Max Sandblast', 'G-Max Centiferno',
-    'Shadow Hold'
+    'Shadow Hold', 'Bubble Prison', 'Octolock', 'Silk Snare', 'Snap Trap',
+    'Spider Web', 'Spore Slash'
 ];
 function getHazards(gen, defender, defenderSide) {
     var damage = 0;

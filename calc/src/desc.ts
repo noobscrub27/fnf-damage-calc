@@ -501,7 +501,8 @@ function combine(damage: Damage) {
 const TRAPPING = [
   'Bind', 'Clamp', 'Fire Spin', 'Infestation', 'Magma Storm', 'Sand Tomb',
   'Thunder Cage', 'Whirlpool', 'Wrap', 'G-Max Sandblast', 'G-Max Centiferno',
-  'Shadow Hold'
+  'Shadow Hold', 'Bubble Prison', 'Octolock', 'Silk Snare', 'Snap Trap',
+  'Spider Web', 'Spore Slash'
 ];
 
 function getHazards(gen: Generation, defender: Pokemon, defenderSide: Side) {
