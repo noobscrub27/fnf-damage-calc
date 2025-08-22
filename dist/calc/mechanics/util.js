@@ -206,6 +206,9 @@ function getMoveEffectiveness(gen, move, type, isGhostRevealed, isDarkRevealed, 
     else if (move.named('Venus Chomp') && type === 'Bug') {
         return 2;
     }
+    else if (move.named('Savage Horn') && type == 'Fairy') {
+        return 2;
+    }
     else if (isRingTarget && gen.types.get((0, util_1.toID)(move.type)).effectiveness[type] === 0) {
         return 1;
     }
